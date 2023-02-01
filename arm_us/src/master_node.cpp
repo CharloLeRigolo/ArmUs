@@ -5,11 +5,11 @@
 void init();
 void loop();
 void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data);
-void update_btn1();
+void print();
 void sendCmdMotor();
 
-bool btn1 = false;
-float axe1 = 0.0;
+float joystickLeftVert = 0.0f;
+float joystickRightVert = 0.0f;
 
 ros::Subscriber sub_input;
 ros::Publisher pub_motor;
@@ -37,7 +37,7 @@ void loop()
 
     while(ros::ok())
     {
-        update_btn1();
+        print();
         sendCmdMotor();
     
         ros::spinOnce();
@@ -46,18 +46,20 @@ void loop()
 }
 
 void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
-{
-    btn1 = data->buttons[0];
-    axe1 = data->axes[2];
-
-    axe1 = abs((axe1-1)/2 * 5);
+{   
+    joystickLeftVert =  data->axes[1] * 5;
+    joystickRightVert = data->axes[4] * 5;
 }
 
-void update_btn1()
+void print()
 {
-    if (btn1)
+    if (joystickLeftVert != 0)
     {
-        ROS_WARN("Button 1 pressed");
+    	ROS_WARN_STREAM("Left joystick vertical : " << joystickLeftVert);
+    }
+    if (joystickRightVert != 0)
+    {
+        ROS_WARN_STREAM("Right joystick vertical : " << joystickRightVert);
     }
 }
 
@@ -65,8 +67,8 @@ void sendCmdMotor()
 {
     sensor_msgs::JointState msg;
 
-    msg.name = {"motor1", "motor2"};
-    msg.velocity = {axe1, axe1};
+    msg.name = { "motor1", "motor2" };
+    msg.velocity = { joystickLeftVert, joystickRightVert };
 
     pub_motor.publish(msg);
 }
