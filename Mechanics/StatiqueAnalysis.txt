@@ -1,0 +1,72 @@
+% armUS - analyseStatique.txtanalyseStatique.txt
+% Projet s4 - h2023
+% Jean-Frederic Gariepy
+% analyseStatique.txt
+
+% MotionGenesis file:  MGTemplateBasic.txt
+% Copyright (c) 2009-2021 Motion Genesis LLC.
+%--------------------------------------------------------------------
+%   Physical objects.
+NewtonianFrame  N                % body
+RigidBody       A                % Upper arm
+RigidBody       B                % Forearm
+%--------------------------------------------------------------------
+%   Mathematical declarations.
+Variable    TA                   % Nx> measure of motor torque on A from N.
+Variable    TB                   % Ax> measure of motor torque on B from A.
+
+Constant    g = 9.80665 m/s^2    % Earth's gravitational acceleration.
+Constant   LA                    % Az> measure of Bo's position from Ao.
+Constant   LB                    % By> measure of Q's position from Bo.
+Constant   mQ1, mQ2, mQ3         % Masse des moteurs 1, 2 et 3
+
+Specified  qA                    % Angle from Ny> to Ay> with +Ax> sense.
+Specified  qB                    % Angle from Ay> to By> with +Bx> sense.
+
+Particle Q1, Q2, Q3
+%--------------------------------------------------------------------
+%   Mass and inertia properties.
+Q1.SetMass(mQ1)
+Q2.SetMass(mQ2)
+Q3.SetMass(mQ3)
+A.SetMass(mA)
+B.SetMass(mB)
+%--------------------------------------------------------------------
+%   Rotational kinematics.
+A.RotateX( N, qA )
+B.RotateX( A, qB )
+%--------------------------------------------------------------------
+%   Translational kinematics.
+Ao.SetPosition(  No, 0> )
+Acm.SetPosition( Ao, 0.5*LA*Ay> )
+Bo.SetPosition(  Ao, LA*Ay> )
+Bcm.SetPosition( Bo, 0.5*LB*By> )
+Q1.SetPosition( No, 0> )
+Q2.SetPosition( Ao, LA*ay> )
+Q3.SetPosition( Bo, LB*by> )
+%--------------------------------------------------------------------
+%   Add relevant contact/distance forces.
+System.AddForceGravity( -g*Nz> )            % Add's gravity force to each massive object.
+%--------------------------------------------------------------------
+%   Add relevant torques.
+A.AddTorque( N,  TA*Nx> )
+B.AddTorque( A,  TB*Ax> )
+%--------------------------------------------------------------------
+%   Translational dynamic equations (F = m*a).
+%   For static analysis, use  B.GetStatics()  or  System.GetStatics().
+Statics[1] = Dot(  Nx>, System(A,B,Q1,Q2,Q3).GetStatics(Ao)  )
+Statics[2] = Dot(  Nx>, System(B,Q3).GetStatics(Bo)  )
+%--------------------------------------------------------------------
+%   Set initial values for variables.
+Input  qA = 0 deg  % Critical condition
+Input  qB = 0 deg  % Critical condition
+Input  LA = 0.20 m  
+Input  LB = 0.20 m
+Input  mA = 0.2 kg
+Input  mB = 0.2 kg
+Input  mQ1  = 0.05 kg, mQ2 = 0.05 kg, mQ3 = 0.16 kg
+%--------------------------------------------------------------------
+%   Solve algebraic equations for list of unknowns.
+Solve( Statics, TA, TB)
+EvaluateToNumber(TA)
+Evaluatetonumber(TB)
