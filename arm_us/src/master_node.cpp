@@ -2,19 +2,21 @@
 #include "sensor_msgs/Joy.h"
 #include "sensor_msgs/JointState.h"
 
+#define ROS_RATE 50
+
 void init();
 void loop();
-void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data);
+void subInputCallback(const sensor_msgs::Joy::ConstPtr &data);
 void print();
 void sendCmdMotor();
 
-float joystickLeftVert = 0.0f;
-float joystickRightVert = 0.0f;
+float joystick_left_vert = 0.0f;
+float joystick_right_vert = 0.0f;
 
 ros::Subscriber sub_input;
 ros::Publisher pub_motor;
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "master_node");
 
@@ -24,51 +26,63 @@ int main(int argc, char* argv[])
     return 0;
 }
 
+/* Code intialisation
+    - Starts NodeHandle
+    - Initialise joy subscriber and publisher to dynamixel topic
+*/
 void init()
 {
     ros::NodeHandle n;
-    sub_input = n.subscribe("joy", 1, sub_input_callback);
+    sub_input = n.subscribe("joy", 1, subInputCallback);
     pub_motor = n.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
 }
 
 void loop()
 {
-    ros::Rate loop_rate(50);
+    ros::Rate loop_rate(ROS_RATE);
 
-    while(ros::ok())
+    while (ros::ok())
     {
         print();
         sendCmdMotor();
-    
+
         ros::spinOnce();
         loop_rate.sleep();
     }
 }
 
-void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
-{   
-    joystickLeftVert =  data->axes[1] * 5;
-    joystickRightVert = data->axes[4] * 5;
+/* Callback from joy_node (controller input)
+TODO : Change axes[x] values to args in roscpp + launchfiles
+
+arg: Gets pointer of /sensor_msgs/Joy.msg as "data"
+
+ret: Nothing, global struct/class is updated with the new data
+*/
+void subInputCallback(const sensor_msgs::Joy::ConstPtr &data)
+{
+    joystick_left_vert = data->axes[1] * 5;
+    joystick_right_vert = data->axes[4] * 5;
 }
 
 void print()
 {
-    if (joystickLeftVert != 0)
+    if (joystick_left_vert != 0)
     {
-    	ROS_WARN_STREAM("Left joystick vertical : " << joystickLeftVert);
+        ROS_WARN_STREAM("Left joystick vertical : " << joystick_left_vert);
     }
-    if (joystickRightVert != 0)
+    if (joystick_right_vert != 0)
     {
-        ROS_WARN_STREAM("Right joystick vertical : " << joystickRightVert);
+        ROS_WARN_STREAM("Right joystick vertical : " << joystick_right_vert);
     }
 }
 
+/* Builds and publish motor message of type : sensor_msgs::JointState */
 void sendCmdMotor()
 {
     sensor_msgs::JointState msg;
 
-    msg.name = { "motor1", "motor2" };
-    msg.velocity = { joystickLeftVert, joystickRightVert };
+    msg.name = {"motor1", "motor2"};
+    msg.velocity = {joystick_left_vert, joystick_right_vert};
 
     pub_motor.publish(msg);
 }
