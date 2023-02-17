@@ -1,18 +1,24 @@
 #include "ros/ros.h"
 #include "sensor_msgs/Joy.h"
 #include "sensor_msgs/JointState.h"
+#include "arm_us/MotorControl.h"
 
 void init();
 void loop();
-void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data);
-void print();
+
+void subInputCallback(const sensor_msgs::Joy::ConstPtr &data);
+void subGuiCallback(const arm_us::MotorControl::ConstPtr &data);
+
 void sendCmdMotor();
 
-float joystickLeftVert = 0.0f;
-float joystickRightVert = 0.0f;
-
 ros::Subscriber sub_input;
+ros::Subscriber sub_gui;
+
 ros::Publisher pub_motor;
+
+const float maxMotorSpeed = 5.0f;
+
+arm_us::MotorControl motors[2];
 
 int main(int argc, char* argv[])
 {
@@ -27,8 +33,10 @@ int main(int argc, char* argv[])
 void init()
 {
     ros::NodeHandle n;
-    sub_input = n.subscribe("joy", 1, sub_input_callback);
-    pub_motor = n.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
+    sub_input = n.subscribe("joy", 1, subInputCallback);
+    sub_gui = n.subscribe("arm_us/msg", 1, subGuiCallback);
+
+    pub_motor = n.advertise<sensor_msgs::JointState>("desired_joint_states", 10);    
 }
 
 void loop()
@@ -37,7 +45,6 @@ void loop()
 
     while(ros::ok())
     {
-        print();
         sendCmdMotor();
     
         ros::spinOnce();
@@ -45,22 +52,17 @@ void loop()
     }
 }
 
-void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
+void subInputCallback(const sensor_msgs::Joy::ConstPtr &data)
 {   
-    joystickLeftVert =  data->axes[1] * 5;
-    joystickRightVert = data->axes[4] * 5;
+    motors[0].velocity.data = (float)data->axes[1] * maxMotorSpeed;
+    motors[1].velocity.data = (float)data->axes[4] * maxMotorSpeed;
 }
 
-void print()
+void subGuiCallback(const arm_us::MotorControl::ConstPtr &data)
 {
-    if (joystickLeftVert != 0)
-    {
-    	ROS_WARN_STREAM("Left joystick vertical : " << joystickLeftVert);
-    }
-    if (joystickRightVert != 0)
-    {
-        ROS_WARN_STREAM("Right joystick vertical : " << joystickRightVert);
-    }
+    int id = (int)data->motor_id.data;
+    motors[id].enabled.data = data->enabled.data;
+    motors[id].velocity.data = data->velocity.data;
 }
 
 void sendCmdMotor()
@@ -68,7 +70,9 @@ void sendCmdMotor()
     sensor_msgs::JointState msg;
 
     msg.name = { "motor1", "motor2" };
-    msg.velocity = { joystickLeftVert, joystickRightVert };
+    msg.velocity = { motors[0].velocity.data, motors[1].velocity.data };
+
+    ROS_WARN("Motor 1 : %f, Motor 2 : %f", motors[0].velocity.data, motors[1].velocity.data);
 
     pub_motor.publish(msg);
 }
