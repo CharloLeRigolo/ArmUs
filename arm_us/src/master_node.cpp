@@ -18,7 +18,7 @@ ros::Subscriber sub_gui;
 
 ros::Publisher pub_motor;
 
-const float maxMotorSpeed = 5.0f;
+const float maxMotorSpeed = 4.8f;
 
 arm_us::MotorControl motors[2];
 
@@ -39,7 +39,8 @@ int main(int argc, char* argv[])
 void init()
 {
     ros::NodeHandle n;
-    sub_input = n.subscribe("joy", 1, sub_input_callback);
+    sub_input = n.subscribe("joy", 1, subInputCallback);
+    sub_gui = n.subscribe("gui_arm_us_chatter", 1, subGuiCallback);
     pub_motor = n.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
 }
 
@@ -56,22 +57,15 @@ void loop()
     }
 }
 
-void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
+void subInputCallback(const sensor_msgs::Joy::ConstPtr &data)
 {   
-    joystickLeftVert =  data->axes[1] * 5;
-    joystickRightVert = data->axes[4] * 5;
+    motors[0].velocity = data->axes[1] * 5;
+    motors[1].velocity = data->axes[4] * 5;
 }
 
 void subGuiCallback(const arm_us::MotorControl::ConstPtr &data)
 {
-    if (joystickLeftVert != 0)
-    {
-    	ROS_WARN_STREAM("Left joystick vertical : " << joystickLeftVert);
-    }
-    if (joystickRightVert != 0)
-    {
-        ROS_WARN_STREAM("Right joystick vertical : " << joystickRightVert);
-    }
+    motors[data->motor_id].velocity = data->velocity;
 }
 
 /* Builds and publish motor message of type : sensor_msgs::JointState */
@@ -80,9 +74,9 @@ void sendCmdMotor()
     sensor_msgs::JointState msg;
 
     msg.name = { "motor1", "motor2" };
-    msg.velocity = { joystickLeftVert, joystickRightVert };
+    msg.velocity = { motors[0].velocity, motors[1].velocity };
 
-    ROS_WARN("Motor 1 : %f, Motor 2 : %f", motors[0].velocity.data, motors[1].velocity.data);
+    //ROS_WARN("Motor 1 : %f, Motor 2 : %f", motors[0].velocity, motors[1].velocity);
 
     pub_motor.publish(msg);
 }

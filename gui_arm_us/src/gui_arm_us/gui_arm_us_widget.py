@@ -13,20 +13,17 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut, QSlider, QLCDNumber, QLabel, QPushButton, QFrame
 import rosservice
 
-from ArmUs.msg import MotorControl
+from arm_us.msg import MotorControl
+
 
 class GuiArmUsWidget(QtWidgets.QWidget):
 
-    motor1_state = motor_control()
-    motor2_state = motor_control()
-    
-    motor1_state.motor_id = 1
-    motor1_state.enabled = false
-    motor1_state.velocity = 0
-    
-    motor2_state.motor_id = 2
-    motor2_state.enabled = false
-    motor2_state.velocity = 0
+    max_velocity = 4.8
+
+    motor_statuses = []
+
+    motor_statuses.append(MotorControl(0, False, 0.0))
+    motor_statuses.append(MotorControl(1, False, 0.0))
 
     def __init__(self):
     
@@ -39,24 +36,32 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         self.launch: roslaunch.ROSLaunch = roslaunch.scriptapi.ROSLaunch()
         self.launch.start()
 
-        self.pub_gui_arm_us_cmd = rospy.Publisher('gui_arm_us_chatter', motor_control)
+        self.pub_gui_arm_us_cmd = rospy.Publisher('gui_arm_us_chatter', MotorControl)
         self.rate = rospy.Rate(10) # 10Hz
 
         self.motor1_button.released.connect(self.motor1_button_callback)
         self.motor2_button.released.connect(self.motor2_button_callback)
 
     def motor1_button_callback(self):
-        if self.motor1_state.enabled:
-            self.motor1_state.enabled = False
+        if self.motor_statuses[0].enabled:
+            self.motor_statuses[0].enabled = False
+            self.motor_statuses[0].velocity = 0
         else:
-            self.motor1_state.enabled = True
-        rospy.loginfo("Motor 1 : %s", self.motor1_state.enabled)
-        self.pub_gui_arm_us_cmd.publish(self.motor1_state.enabled)
+            self.motor_statuses[0].enabled = True
+            self.motor_statuses[0].velocity = self.max_velocity
+
+        rospy.loginfo("Motor 1 : %s, velocity : %f", self.motor_statuses[0].enabled, self.motor_statuses[0].velocity)
+        self.pub_gui_arm_us_cmd.publish(self.motor_statuses[0])
+
 
     def motor2_button_callback(self):
-        if self.motor2_state.enabled:
-            self.motor2_state.enabled = False
+        if self.motor_statuses[1].enabled:
+            self.motor_statuses[1].enabled = False
+            self.motor_statuses[1].velocity = 0
         else:
-            self.motor2_state.enabled = True
-        rospy.loginfo("Motor 2 : %s", self.motor2_state.enabled)
-        self.pub_gui_arm_us_cmd.publish(self.motor2_state.enabled)
+            self.motor_statuses[1].enabled = True
+            self.motor_statuses[1].velocity = self.max_velocity
+
+        rospy.loginfo("Motor 1 : %s, velocity : %f", self.motor_statuses[1].enabled, self.motor_statuses[1].velocity)
+        self.pub_gui_arm_us_cmd.publish(self.motor_statuses[1])
+
