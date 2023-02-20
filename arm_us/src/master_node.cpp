@@ -37,7 +37,6 @@ void loop()
 
     while(ros::ok())
     {
-        print();
         sendCmdMotor();
     
         ros::spinOnce();
@@ -49,18 +48,6 @@ void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
 {   
     joystickLeftVert =  data->axes[1] * 5;
     joystickRightVert = data->axes[4] * 5;
-}
-
-void print()
-{
-    if (joystickLeftVert != 0)
-    {
-    	ROS_WARN_STREAM("Left joystick vertical : " << joystickLeftVert);
-    }
-    if (joystickRightVert != 0)
-    {
-        ROS_WARN_STREAM("Right joystick vertical : " << joystickRightVert);
-    }
 }
 
 void sendCmdMotor()
