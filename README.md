@@ -3,15 +3,15 @@
 ## Material
 - 1 OpenCR board
 - 2 Dynamixel XL430 motors
-- 1 PS4 Controller
+- 3 Dynamixel XM430 motors
+- 1 XBOX controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using an XBOX controller)
 
 ## Dependencies
-
 - joy
 - dynamixel_sdk
 - dynamixel_interface
 
-run these commands to install packages available in rosdep:
+Run these commands to install packages available in rosdep:
 ```
 sudo apt install ros-noetic-joy
 ```
@@ -45,4 +45,29 @@ roslaunch arm_us motor_controller.launch
 ```
 This will start the motor controller which communicates thru the OpenCR in bridge mode to the Dynamixel motors.
 
-You should now be able to control the motors with the ps4 controller
+You should now be able to control the motors with your controller
+
+# Setup
+## OpenCR setup
+1. Install [ArduinoIDE](https://www.arduino.cc/en/software) on a computer
+2. Follow the steps in section 4.X (depending on your operating system) of the [ROBOTIS e-Manual for OpenCR](https://emanual.robotis.com/docs/en/parts/controller/opencr10/)
+3. Select the OpenCR board in ArduinoIDE
+4. Select "usb_to_dxl" In *File -> Examples -> OpenCR -> 10. Etc -> usb_to_dxl*
+5. Upload the example to the OpenCr board, make sure your on the correct port and the device in /dev/ttyXXX as read/write access
+```
+sudo chmod a+rw /dev/ttyACM0
+```
+The OpenCR board is now in bridge mode. We will be able to control directly from the Serial Port
+
+## ROS Setup
+This project is developped for ROS noetic, this means you'll need to install ROS on a machine running Ubuntu 20
+1. Install [Ubuntu 20.04](https://releases.ubuntu.com/focal/) on a machine
+2. Install ROS by following the [ROS website](https://www.ros.org/blog/getting-started/) instructions
+3. Install [dependencies](##Dependencies)
+4. Install the arm_us package
+In your ROS's workspace "src" folder:
+``` 
+git clone https://github.com/CharloLeRigolo/arm_us.git
+cd ..
+catkin_make
+```
