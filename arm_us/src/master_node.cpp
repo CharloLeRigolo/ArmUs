@@ -3,9 +3,9 @@
 #include "sensor_msgs/JointState.h"
 #include "arm_us/MotorControl.h"
 
-#define MAX_VEL     4.8     //Linked to config/yaml file (global_max_vel )
-#define MIN_DIFF    -3.00     //-8.75
-#define MAX_DIFF    3.00
+#define MAX_VEL 4.8 //Linked to config/yaml file (global_max_vel )
+#define MIN_DIFF -6.8
+#define MAX_DIFF 5
 
 #define ROS_RATE 50
 
@@ -28,6 +28,8 @@ ros::Subscriber sub_joint_states;
 ros::Publisher pub_motor;
 
 float position_difference = 0.0f;
+bool verbose = 0;
+
 
 struct MotorVelocity
 {
@@ -72,6 +74,12 @@ void loop()
         send_cmd_motor();
         ros::spinOnce();
         loop_rate.sleep();
+
+        if(not ros::ok())
+        {
+            sendCmdMotor(1);
+            ROS_WARN("Zero sent from loop");
+        }
     }
 
     send_cmd_motor(true);
@@ -116,16 +124,23 @@ void send_cmd_motor(bool sendZeros)
     motorVelocity.m1 = (joystickLeftVert + joystickRightSide)/2;
     motorVelocity.m2 = (joystickLeftVert - joystickRightSide)/2;
 
+
+    if (verbose)
+        ROS_WARN("%f", position_difference);
+
     if (motorVelocity.m1 > 0 && position_difference < MIN_DIFF)
     {
-        ROS_WARN("At Limit, go the other way");
+        if (verbose)
+            ROS_WARN("At Limit, go the other way");
+        
         motorVelocity.m1 = 0.0;
         motorVelocity.m2 = 0.0;
     }
 
     if (motorVelocity.m1 < 0 && position_difference > MAX_DIFF)
     {
-        ROS_WARN("At Limit, go the other way");
+        if (verbose)
+            ROS_WARN("At Limit, go the other way");
         motorVelocity.m1 = 0.0;
         motorVelocity.m2 = 0.0;
     }
