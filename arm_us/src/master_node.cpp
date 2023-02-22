@@ -3,8 +3,8 @@
 #include "sensor_msgs/JointState.h"
 
 #define MAX_VEL 4.8 //Linked to config/yaml file (global_max_vel )
-#define MIN_DIFF -3 //-8.75
-#define MAX_DIFF 3.00
+#define MIN_DIFF -6.8
+#define MAX_DIFF 5
 
 void init();
 void loop();
@@ -19,6 +19,8 @@ float joystickRightVert = 0.0f;
 float joystickRightSide = 0.0f;
 
 float position_difference = 0.0f;
+bool verbose = 0;
+
 
 struct MotorVelocity
 {
@@ -60,6 +62,12 @@ void loop()
         sendCmdMotor();
         ros::spinOnce();
         loop_rate.sleep();
+
+        if(not ros::ok())
+        {
+            sendCmdMotor(1);
+            ROS_WARN("Zero sent from loop");
+        }
     }
 
     sendCmdMotor(true);
@@ -97,16 +105,23 @@ void sendCmdMotor(bool sendZeros)
     motorVelocity.m1 = (joystickLeftVert + joystickRightSide)/2;
     motorVelocity.m2 = (joystickLeftVert - joystickRightSide)/2;
 
+
+    if (verbose)
+        ROS_WARN("%f", position_difference);
+
     if (motorVelocity.m1 > 0 && position_difference < MIN_DIFF)
     {
-        ROS_WARN("At Limit, go the other way");
+        if (verbose)
+            ROS_WARN("At Limit, go the other way");
+        
         motorVelocity.m1 = 0.0;
         motorVelocity.m2 = 0.0;
     }
 
     if (motorVelocity.m1 < 0 && position_difference > MAX_DIFF)
     {
-        ROS_WARN("At Limit, go the other way");
+        if (verbose)
+            ROS_WARN("At Limit, go the other way");
         motorVelocity.m1 = 0.0;
         motorVelocity.m2 = 0.0;
     }
