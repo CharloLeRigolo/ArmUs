@@ -62,7 +62,6 @@ void init()
     sub_joint_states =  n.subscribe("joint_states", 1, sub_joint_states_callback);
     sub_gui =           n.subscribe("gui_arm_us_chatter", 1, sub_gui_callback);
     pub_motor =         n.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
-    
 }
 
 void loop()
@@ -77,7 +76,7 @@ void loop()
 
         if(not ros::ok())
         {
-            sendCmdMotor(1);
+            send_cmd_motor(1);
             ROS_WARN("Zero sent from loop");
         }
     }
@@ -149,5 +148,4 @@ void send_cmd_motor(bool sendZeros)
     // ROS_WARN("%f | %f", msg.velocity[0], msg.velocity[1]);
 
     pub_motor.publish(msg);
-
 }
