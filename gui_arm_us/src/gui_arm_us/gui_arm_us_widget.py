@@ -21,15 +21,11 @@ class GuiArmUsWidget(QtWidgets.QWidget):
 
     max_velocity = 4.8
 
-    motor_statuses = []
+    motor1_enabled = False
+    motor2_enabled = False
 
-    motor_statuses.append(MotorControl(0, False, 0.0))
-    motor_statuses.append(MotorControl(1, False, 0.0))
-
-    motor_velocities = []
-
-    motor_velocities.append(max_velocity)
-    motor_velocities.append(max_velocity)
+    motor1_velocity = max_velocity
+    motor2_velocity = max_velocity
 
     def __init__(self):
     
@@ -57,50 +53,63 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         self.motor1_velocity.setRange(0, self.max_velocity)
         self.motor2_velocity.setRange(0, self.max_velocity)
 
+        self.motor1_velocity.setSingleStep(0.2)
+        self.motor2_velocity.setSingleStep(0.2)
+
         self.motor1_velocity.valueChanged.connect(self.motor1_velocity_callback)
         self.motor2_velocity.valueChanged.connect(self.motor2_velocity_callback)
 
 
 
     def motor1_button_callback(self):
-        if self.motor_statuses[0].enabled:
-            self.motor_statuses[0].enabled = False
-            self.motor_statuses[0].velocity = 0
-        else:
-            self.motor_statuses[0].enabled = True
-            self.motor_statuses[0].velocity = self.motor_velocities[0]
+        msg = MotorControl()
+        msg.motor_id = 0
 
-        rospy.loginfo("Motor 1 : %s", self.motor_statuses[0].enabled)
-        self.pub_gui_arm_us_cmd.publish(self.motor_statuses[0])
+        if self.motor1_enabled:
+            self.motor1_enabled = False
+            msg.enabled = self.motor1_enabled
+            msg.velocity = 0
+        else:
+            self.motor1_enabled = True
+            msg.enabled = self.motor1_enabled
+            msg.velocity = float(self.motor1_velocity.value())
+
+        rospy.loginfo("Motor 1 : %f", self.motor1_enabled)
+        self.pub_gui_arm_us_cmd.publish(msg)
 
 
 
     def motor2_button_callback(self):
-        if self.motor_statuses[1].enabled:
-            self.motor_statuses[1].enabled = False
-            self.motor_statuses[1].velocity = 0
-        else:
-            self.motor_statuses[1].enabled = True
-            self.motor_statuses[1].velocity = self.motor_velocities[1]
+        msg = MotorControl()
+        msg.motor_id = 1
 
-        rospy.loginfo("Motor 2 : %s", self.motor_statuses[1].enabled)
-        self.pub_gui_arm_us_cmd.publish(self.motor_statuses[1])
+        if self.motor2_enabled:
+            self.motor2_enabled = False
+            msg.enabled = self.motor2_enabled
+            msg.velocity = 0
+        else:
+            self.motor2_enabled = True
+            msg.enabled = self.motor2_enabled
+            msg.velocity = float(self.motor2_velocity.value())
+
+        rospy.loginfo("Motor 2 : %f", self.motor2_enabled)
+        self.pub_gui_arm_us_cmd.publish(msg)
 
 
 
     def motor1_velocity_callback(self, velocity):
-        self.motor_velocities[0] = velocity
-        rospy.loginfo("Motor 1 velocity : %f", self.motor_velocities[0])
+        self.motor1_velocity = velocity
+        rospy.loginfo("Motor 1 velocity : %f", self.motor1_velocity)
 
 
 
     def motor2_velocity_callback(self, velocity):
-        self.motor_velocities[1] = velocity
-        rospy.loginfo("Motor 1 velocity : %f", self.motor_velocities[1])
+        self.motor2_velocity = velocity
+        rospy.loginfo("Motor 2 velocity : %f", self.motor2_velocity)
 
 
     
-    def motor_positions_callback(self, positions):
-        self.motor1_position.setNum(positions[0].position)
-        self.motor2_position.setNum(positions[1].position)
-        rospy.loginfo("Motor 1 position : %f, motor 2 position : %f", positions[0].position, positions[1].position)
+    def motor_positions_callback(self, msg):
+        self.motor1_position.setNum(msg.position[0])
+        self.motor2_position.setNum(msg.position[1])
+        #rospy.loginfo("Motor 1 position : %f, motor 2 position : %f", msg.position[1], msg.position[0])
