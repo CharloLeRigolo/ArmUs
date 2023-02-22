@@ -3,7 +3,7 @@
 #include "sensor_msgs/JointState.h"
 
 #define MAX_VEL 4.8 //Linked to config/yaml file (global_max_vel )
-#define MIN_DIFF -6.8
+#define MIN_DIFF -6
 #define MAX_DIFF 5
 
 void init();
@@ -57,22 +57,21 @@ void loop()
 {
     ros::Rate loop_rate(50);
 
-    while(ros::ok())
+    while(!ros::isShuttingDown())
     {
         sendCmdMotor();
         ros::spinOnce();
         loop_rate.sleep();
-
-        if(not ros::ok())
-        {
-            sendCmdMotor(1);
-            ROS_WARN("Zero sent from loop");
-        }
     }
 
     sendCmdMotor(true);
+    ROS_WARN("Sending Zeros before killing");
 
-    ros::shutdown();
+    while(ros::ok())
+    {
+        sendCmdMotor(true);
+        ROS_WARN("Sending Zeros before killing");
+    }
 }
 
 void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
@@ -90,7 +89,8 @@ void sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &data)
 }
 
 void sendCmdMotor(bool sendZeros)
-{    sensor_msgs::JointState msg;
+{    
+    sensor_msgs::JointState msg;
 
     msg.name = { "motor1", "motor2" };
 
