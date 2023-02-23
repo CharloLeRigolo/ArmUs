@@ -17,6 +17,11 @@ void sub_gui_callback(const arm_us::MotorControl::ConstPtr &data);
 void sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &data);
 void send_cmd_motor(bool sendZeros = 0);
 
+int axisJoyLeftSide;
+int axisJoyLeftVert;
+int axisJoyRightSide;
+int axisJoyRightVert;
+
 float joystickLeftVert = 0.0f;
 float joystickLeftSide = 0.0f;
 float joystickRightVert = 0.0f;
@@ -29,6 +34,7 @@ ros::Publisher pub_motor;
 
 float position_difference = 0.0f;
 bool verbose = 0;
+
 
 
 struct MotorVelocity
@@ -62,6 +68,11 @@ void init()
     sub_joint_states =  n.subscribe("joint_states", 1, sub_joint_states_callback);
     sub_gui =           n.subscribe("gui_arm_us_chatter", 1, sub_gui_callback);
     pub_motor =         n.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
+
+    n.getParam("axis_joy_left_side", axisJoyLeftSide);
+    n.getParam("axis_joy_left_vert", axisJoyLeftVert);
+    n.getParam("axis_joy_right_side", axisJoyRightSide);
+    n.getParam("axis_joy_right_vert", axisJoyRightVert);
 }
 
 void loop()
@@ -88,20 +99,41 @@ void loop()
 
 void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
 {   
-    joystickLeftVert =  data->axes[1] * MAX_VEL;
-    joystickLeftSide =  data->axes[0] * MAX_VEL;
-    joystickRightVert = data->axes[3] * MAX_VEL;
-    joystickRightSide = data->axes[2] * MAX_VEL;
-
+    joystickLeftSide =  data->axes[axisJoyLeftSide] * MAX_VEL;
+    joystickLeftVert =  data->axes[axisJoyLeftVert] * MAX_VEL;
+    joystickRightSide = data->axes[axisJoyRightSide] * MAX_VEL;
+    joystickRightVert = data->axes[axisJoyRightVert] * MAX_VEL;
 }
 
 void sub_gui_callback(const arm_us::MotorControl::ConstPtr &data)
 {
+    /*
+    ROS_WARN("MESSAGE FROM GUI");
     int id = data->motor_id;
     motors[id].enabled = !motors[id].enabled;
     motors[id].velocity = data->velocity;
-}
+    */
 
+    sensor_msgs::JointState msg;
+
+    switch(data->motor_id)
+    {
+        case 0:
+        {
+            msg.name = { "motor1" };
+            break;
+        }
+        case 1:
+        {
+            msg.name = { "motor2" };
+            break;
+        }
+    }
+
+    msg.velocity = { data->velocity };
+
+    pub_motor.publish(msg);
+}
 
 void sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &data)
 {
