@@ -55,6 +55,13 @@ void init()
 
 void loop()
 {
+    motorVelocity.m1 = (joystickLeftVert + joystickRightSide)/2;
+    motorVelocity.m2 = (joystickLeftVert - joystickRightSide)/2;
+
+
+    if (verbose)
+    {}
+    
     ros::Rate loop_rate(50);
 
     while(!ros::isShuttingDown())
@@ -122,6 +129,7 @@ void sendCmdMotor(bool sendZeros)
     {
         if (verbose)
             ROS_WARN("At Limit, go the other way");
+
         motorVelocity.m1 = 0.0;
         motorVelocity.m2 = 0.0;
     }
