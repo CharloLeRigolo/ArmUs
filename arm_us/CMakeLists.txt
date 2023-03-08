@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  visualization_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -71,6 +72,7 @@ find_package(catkin REQUIRED COMPONENTS
 generate_messages(
   DEPENDENCIES
   std_msgs
+  visualization_msgs
 )
 
 ################################################
@@ -147,6 +149,9 @@ include_directories(
 
 add_executable(master_node src/master_node.cpp)
 target_link_libraries(master_node ${catkin_LIBRARIES})
+
+add_executable(rviz_sleeve src/rviz_sleeve.cpp)
+target_link_libraries(rviz_sleeve ${catkin_LIBRARIES})
 # add_dependencies(master_node arm_us_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
