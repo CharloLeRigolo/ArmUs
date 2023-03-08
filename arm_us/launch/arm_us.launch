@@ -18,9 +18,9 @@
 	<arg name="left_bump" default="4"/>
 	<arg name="right_bump" default="5"/>
 
-	<!-- <node name="dynamixel_interface_node" pkg="dynamixel_interface" type="dynamixel_interface_controller_node" output="screen">
+	<!-- --> <node name="dynamixel_interface_node" pkg="dynamixel_interface" type="dynamixel_interface_controller_node" output="screen">
     		<rosparam command="load" file="$(find arm_us)/config/controller_config.yaml" />
-  	</node>	-->
+  	</node>	<!-- -->
 	
 	<node name="joy" pkg="joy" type="joy_node"/>
 	

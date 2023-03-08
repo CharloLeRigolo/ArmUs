@@ -26,6 +26,11 @@ void send_cmd_motor_stop();
 void send_gui_info();
 void send_3d_graph_info();
 
+void calculate_motor_velocities();
+void calculate_joint_angles();
+
+float convert_motor_pos_to_deg(float current_pos, float min_input = 0, float max_input = 4095, float min_val = 0, float max_val = 360);
+
 enum class MovementMode { Joint = 0, Cartesian = 1 };
 
 bool verbose = 0;
@@ -53,10 +58,15 @@ ros::Publisher pub_motor;
 ros::Publisher pub_gui;
 ros::Publisher pub_3d_graph;
 
-struct MotorVelocity
+struct MotorVelocityCmd
 {
     float m1, m2, m3, m4, m5;
-} motorVelocities;
+} motorVelocitiesCmd;
+
+struct JointAngle
+{
+    float j1, j2, j3, j4, j5;
+} jointAngles;
 
 class ArmInfo
 {
@@ -140,7 +150,7 @@ void init()
 
     pub_motor =         n.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
     pub_gui =           n.advertise<arm_us::GuiInfo>("gui_info", 10);
-    pub_3d_graph =      n.advertise<arm_us::GraphInfo>("3d_graph_info", 10);
+    pub_3d_graph =      n.advertise<arm_us::GraphInfo>("graph_info", 10);
 
     setParams(n);
 }
@@ -148,9 +158,11 @@ void init()
 void loop()
 {
     ros::Rate loop_rate(ROS_RATE);
-
     while (ros::ok())
     {
+        calculate_motor_velocities();
+        calculate_joint_angles();
+
         if(!ros::ok())
         {
             send_cmd_motor_stop();
@@ -235,6 +247,8 @@ void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
 
     g_controller.leftBumper = data->axes[LEFT_BUMP];
     g_controller.rightBumper = data->axes[RIGHT_BUMP];
+
+    ROS_WARN("%f, %f", g_controller.leftJoystick.horizontal, g_controller.leftJoystick.vertical);
 }
 
 void sub_gui_callback(const arm_us::GuiFeedback::ConstPtr &data)
@@ -284,40 +298,7 @@ void send_cmd_motor()
 {
     sensor_msgs::JointState msg;
     msg.name = { "motor1", "motor2" , "motor3", "motor4", "motor5" };
-
-    motorVelocities.m1 = (g_controller.leftJoystick.vertical + g_controller.rightJoystick.horizontal) / 2;
-    motorVelocities.m2 = (g_controller.leftJoystick.vertical - g_controller.rightJoystick.horizontal) / 2;
-    motorVelocities.m3 = 0;
-    motorVelocities.m4 = 0;
-    motorVelocities.m5 = 0;
-
-    if (verbose)
-    {
-        ROS_WARN("%f", g_armInfo.positionDifference);
-    }
-        
-    if (motorVelocities.m1 > 0 && g_armInfo.positionDifference < MIN_DIFF)
-    {
-        if (verbose)
-        {
-            ROS_WARN("At Limit, go the other way");
-        }        
-        motorVelocities.m1 = 0.0;
-        motorVelocities.m2 = 0.0;
-    }
-
-    if (motorVelocities.m1 < 0 && g_armInfo.positionDifference > MAX_DIFF)
-    {
-        if (verbose)
-        {
-            ROS_WARN("At Limit, go the other way");
-        }
-        motorVelocities.m1 = 0.0;
-        motorVelocities.m2 = 0.0;
-    }
-
-    msg.velocity = { motorVelocities.m1, motorVelocities.m2, motorVelocities.m3, motorVelocities.m4, motorVelocities.m5 };
-
+    msg.velocity = { motorVelocitiesCmd.m1, motorVelocitiesCmd.m2, motorVelocitiesCmd.m3, motorVelocitiesCmd.m4, motorVelocitiesCmd.m5 };
     pub_motor.publish(msg);
 }
 
@@ -334,42 +315,63 @@ void send_gui_info()
 {
     arm_us::GuiInfo msg;
 
-    msg.position[0] = g_armInfo.motorPositions[0];
-    msg.position[1] = g_armInfo.motorPositions[1];
-    msg.position[2] = g_armInfo.motorPositions[2];
-    msg.position[3] = g_armInfo.motorPositions[3];
-    msg.position[4] = g_armInfo.motorPositions[4];
+    msg.position = { g_armInfo.motorPositions[0], g_armInfo.motorPositions[1], g_armInfo.motorPositions[2], g_armInfo.motorPositions[3], g_armInfo.motorPositions[4] };
+    msg.velocity = { g_armInfo.motorVelocities[0], g_armInfo.motorVelocities[1], g_armInfo.motorVelocities[2], g_armInfo.motorVelocities[3], g_armInfo.motorVelocities[4] };
+    msg.connected = { g_armInfo.motorConnected[0], g_armInfo.motorConnected[1], g_armInfo.motorConnected[2], g_armInfo.motorConnected[3], g_armInfo.motorConnected[4] };
+    msg.limit_reached = { g_armInfo.motorLimitReached[0], g_armInfo.motorLimitReached[1], g_armInfo.motorLimitReached[2], g_armInfo.motorLimitReached[3], g_armInfo.motorLimitReached[4] };
     
-    msg.velocity[0] = g_armInfo.motorVelocities[0];
-    msg.velocity[1] = g_armInfo.motorVelocities[1];
-    msg.velocity[2] = g_armInfo.motorVelocities[2];
-    msg.velocity[3] = g_armInfo.motorVelocities[3];
-    msg.velocity[4] = g_armInfo.motorVelocities[4];
-
-    msg.connected[0] = g_armInfo.motorConnected[0];
-    msg.connected[1] = g_armInfo.motorConnected[1];
-    msg.connected[2] = g_armInfo.motorConnected[2];
-    msg.connected[3] = g_armInfo.motorConnected[3];
-    msg.connected[4] = g_armInfo.motorConnected[4];
-
-    msg.limit_reached[0] = g_armInfo.motorLimitReached[0];
-    msg.limit_reached[1] = g_armInfo.motorLimitReached[1];
-    msg.limit_reached[2] = g_armInfo.motorLimitReached[2];
-    msg.limit_reached[3] = g_armInfo.motorLimitReached[3];
-    msg.limit_reached[4] = g_armInfo.motorLimitReached[4];
-
     pub_gui.publish(msg);
 }
 
 void send_3d_graph_info()
 {
     arm_us::GraphInfo msg;
-
-    msg.angle[0] = 0;
-    msg.angle[1] = 0;
-    msg.angle[2] = 0;
-    msg.angle[3] = 0;
-    msg.angle[4] = 0;
-
+    msg.angle = { jointAngles.j1, jointAngles.j2, jointAngles.j3, jointAngles.j4, jointAngles.j5 };
     pub_3d_graph.publish(msg);
+}
+
+float convert_motor_pos_to_deg(float current_pos, float min_input, float max_input, float min_val, float max_val)
+{
+    return ((current_pos / (max_input - min_input)) * (max_val - min_val)) + min_val;
+}
+
+void calculate_motor_velocities()
+{
+    motorVelocitiesCmd.m1 = (g_controller.leftJoystick.vertical + g_controller.rightJoystick.horizontal) / 2;
+    motorVelocitiesCmd.m2 = (g_controller.leftJoystick.vertical - g_controller.rightJoystick.horizontal) / 2;
+    motorVelocitiesCmd.m3 = 0;
+    motorVelocitiesCmd.m4 = 0;
+    motorVelocitiesCmd.m5 = 0;
+
+    if (verbose)
+    {
+        ROS_WARN("%f", g_armInfo.positionDifference);
+    }
+        
+    if (motorVelocitiesCmd.m1 > 0 && g_armInfo.positionDifference < MIN_DIFF)
+    {
+        if (verbose)
+        {
+            ROS_WARN("At Limit, go the other way");
+        }        
+        motorVelocitiesCmd.m1 = 0.0;
+        motorVelocitiesCmd.m2 = 0.0;
+    }
+
+    if (motorVelocitiesCmd.m1 < 0 && g_armInfo.positionDifference > MAX_DIFF)
+    {
+        if (verbose)
+        {
+            ROS_WARN("At Limit, go the other way");
+        }
+        motorVelocitiesCmd.m1 = 0.0;
+        motorVelocitiesCmd.m2 = 0.0;
+    }
+}
+
+void calculate_joint_angles()
+{
+    jointAngles.j1 = convert_motor_pos_to_deg(g_armInfo.motorPositions[0] + g_armInfo.motorPositions[1]);
+    jointAngles.j2 = convert_motor_pos_to_deg(g_armInfo.motorPositions[0] - g_armInfo.motorPositions[1]);
+    // ROS_WARN("j1 : %f, j2 : %f", jointAngles.j1, jointAngles.j2);
 }
