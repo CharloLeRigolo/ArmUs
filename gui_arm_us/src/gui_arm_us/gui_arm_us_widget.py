@@ -13,19 +13,10 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut, QSlider, QLCDNumber, QLabel, QPushButton, QFrame
 import rosservice
 
-from arm_us.msg import MotorControl
-from sensor_msgs.msg import JointState
+from arm_us.msg import GuiInfo
 
 
 class GuiArmUsWidget(QtWidgets.QWidget):
-
-    max_velocity = 4.8
-
-    motor1_enabled = False
-    motor2_enabled = False
-
-    motor1_velocity = max_velocity
-    motor2_velocity = max_velocity
 
     def __init__(self):
     
@@ -38,78 +29,70 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         self.launch: roslaunch.ROSLaunch = roslaunch.scriptapi.ROSLaunch()
         self.launch.start()
 
-        self.sub_motor_positions = rospy.Subscriber("joint_states", JointState, self.motor_positions_callback)
+        self.sub_gui_info = rospy.Subscriber("gui_info", GuiInfo, self.update_gui)
 
-        self.pub_gui_arm_us_cmd = rospy.Publisher('gui_arm_us_chatter', MotorControl, queue_size=1)
         self.rate = rospy.Rate(10) # 10Hz
 
-        self.motor1_button.released.connect(self.motor1_button_callback)
-        self.motor2_button.released.connect(self.motor2_button_callback)
+    def update_gui(self, data):
+        self.motor1_position.display(data.position[0])
+        self.motor2_position.display(data.position[1])
+        self.motor3_position.display(data.position[2])
+        self.motor4_position.display(data.position[3])
+        self.motor5_position.display(data.position[4])
 
-        self.motor1_velocity.setValue(self.max_velocity)
-        self.motor2_velocity.setValue(self.max_velocity)
+        self.motor1_velocity.display(data.velocity[0])
+        self.motor2_velocity.display(data.velocity[1])
+        self.motor3_velocity.display(data.velocity[2])
+        self.motor4_velocity.display(data.velocity[3])
+        self.motor5_velocity.display(data.velocity[4])
 
-
-        self.motor1_velocity.setRange(0, self.max_velocity)
-        self.motor2_velocity.setRange(0, self.max_velocity)
-
-        self.motor1_velocity.setSingleStep(0.2)
-        self.motor2_velocity.setSingleStep(0.2)
-
-        self.motor1_velocity.valueChanged.connect(self.motor1_velocity_callback)
-        self.motor2_velocity.valueChanged.connect(self.motor2_velocity_callback)
-
-
-
-    def motor1_button_callback(self):
-        msg = MotorControl()
-        msg.motor_id = 0
-
-        if self.motor1_enabled:
-            self.motor1_enabled = False
-            msg.enabled = self.motor1_enabled
-            msg.velocity = 0
+        if data.connected[0]:
+            self.motor1_connection.setText("Connected")
         else:
-            self.motor1_enabled = True
-            msg.enabled = self.motor1_enabled
-            msg.velocity = float(self.motor1_velocity.value())
+            self.motor1_connection.setText("Not connected")
 
-        rospy.loginfo("Motor 1 : %f", self.motor1_enabled)
-        self.pub_gui_arm_us_cmd.publish(msg)
-
-
-
-    def motor2_button_callback(self):
-        msg = MotorControl()
-        msg.motor_id = 1
-
-        if self.motor2_enabled:
-            self.motor2_enabled = False
-            msg.enabled = self.motor2_enabled
-            msg.velocity = 0
+        if data.connected[1]:
+            self.motor2_connection.setText("Connected")
         else:
-            self.motor2_enabled = True
-            msg.enabled = self.motor2_enabled
-            msg.velocity = float(self.motor2_velocity.value())
+            self.motor2_connection.setText("Not connected")
 
-        rospy.loginfo("Motor 2 : %f", self.motor2_enabled)
-        self.pub_gui_arm_us_cmd.publish(msg)
+        if data.connected[2]:
+            self.motor3_connection.setText("Connected")
+        else:
+            self.motor3_connection.setText("Not connected")
 
+        if data.connected[3]:
+            self.motor4_connection.setText("Connected")
+        else:
+            self.motor4_connection.setText("Not connected")
 
-
-    def motor1_velocity_callback(self, velocity):
-        self.motor1_velocity = velocity
-        rospy.loginfo("Motor 1 velocity : %f", self.motor1_velocity)
-
-
-
-    def motor2_velocity_callback(self, velocity):
-        self.motor2_velocity = velocity
-        rospy.loginfo("Motor 2 velocity : %f", self.motor2_velocity)
+        if data.connected[4]:
+            self.motor5_connection.setText("Connected")
+        else:
+            self.motor5_connection.setText("Not connected")
 
 
-    
-    def motor_positions_callback(self, msg):
-        self.motor1_position.setNum(msg.position[0])
-        self.motor2_position.setNum(msg.position[1])
-        #rospy.loginfo("Motor 1 position : %f, motor 2 position : %f", msg.position[1], msg.position[0])
+        if data.limit_reached[0]:
+            self.motor1_limit.setText("Connected")
+        else:
+            self.motor1_limit.setText("Not connected")
+
+        if data.limit_reached[1]:
+            self.motor2_limit.setText("Connected")
+        else:
+            self.motor2_limit.setText("Not connected")
+
+        if data.limit_reached[2]:
+            self.motor3_limit.setText("Connected")
+        else:
+            self.motor3_limit.setText("Not connected")
+
+        if data.limit_reached[3]:
+            self.motor4_limit.setText("Connected")
+        else:
+            self.motor4_limit.setText("Not connected")
+
+        if data.limit_reached[4]:
+            self.motor5_limit.setText("Connected")
+        else:
+            self.motor5_limit.setText("Not connected")

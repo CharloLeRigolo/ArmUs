@@ -1,0 +1,3 @@
+bool cartesian
+bool joint
+int8 current_controlled_joint

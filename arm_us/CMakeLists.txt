@@ -51,6 +51,9 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
    FILES
    MotorControl.msg
+   GuiFeedback.msg
+   GuiInfo.msg
+   GraphInfo.msg
 )
 
 ## Generate services in the 'srv' folder
