@@ -7,22 +7,21 @@
 //Constant / Macros
 #define ACCEL_ARRAY_SIZE 3
 #define ACCEL_ADDRESS_SHOULDER 0x69
-#define ACCEL_ADDRESS_WRIST 0x68 //If you we need more accel use pin AD0 as selector 0x68->0x69
+#define ACCEL_ADDRESS_WRIST 0x68 //If you we need more accel use pin AD0 as selector for multiplexer 0x68->0x69
 #define NB_ACCEL 2
 
 const unsigned short MSG_PERIOD_MS = 100; //ms
 // Fct prototypes
-void send_msg();
+void send_msg(arm_us::accel_lib *accelerometer, ros::Publisher *pub);
 
 // Global objects
 ros::NodeHandle n;
 std_msgs::Int16MultiArray accel_msg;
 
-// Accel Shoulder
-ros::Publisher pub_accel_shoulder("accel_pos_shoulder", &accel_msg);
-arm_us::accel_lib accel_shoulder(ACCEL_ADDRESS_SHOULDER);
-// Accel Wrist
 ros::Publisher pub_accel_wrist("accel_pos_wrist", &accel_msg);
+arm_us::accel_lib accel_shoulder(ACCEL_ADDRESS_SHOULDER);
+
+ros::Publisher pub_accel_shoulder("accel_pos_shoulder", &accel_msg);
 arm_us::accel_lib accel_wrist(ACCEL_ADDRESS_WRIST);
 
 arm_us::accel_lib *accels[NB_ACCEL] = {&accel_shoulder, &accel_wrist};
@@ -36,16 +35,21 @@ void setup()
     // ROS
     n.initNode();
     n.advertise(pub_accel_shoulder);
+    n.advertise(pub_accel_wrist);
+
     accel_shoulder.init();
+    accel_wrist.init();
 }
 
 void loop()
 {
     accel_shoulder.acquire_accel_values();
+    accel_wrist.acquire_accel_values();
     
     if (millis() - prev_millis > MSG_PERIOD_MS)
     {
         send_msg(&accel_shoulder, &pub_accel_shoulder);
+        send_msg(&accel_wrist, &pub_accel_wrist);
         n.spinOnce();
         prev_millis = millis();
     }
