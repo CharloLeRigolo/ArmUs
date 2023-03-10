@@ -54,6 +54,8 @@ public:
 ros::Subscriber sub_shoulder_angles;
 
 float j1_angle_x = 0.0;
+float j1_angle_y = 0.0;
+float j1_angle_z = 0.0;
 
 
 int main(int argc, char **argv)
@@ -106,7 +108,9 @@ int main(int argc, char **argv)
 void sub_shoulder_angles_cb(const std_msgs::Int16MultiArray::ConstPtr &data)
 {
     j1_angle_x = map(data->data[0], -32768, 32767, -M_PI, M_PI);  
-    ROS_WARN("%d = %f", data->data[0], j1_angle_x);
+    j1_angle_y = map(data->data[1], -32768, 32767, -M_PI, M_PI);  
+    j1_angle_z = map(data->data[2], -32768, 32767, -M_PI, M_PI);  
+    // ROS_WARN("%d = %f", data->data[0], j1_angle_x);
 }
 
 float map(int i_val, int i_min_input, int i_max_input, float min_val, float max_val)
