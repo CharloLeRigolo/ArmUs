@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<launch>
+    <node name="sleeve_rviz" pkg="arm_us" type="rviz_sleeve"/>
+
+    <node name="sleeve_arduino" pkg="rosserial_arduino" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/serial/by-id/usb-1a86_USB2.0-Ser_-if00-port0" />
+    </node>
+
+</launch>

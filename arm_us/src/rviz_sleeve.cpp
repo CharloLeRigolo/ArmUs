@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "basic_shapes");
     ros::NodeHandle n;
     ros::Publisher pub_marker = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-    sub_shoulder_angles = n.subscribe("accel_pos_wrist", 1, sub_shoulder_angles_cb);
+    sub_shoulder_angles = n.subscribe("accel_pos_shoulder", 1, sub_shoulder_angles_cb);
     ros::Rate rate(10);
 
     markerObject p_shoulder_marker("arm_us", 0, visualization_msgs::Marker::SPHERE);
@@ -81,9 +81,8 @@ int main(int argc, char **argv)
 
     markerObject *markerObjects[NB_MARKER] = {&p_shoulder_marker, &l_shoulder_marker};
 
-    while (!ros::isShuttingDown())
+    while (ros::ok())
     {   
-
         tf2::Quaternion quart1;
         quart1.setEuler(0.0, j1_angle_x, 0.0);
 
@@ -102,15 +101,18 @@ int main(int argc, char **argv)
         rate.sleep();
         ros::spinOnce();
     }
+
     return 0;
 }
 
 void sub_shoulder_angles_cb(const std_msgs::Int16MultiArray::ConstPtr &data)
 {
-    j1_angle_x = map(data->data[0], -32768, 32767, -M_PI, M_PI);  
-    j1_angle_y = map(data->data[1], -32768, 32767, -M_PI, M_PI);  
-    j1_angle_z = map(data->data[2], -32768, 32767, -M_PI, M_PI);  
-    // ROS_WARN("%d = %f", data->data[0], j1_angle_x);
+    double accel_x = double(data->data[0]) * 16 / 32767.0 - 0.320811;
+    double accel_y = double(data->data[1]) * 16 / 32767.0 + 2.563555;
+    double accel_z = double(data->data[2]) * 16 / 32767.0 - 4.456679;
+
+    ROS_WARN("%f  |  %f  |  %f  ", accel_x, accel_y, accel_z);
+    j1_angle_x = map(-1*data->data[0], -32768, 32767, -M_PI, M_PI);
 }
 
 float map(int i_val, int i_min_input, int i_max_input, float min_val, float max_val)
