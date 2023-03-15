@@ -3,12 +3,12 @@
 #include <std_msgs/Int16MultiArray.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <math.h>
+#include "arm_us/accel_pos.h"
 
 #define NB_MARKER 3
 
 // fct definitions
-void sub_shoulder_angles_cb(const std_msgs::Int16MultiArray::ConstPtr &data);
-float map(int val, int min_input, int max_input, float min_val, float max_val);
+void sub_shoulder_angles_cb(const arm_us::accel_pos::ConstPtr &data);
 
 class markerObject
 {
@@ -53,17 +53,15 @@ public:
 
 ros::Subscriber sub_shoulder_angles;
 
-float j1_angle_x = 0.0;
-float j1_angle_y = 0.0;
-float j1_angle_z = 0.0;
-
+tf2::Quaternion q_shoulder;
+tf2::Quaternion q_wrist;
 
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "basic_shapes");
     ros::NodeHandle n;
     ros::Publisher pub_marker = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-    sub_shoulder_angles = n.subscribe("accel_pos_shoulder", 1, sub_shoulder_angles_cb);
+    sub_shoulder_angles = n.subscribe("pos_wrist", 1, sub_shoulder_angles_cb);
     ros::Rate rate(10);
 
     markerObject p_shoulder_marker("arm_us", 0, visualization_msgs::Marker::SPHERE);
@@ -83,13 +81,10 @@ int main(int argc, char **argv)
 
     while (ros::ok())
     {   
-        tf2::Quaternion quart1;
-        quart1.setEuler(0.0, j1_angle_x, 0.0);
-
-        l_shoulder_marker.msg.pose.orientation.x = quart1.getX();
-        l_shoulder_marker.msg.pose.orientation.y = quart1.getY();
-        l_shoulder_marker.msg.pose.orientation.z = quart1.getZ();
-        l_shoulder_marker.msg.pose.orientation.w = quart1.getW();
+        l_shoulder_marker.msg.pose.orientation.x = q_shoulder.getX();
+        l_shoulder_marker.msg.pose.orientation.y = q_shoulder.getY();
+        l_shoulder_marker.msg.pose.orientation.z = q_shoulder.getZ();
+        l_shoulder_marker.msg.pose.orientation.w = q_shoulder.getW();
 
         for (auto i = 0; i < NB_MARKER; i++)
         {
@@ -105,21 +100,10 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void sub_shoulder_angles_cb(const std_msgs::Int16MultiArray::ConstPtr &data)
+void sub_shoulder_angles_cb(const arm_us::accel_pos::ConstPtr &data)
 {
-    double accel_x = double(data->data[0]) * 16 / 32767.0 - 0.320811;
-    double accel_y = double(data->data[1]) * 16 / 32767.0 + 2.563555;
-    double accel_z = double(data->data[2]) * 16 / 32767.0 - 4.456679;
-
-    ROS_WARN("%f  |  %f  |  %f  ", accel_x, accel_y, accel_z);
-    j1_angle_x = map(-1*data->data[0], -32768, 32767, -M_PI, M_PI);
-}
-
-float map(int i_val, int i_min_input, int i_max_input, float min_val, float max_val)
-{
-    float val = float(i_val);
-    float min_input = float(i_min_input);
-    float max_input = float(i_max_input);
-
-    return (val - i_min_input) * (max_val - min_val) / (i_max_input - i_min_input) + min_val;
+    q_shoulder.setW(data->w);
+    q_shoulder.setX(data->x);
+    q_shoulder.setY(data->y);
+    q_shoulder.setZ(data->z);
 }
