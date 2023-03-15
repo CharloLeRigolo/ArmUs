@@ -104,6 +104,8 @@ void sub_shoulder_angles_cb(const arm_us::accel_pos::ConstPtr &data)
 {
     q_shoulder.setW(data->w);
     q_shoulder.setX(data->x);
-    q_shoulder.setY(data->y);
+    q_shoulder.setY(0.0 /*data->y*/);
     q_shoulder.setZ(data->z);
+
+
 }
