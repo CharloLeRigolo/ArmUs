@@ -1,0 +1,17 @@
+left_joy_hori: 0
+left_joy_vert: 1
+right_joy_hori: 2
+right_joy_vert: 3
+pad_hori: 4
+pad_vert: 5
+
+button_a: 1
+button_b: 2
+button_x: 0
+button_y: 3
+left_bump: 4
+right_bump: 5
+left_trig: 6
+right_trig: 7
+
+name: "phil"

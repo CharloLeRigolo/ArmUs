@@ -11,17 +11,17 @@ void sub_angle_callback(const arm_us::GraphInfo::ConstPtr &msg);
 
 const float J1x = 0;
 const float J1y = 0;
-const float J1z = 0;
+const float J1z = 1;
 
-const float J2x = 0;
+const float J2x = 1;
 const float J2y = 0;
 const float J2z = 0;
 
-const float J3x = 0;
+const float J3x = 1;
 const float J3y = 0;
 const float J3z = 0;
 
-const float J4x = 0;
+const float J4x = 1;
 const float J4y = 0;
 const float J4z = 0;
 
@@ -61,6 +61,7 @@ int main( int argc, char** argv )
   {
     CalculatePositions();
     UpdateGraph();
+
     r.sleep();
   }
 }
@@ -111,6 +112,8 @@ void UpdateGraph()
     p.y = pos.y;
     p.z = pos.z;
 
+    // ROS_WARN("x : %f, y : %f, z : %f", pos.x, pos.y, pos.z);
+
     points.points.push_back(p);
     line_strip.points.push_back(p);
   }
@@ -154,4 +157,9 @@ void CalculatePositions()
               - arm.J1.x*sin(q1) - arm.J2.x*sin(q1)*cos(q2)- arm.J3.x*(sin(q3)*cos(q1)+sin(q1)*cos(q2)*cos(q3)) 
               - arm.J4.z*(cos(q1)*(sin(q3)*sin(q5)-cos(q3)*cos(q4)*cos(q5))+sin(q1)*(sin(q2)*sin(q4)*cos(q5)+cos(q2)*(sin(q5)*cos(q3)+sin(q3)*cos(q4)*cos(q5)))) 
               - arm.J4.x*(cos(q1)*(sin(q3)*cos(q5)+sin(q5)*cos(q3)*cos(q4))-sin(q1)*(sin(q2)*sin(q4)*sin(q5)-cos(q2)*(cos(q3)*cos(q5)-sin(q3)*sin(q5)*cos(q4))));
+
+  // ROS_WARN("P1 : x = %f, y = %f, z = %f", arm.P1.x, arm.P1.y, arm.P1.z);
+  // ROS_WARN("P2 : x = %f, y = %f, z = %f", arm.P2.x, arm.P2.y, arm.P2.z);
+  // ROS_WARN("P3 : x = %f, y = %f, z = %f", arm.P3.x, arm.P3.y, arm.P3.z);
+  // ROS_WARN("P4 : x = %f, y = %f, z = %f", arm.P4.x, arm.P4.y, arm.P4.z);
 }

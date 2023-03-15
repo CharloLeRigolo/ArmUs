@@ -206,6 +206,6 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(arm_us_graph src/arm_us_graph.cpp)
-add_dependencies(arm_us_graph ${catkin_EXPORTED_TARGETS})
-target_link_libraries(arm_us_graph ${catkin_LIBRARIES})
+add_executable(graph src/graph.cpp)
+add_dependencies(graph ${catkin_EXPORTED_TARGETS})
+target_link_libraries(graph ${catkin_LIBRARIES})

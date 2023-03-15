@@ -7,6 +7,8 @@
 #include "arm_us/GuiInfo.h"
 #include "arm_us/GraphInfo.h"
 
+#include <string.h>
+
 #define MAX_VEL 4.8 // Linked to config/yaml file (global_max_vel )
 #define MIN_DIFF -6.8
 #define MAX_DIFF 5
@@ -32,6 +34,8 @@ void calculate_joint_angles();
 float convert_motor_pos_to_deg(float current_pos, float min_input = 0, float max_input = 4095, float min_val = 0, float max_val = 360);
 
 enum class MovementMode { Joint = 0, Cartesian = 1 };
+
+std::string name;
 
 bool verbose = 0;
 
@@ -109,18 +113,30 @@ public:
         int horizontal;
     };
 
+    void print()
+    {
+        ROS_WARN("Left joy hori = %f, Left joy vert = %f", leftJoystick.horizontal, leftJoystick.vertical);
+        ROS_WARN("Right joy hori = %f, Right joy vert = %f", rightJoystick.horizontal, rightJoystick.vertical);
+        ROS_WARN("Left trigger = %f, Right trigger = %f", leftTrigger, rightTrigger);
+        ROS_WARN("Hori pad = %f, Vert pad = %f", directionPad.horizontal, directionPad.vertical);
+        ROS_WARN("Button A = %f, Button B = %f", buttonA, buttonB);
+        ROS_WARN("Button X = %f, Button Y = %f", buttonX, buttonY);
+        ROS_WARN("Left bumper = %f, Right bumper = %f", leftBumper, rightBumper);
+        ROS_WARN("--------------------------------------------------------------------------------------------------------------");
+    }
+
     Joystick leftJoystick;
     Joystick rightJoystick;
     DirectionpPad directionPad;
     float leftTrigger;
     float rightTrigger;
     
-    int buttonA;
-    int buttonB;
-    int buttonX;
-    int buttonY;
-    int leftBumper;
-    int rightBumper; 
+    float buttonA;
+    float buttonB;
+    float buttonX;
+    float buttonY;
+    float leftBumper;
+    float rightBumper;
 };
 
 Controller g_controller;
@@ -160,6 +176,8 @@ void loop()
     ros::Rate loop_rate(ROS_RATE);
     while (ros::ok())
     {
+        
+
         calculate_motor_velocities();
         calculate_joint_angles();
 
@@ -191,23 +209,49 @@ void loop()
 
 void setParams(ros::NodeHandle &n)
 {
-    n.getParam("verbose", verbose);
+    n.getParam("verbose_param", verbose);
+    ROS_WARN("verbose_param = %d", verbose);
+    
+    XmlRpc::XmlRpcValue controller;
+    n.getParam("/master_node/controller", controller);
+    
+    n.getParam("/master_node/left_joy_hori", LEFT_JOY_HORI);
+    n.getParam("/master_node/left_joy_vert", LEFT_JOY_VERT);
+    n.getParam("/master_node/left_trig", LEFT_TRIG);
+    n.getParam("/master_node/right_joy_hori", RIGHT_JOY_HORI);
+    n.getParam("/master_node/right_joy_vert", RIGHT_JOY_VERT);
+    n.getParam("/master_node/right_trig", RIGHT_TRIG);
+    n.getParam("/master_node/pad_hori", PAD_HORI);
+    n.getParam("/master_node/pad_vert", PAD_VERT);
 
-    n.getParam("left_joy_hori", LEFT_JOY_HORI);
-    n.getParam("left_joy_vert", LEFT_JOY_VERT);
-    n.getParam("left_trig", LEFT_TRIG);
-    n.getParam("right_joy_hori", RIGHT_JOY_HORI);
-    n.getParam("right_joy_vert", RIGHT_JOY_VERT);
-    n.getParam("right_trig", RIGHT_TRIG);
-    n.getParam("pad_hori", PAD_HORI);
-    n.getParam("pad_vert", PAD_VERT);
+    n.getParam("/master_node/button_a", BUTTON_A);
+    n.getParam("/master_node/button_b", BUTTON_B);
+    n.getParam("/master_node/button_x", BUTTON_X);
+    n.getParam("/master_node/button_y", BUTTON_Y);
+    n.getParam("/master_node/left_bump", LEFT_BUMP);
+    n.getParam("/master_node/right_bump", RIGHT_BUMP);
 
-    n.getParam("button_a", BUTTON_A);
-    n.getParam("button_b", BUTTON_B);
-    n.getParam("button_x", BUTTON_X);
-    n.getParam("button_y", BUTTON_Y);
-    n.getParam("left_bump", LEFT_BUMP);
-    n.getParam("right_bump", RIGHT_BUMP);
+    n.getParam("/master_node/name", name);
+
+    ROS_WARN("LOADING CONTROLLER CONFIG .YAML FILE");
+
+    ROS_WARN("LEFT_JOY_HORI = %d", LEFT_JOY_HORI);
+    ROS_WARN("LEFT_JOY_VERT = %d", LEFT_JOY_VERT);
+    ROS_WARN("LEFT_TRIG = %d", LEFT_TRIG);
+    ROS_WARN("RIGHT_JOY_HORI = %d", RIGHT_JOY_HORI);
+    ROS_WARN("RIGHT_JOY_VERT = %d", RIGHT_JOY_VERT);
+    ROS_WARN("RIGHT_TRIG = %d", RIGHT_TRIG);
+    ROS_WARN("PAD_HORI = %d", PAD_HORI);
+    ROS_WARN("PAD_VERT = %d", PAD_VERT);
+
+    ROS_WARN("BUTTON_A = %d", BUTTON_A);
+    ROS_WARN("BUTTON_B = %d", BUTTON_B);
+    ROS_WARN("BUTTON_X = %d", BUTTON_X);
+    ROS_WARN("BUTTON_Y = %d", BUTTON_Y);
+    ROS_WARN("LEFT_BUMP = %d", LEFT_BUMP);
+    ROS_WARN("RIGHT_BUMP = %d", RIGHT_BUMP);
+
+    ROS_WARN("Name = %s", name.c_str());
 }
 
 void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
@@ -231,24 +275,50 @@ void sub_input_callback(const sensor_msgs::Joy::ConstPtr &data)
     data->buttons[4] --> Left bumper
     data->buttons[5] --> Right bumper
     */
+
+    ROS_WARN("--------------------------------------------------------------------------------------------------------------");
     
-    g_controller.leftJoystick.setJoystick(data->axes[LEFT_JOY_VERT], data->axes[LEFT_JOY_HORI]);
-    g_controller.rightJoystick.setJoystick(data->axes[RIGHT_JOY_VERT], data->axes[RIGHT_JOY_HORI]);
+    if (name == "mik")
+    {
+        g_controller.leftJoystick.setJoystick(data->axes[LEFT_JOY_VERT], data->axes[LEFT_JOY_HORI]);
+        g_controller.rightJoystick.setJoystick(data->axes[RIGHT_JOY_VERT], data->axes[RIGHT_JOY_HORI]);
+        
+        g_controller.leftTrigger = data->axes[LEFT_TRIG];
+        g_controller.rightTrigger = data->axes[RIGHT_TRIG];
+
+        g_controller.directionPad.setDirectionPad(data->axes[PAD_VERT], data->axes[PAD_HORI]);
+
+        g_controller.buttonA = data->axes[BUTTON_A];
+        g_controller.buttonB = data->axes[BUTTON_B];
+        g_controller.buttonX = data->axes[BUTTON_X];
+        g_controller.buttonY = data->axes[BUTTON_Y];
+
+        g_controller.leftBumper = data->axes[LEFT_BUMP];
+        g_controller.rightBumper = data->axes[RIGHT_BUMP];
+    }
+    else if (name == "phil")
+    {
+        g_controller.leftJoystick.setJoystick(data->axes[LEFT_JOY_VERT], data->axes[LEFT_JOY_HORI]);
+        g_controller.rightJoystick.setJoystick(data->axes[RIGHT_JOY_VERT], data->axes[RIGHT_JOY_HORI]);
+        g_controller.directionPad.setDirectionPad(data->axes[PAD_VERT], data->axes[PAD_HORI]);
+
+        g_controller.buttonA = data->buttons[BUTTON_A];
+        g_controller.buttonB = data->buttons[BUTTON_B];
+        g_controller.buttonX = data->buttons[BUTTON_X];
+        g_controller.buttonY = data->buttons[BUTTON_Y];
+
+        g_controller.leftBumper = data->buttons[LEFT_BUMP];
+        g_controller.rightBumper = data->buttons[RIGHT_BUMP];
+
+        g_controller.leftTrigger = data->buttons[LEFT_TRIG];
+        g_controller.rightTrigger = data->buttons[RIGHT_TRIG];
+    }
+
+    ROS_WARN("%f, %f", data->axes[PAD_VERT], data->axes[PAD_HORI]);
     
-    g_controller.leftTrigger = data->axes[LEFT_TRIG];
-    g_controller.rightTrigger = data->axes[RIGHT_TRIG];
+    g_controller.print();
 
-    g_controller.directionPad.setDirectionPad(data->axes[PAD_VERT], data->axes[PAD_HORI]);
-
-    g_controller.buttonA = data->axes[BUTTON_A];
-    g_controller.buttonB = data->axes[BUTTON_B];
-    g_controller.buttonX = data->axes[BUTTON_X];
-    g_controller.buttonY = data->axes[BUTTON_Y];
-
-    g_controller.leftBumper = data->axes[LEFT_BUMP];
-    g_controller.rightBumper = data->axes[RIGHT_BUMP];
-
-    ROS_WARN("%f, %f", g_controller.leftJoystick.horizontal, g_controller.leftJoystick.vertical);
+    // ROS_WARN("%f, %f", g_controller.leftJoystick.horizontal, g_controller.leftJoystick.vertical);
 }
 
 void sub_gui_callback(const arm_us::GuiFeedback::ConstPtr &data)

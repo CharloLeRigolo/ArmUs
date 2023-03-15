@@ -1,30 +1,19 @@
 <launch>
 
 	<arg name="verbose" default="0"/>
+	<arg name="controller_name" default="mik"/>
 
-	<arg name="left_joy_hori" default="0"/>
-	<arg name="left_joy_vert" default="1"/>
-	<arg name="left_trig" default="2"/>
-	<arg name="right_joy_hori" default="3"/>
-	<arg name="right_joy_vert" default="4"/>
-	<arg name="right_trig" default="5"/>
-	<arg name="pad_hori" default="6"/>
-	<arg name="pad_vert" default="7"/>
+	<param name="verbose_param" value="$(arg verbose)"/>
 
-	<arg name="button_a" default="0"/>
-	<arg name="button_b" default="1"/>
-	<arg name="button_x" default="2"/>
-	<arg name="button_y" default="3"/>
-	<arg name="left_bump" default="4"/>
-	<arg name="right_bump" default="5"/>
-
-	<!-- --> <node name="dynamixel_interface_node" pkg="dynamixel_interface" type="dynamixel_interface_controller_node" output="screen">
-    		<rosparam command="load" file="$(find arm_us)/config/controller_config.yaml" />
-  	</node>	<!-- -->
+	<!--  <node name="dynamixel_interface_node" pkg="dynamixel_interface" type="dynamixel_interface_controller_node" output="screen">
+    	<rosparam command="load" file="$(find arm_us)/config/controller_config.yaml" />
+  	</node> -->
 	
 	<node name="joy" pkg="joy" type="joy_node"/>
 	
-	<node name="master_node" pkg="arm_us" type="master_node"/>
+	<node name="master_node" pkg="arm_us" type="master_node">
+		<rosparam file="$(find arm_us)/config/controller_config_$(arg controller_name).yaml" />
+	</node>
 	
   	<!-- <node name = "arm_us_dashboard" pkg = "rqt_gui" type = "rqt_gui" respawn = "false" output = "screen"/> -->
   	
