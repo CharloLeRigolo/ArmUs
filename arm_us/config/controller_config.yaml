@@ -1,42 +1,19 @@
-loop_rate: 50                      # desired rate for joint state updates. actual rate may be less depending on number
-                                  # of dynamixels on each port
-control_mode: velocity            # control mode, either 'position', 'velocity', or 'effort'
-disable_torque_on_shutdown: true  # with this enabled the motors will switch off when the controller closes
-ignore_input_velocity: false      # ignore input velocity commands in position mode (no profile velocity)
-diagnostics_rate: 1               # rate to publish diagnostic information
-dataport_rate: 1                  # rate to read from dynamixel external dataports
+left_joy_hori: 0
+left_joy_vert: 1
 
-# The below values are used as global defaults and are applied for each servo unless overridden in the entry for the servo below
-global_max_vel: 4.8               # maximum joint speed (rad/s) (in position or velocity control)
-global_torque_limit: 0.5          # maximum motor torque for all modes, given as a fraction of rated max (0-1)
+right_joy_hori: 2
+right_joy_vert: 3
 
-# PORT AND SERVO CONFIGURATIONS
-ports:
+pad_hori: 4
+pad_vert: 5
 
-  # PORT LIST
-  - name: Port_1               # name for this port in config
-    device: /dev/ttyACM0       # serial device this port will communicate on
-    baudrate: 57600            # baudrate in use
-    use_legacy_protocol: false # wether to use new 2.0 protocol (false) or legacy 1.0 protocol (true)
-    group_read_enabled: true   # specify whether to use group comms for reading
-    group_write_enabled: true  # specify whether to use group comms for writing
-    servos:
-        # SERVO LIST FOR THIS PORT
-        - id: 4                # (ID set in servo eeprom, must be unique on this port)
-          joint_name: motor1  # (MUST BE UNIQUE ACROSS ALL PORTS)
-          #
-          # The three values below are mandatory, they define the orientation and zeroing of the dynamixel:
-          #
-          zero_pos: 2048       # initial (0 rad) servo position (in raw encoder count)
-          min_pos: 0           # minimum servo position (in raw encoder count)
-          max_pos: 4095        # maximum servo position, Note when MIN > MAX ROTATION IS REVERSED
-          #
-          # The below arguments are all optional and override the global values:
-        - id: 18
-          joint_name: motor2
-          zero_pos: 2048
-          min_pos: 0
-          max_pos: 4095
-          #
-          # This servo doesn't have any optional values defined, the global defaults will be used
-          #
+button_1: 0
+button_2: 1
+button_3: 2
+button_4: 3
+
+left_bump: 4
+right_bump: 5
+
+left_trig: 6
+right_trig: 7
