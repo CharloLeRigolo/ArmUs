@@ -5,6 +5,8 @@
 
 #include "arm_us/GraphInfo.h"
 
+const int ROS_RATE = 50;
+
 void UpdateGraph();
 void CalculatePositions();
 void sub_angle_callback(const arm_us::GraphInfo::ConstPtr &msg);
@@ -48,8 +50,9 @@ int main( int argc, char** argv )
 {
   ros::init(argc, argv, "arm_us_graph");
   ros::NodeHandle n;
-  ros::Rate r(1);
-  marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+  ros::Rate loop_rate(ROS_RATE);
+ 
+  marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1); 
   angle_sub = n.subscribe("graph_info", 1, sub_angle_callback);
 
   arm.J1.set(J1x, J1y, J1z);
@@ -62,8 +65,11 @@ int main( int argc, char** argv )
     CalculatePositions();
     UpdateGraph();
 
-    r.sleep();
+    ros::spinOnce();
+    loop_rate.sleep();
   }
+
+  ros::shutdown();
 }
 
 void sub_angle_callback(const arm_us::GraphInfo::ConstPtr &data)
@@ -73,8 +79,7 @@ void sub_angle_callback(const arm_us::GraphInfo::ConstPtr &data)
   arm.q3 = data->angle[2];
   arm.q4 = data->angle[3];
   arm.q5 = data->angle[4];
-
-  CalculatePositions();
+  // ROS_WARN("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", arm.q1, arm.q2, arm.q3, arm.q4, arm.q5);
 }
 
 void UpdateGraph()
@@ -112,7 +117,7 @@ void UpdateGraph()
     p.y = pos.y;
     p.z = pos.z;
 
-    // ROS_WARN("x : %f, y : %f, z : %f", pos.x, pos.y, pos.z);
+    //ROS_WARN("x : %f, y : %f, z : %f", pos.x, pos.y, pos.z);
 
     points.points.push_back(p);
     line_strip.points.push_back(p);

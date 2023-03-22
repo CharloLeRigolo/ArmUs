@@ -10,6 +10,8 @@
 		<rosparam file="$(find arm_us)/config/controller_config.yaml"/>
 	</node>
 	
+	<node name="arm_us_graphic" pkg="arm_us_graph" type="graph"/>
+
   	<!-- <node name = "arm_us_dashboard" pkg = "rqt_gui" type = "rqt_gui" respawn = "false" output = "screen"/> -->
   	
 </launch>

@@ -8,6 +8,15 @@
 
 #include <memory>
 
+const float MIN_POS = 0; 
+const float MAX_POS = 4095;
+
+const float MAX_VEL = 4.8;
+const float MIN_DIFF = -6.8;
+const float MAX_DIFF = 5;
+
+const int ROS_RATE = 50;
+
 enum class ControlMode { Real = 0, Simulation = 1 };
 
 bool verbose = true;
@@ -106,12 +115,101 @@ struct Vector5f
         m5 = f5;
     }
 
+    void set(float f, int m)
+    {
+        switch(m)
+        {
+        case 1:
+            m1 = f;
+            break;
+        case 2:
+            m2 = f;
+            break;
+        case 3:
+            m3 = f;
+            break;
+        case 4:
+            m4 = f;
+            break;
+        case 5:
+            m5 = f;
+            break;
+        }
+    }
+
     std::vector<double> get()
     {
         return { m1, m2, m3, m4, m5 };
     }
 
-    float get(){}
+    float get(int m)
+    {
+        switch(m)
+        {
+        case 1:
+            return m1;
+            break;
+        case 2:
+            return m2;
+            break;
+        case 3:
+            return m3;
+            break;
+        case 4:
+            return m4;
+            break;
+        case 5:
+            return m5;
+            break;
+        default:
+            return -1;
+        }
+    }
+
+    void add(float f, int m)
+    {
+        switch(m)
+        {
+        case 1:
+            m1 += f;
+            m1 = CheckLimits(m1);
+            break;
+        case 2:
+            m2 += f;
+            m2 = CheckLimits(m2);
+            break;
+        case 3:
+            m3 += f;
+            m3 = CheckLimits(m3);
+            break;
+        case 4:
+            m4 += f;
+            m4 = CheckLimits(m4);
+            break;
+        case 5:
+            m5 += f;
+            m5 = CheckLimits(m5);
+            break;
+        }
+    }
+
+    void print()
+    {
+        ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", m1, m2, m3, m4, m5);
+    }
+
+    float CheckLimits(float m)
+    {
+        if (m > MAX_POS)
+        {
+            m -= MAX_POS;
+        }
+        else if (m <= MIN_POS)
+        {
+            m += MAX_POS;
+        }
+        return m;
+    }
 
     float m1, m2, m3, m4, m5;
 };
@@ -157,10 +255,11 @@ public:
     {
         JointAngles.m1 = convert_motor_pos_to_deg(MotorPositions.m1 + MotorPositions.m2);
         JointAngles.m2 = convert_motor_pos_to_deg(MotorPositions.m1 - MotorPositions.m2);
-        if (verbose)
-        {
-            ROS_WARN("j1 : %f, j2 : %f", MotorPositions.m1, MotorPositions.m2);
-        }
+        JointAngles.m3 = convert_motor_pos_to_deg(MotorPositions.m3);
+        JointAngles.m4 = convert_motor_pos_to_deg(MotorPositions.m4);
+        JointAngles.m5 = convert_motor_pos_to_deg(MotorPositions.m5);
+
+        //JointAngles.print();
     }
 
     float convert_motor_pos_to_deg(float current_pos, float min_input = 0, float max_input = 4095, float min_val = 0, float max_val = 360)
@@ -191,7 +290,11 @@ class ArmUsInfoSimul : public ArmUsInfo
     {
         if (MoveMode == MovementMode::Joint)
         {
-            MotorVelocities;
+            MotorVelocities.set(JointCommand, JointControlled);
+            MotorPositions.add(JointCommand, JointControlled);
+
+            //MotorVelocities.print();
+            //MotorPositions.print();
         }
         else if (MoveMode == MovementMode::Cartesian)
         {
@@ -235,10 +338,26 @@ public:
 
         while (ros::ok())
         {
+            m_arm_us_info->calculate_motor_velocities();
+            m_arm_us_info->calculate_joint_angles();
+
+            if (!ros::ok())
+            {
+                send_cmd_motor_stop();
+            }
+            else 
+            {
+                send_cmd_motor();
+            }
+
+            send_gui_info();
+            send_3d_graph_info();
+
             ros::spinOnce();
             loop_rate.sleep();
         }
 
+        send_cmd_motor_stop();
         ros::shutdown();
     }
     
@@ -443,12 +562,6 @@ private:
     int BUTTON_4;
     int LEFT_BUMP;
     int RIGHT_BUMP;
-
-    const int MAX_VEL = 4.8;
-    const int MIN_DIFF = -6.8;
-    const int MAX_DIFF = 5;
-
-    const int ROS_RATE = 50;
 };
 
 /******************** Main ********************/
@@ -466,48 +579,6 @@ int main(int argc, char* argv[])
 }
 
 /*
-
-void loop()
-{
-    ros::Rate loop_rate(ROS_RATE);
-    while (ros::ok())
-    {
-        
-
-        //calculate_motor_velocities();
-        //calculate_joint_angles();
-
-        if(!ros::ok())
-        {
-            send_cmd_motor_stop();
-            if (verbose)
-            {
-                ROS_WARN("All motors stopped (Message from loop)");
-            }
-        }
-        else
-        {
-            send_cmd_motor();
-        }
-
-        send_gui_info();
-        send_3d_graph_info();
-
-        ros::spinOnce();
-        loop_rate.sleep();
-    }
-
-    send_cmd_motor_stop();
-    ROS_WARN("All motors stopped (Ros not ok)");
-
-    ros::shutdown();
-}
-
-
-
-
-
-
 void calculate_motor_velocities()
 {
     motorVelocitiesCmd.m1 = (g_controller.leftJoystick.vertical + g_controller.rightJoystick.horizontal) / 2;
@@ -541,5 +612,4 @@ void calculate_motor_velocities()
         motorVelocitiesCmd.m2 = 0.0;
     }
 }
-
 */
