@@ -147,6 +147,26 @@ void ArmUsInfoSimul::calculate_motor_velocities()
 {
     if (MoveMode == MovementMode::Joint)
     {
+        switch (JointControlled)
+        {
+        case 1:
+            MotorVelocities.set(JointCommand, 1);
+            MotorVelocities.set(JointCommand, 2);
+            MotorPositions.add(JointCommand, 2);
+            MotorPositions.add(JointCommand, 2);
+            break;
+        case 2:
+            MotorVelocities.set(JointCommand, 1);
+            MotorVelocities.set(-JointCommand, 2);
+            MotorPositions.add(JointCommand, 2);
+            MotorPositions.add(-JointCommand, 2);
+            break;
+        default:
+            MotorVelocities.set(JointCommand, JointControlled);
+            MotorPositions.add(JointCommand, JointControlled);
+            break;
+        }
+
         MotorVelocities.set(JointCommand, JointControlled);
         MotorPositions.add(JointCommand, JointControlled);
 

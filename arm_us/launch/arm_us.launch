@@ -6,11 +6,13 @@
 	
 	<node name="joy" pkg="joy" type="joy_node"/>
 	
-	<node name="master_node" pkg="arm_us" type="master_node">
+	<node name="master_node" pkg="arm_us" type="arm_us_node">
 		<rosparam file="$(find arm_us)/config/controller_config.yaml"/>
 	</node>
 	
 	<node name="arm_us_graphic" pkg="arm_us_graph" type="graph"/>
+
+	<node name="rviz" type="rviz" pkg="rviz" args="-d $(find arm_us)/config/rviz_config.rviz"/>
 
   	<!-- <node name = "arm_us_dashboard" pkg = "rqt_gui" type = "rqt_gui" respawn = "false" output = "screen"/> -->
   	
