@@ -122,6 +122,10 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_subdirectory(librairies/ArmUs)
+add_subdirectory(librairies/ArmUs_Info)
+add_subdirectory(librairies/ArmUs_Controller)
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/GuiInfo.cpp
@@ -147,14 +151,10 @@ add_executable(arm_us_node src/master_node.cpp)
 ## same as for the library above
 add_dependencies(arm_us_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-add_executable(master_node src/master_node.cpp)
-target_link_libraries(master_node ${catkin_LIBRARIES})
 # add_dependencies(master_node arm_us_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(arm_us_node
-   ${catkin_LIBRARIES}
-)
+target_link_libraries(arm_us_node ${catkin_LIBRARIES} ArmUs ArmUs_Info ArmUs_Controller)
 
 #############
 ## Install ##
