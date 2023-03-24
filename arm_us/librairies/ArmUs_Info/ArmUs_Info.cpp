@@ -129,12 +129,11 @@ void Vector3f::set(float xx, float yy, float zz)
 
 void ArmUsInfo::calculate_joint_angles()
 {
-    JointAngles.m1 = convert_motor_pos_to_deg(MotorPositions.m1 + MotorPositions.m2);
-    JointAngles.m2 = convert_motor_pos_to_deg(MotorPositions.m1 - MotorPositions.m2);
+    JointAngles.m1 = convert_motor_pos_to_deg(MotorPositions.m1);
+    JointAngles.m2 = convert_motor_pos_to_deg(MotorPositions.m2);
     JointAngles.m3 = convert_motor_pos_to_deg(MotorPositions.m3);
     JointAngles.m4 = convert_motor_pos_to_deg(MotorPositions.m4);
     JointAngles.m5 = convert_motor_pos_to_deg(MotorPositions.m5);
-
     //JointAngles.print();
 }
 
@@ -147,29 +146,8 @@ void ArmUsInfoSimul::calculate_motor_velocities()
 {
     if (MoveMode == MovementMode::Joint)
     {
-        switch (JointControlled)
-        {
-        case 1:
-            MotorVelocities.set(JointCommand, 1);
-            MotorVelocities.set(JointCommand, 2);
-            MotorPositions.add(JointCommand, 2);
-            MotorPositions.add(JointCommand, 2);
-            break;
-        case 2:
-            MotorVelocities.set(JointCommand, 1);
-            MotorVelocities.set(-JointCommand, 2);
-            MotorPositions.add(JointCommand, 2);
-            MotorPositions.add(-JointCommand, 2);
-            break;
-        default:
-            MotorVelocities.set(JointCommand, JointControlled);
-            MotorPositions.add(JointCommand, JointControlled);
-            break;
-        }
-
         MotorVelocities.set(JointCommand, JointControlled);
         MotorPositions.add(JointCommand, JointControlled);
-
         //MotorVelocities.print();
         //MotorPositions.print();
     }
@@ -181,7 +159,11 @@ void ArmUsInfoSimul::calculate_motor_velocities()
 
 void ArmUsInfoReal::calculate_motor_velocities()
 {
-    switch(JointControlled)
+    if (MoveMode == MovementMode::Joint)
+    {
+
+    }
+    else if (MoveMode == MovementMode::Cartesian)
     {
 
     }

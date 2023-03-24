@@ -106,7 +106,7 @@ void UpdateGraph()
   points.color.b = 1.0f;
   points.color.a = 1.0f;
 
-  line_strip.color.r = 1.0f;
+  line_strip.color.g = 1.0f;
   line_strip.color.a = 1.0f;
 
   Vector3 temp_pos[5] = { Vector3(), arm.P1, arm.P2, arm.P3, arm.P4 };
