@@ -1,0 +1,5 @@
+float64[5] angles
+float64[5] commands
+---
+float64[5] velocities
+bool singularMatrix

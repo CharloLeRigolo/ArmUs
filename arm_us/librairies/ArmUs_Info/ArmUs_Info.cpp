@@ -126,6 +126,11 @@ void Vector3f::set(float xx, float yy, float zz)
     z = zz;
 }
 
+ArmUsInfo::ArmUsInfo(std::function<bool()> call_inv_kin_calc_server) :
+mf_call_inv_kin_calc_server(call_inv_kin_calc_server)
+{
+
+}
 
 void ArmUsInfo::calculate_joint_angles()
 {
@@ -142,6 +147,12 @@ float ArmUsInfo::convert_motor_pos_to_deg(float current_pos, float min_input, fl
     return ((current_pos / (max_input - min_input)) * (max_val - min_val)) + min_val;
 }
 
+ArmUsInfoSimul::ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_server) :
+ArmUsInfo(call_inv_kin_calc_server)
+{
+
+}
+
 void ArmUsInfoSimul::calculate_motor_velocities()
 {
     if (MoveMode == MovementMode::Joint)
@@ -153,8 +164,21 @@ void ArmUsInfoSimul::calculate_motor_velocities()
     }
     else if (MoveMode == MovementMode::Cartesian)
     {
-
+        if (!mf_call_inv_kin_calc_server)
+        {
+            ROS_WARN("Error calling server");
+        }
+        else 
+        {
+            //MotorVelocities.print();
+        }
     }
+}
+
+ArmUsInfoReal::ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_server) :
+ArmUsInfo(call_inv_kin_calc_server)
+{
+
 }
 
 void ArmUsInfoReal::calculate_motor_velocities()

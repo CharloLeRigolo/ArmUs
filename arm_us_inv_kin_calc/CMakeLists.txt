@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(arm_us)
+project(arm_us_inv_kin_calc)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -8,10 +8,10 @@ project(arm_us)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
+  arm_us
   roscpp
   rospy
   std_msgs
-  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,18 +48,18 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  GuiFeedback.msg
-  GuiInfo.msg
-  GraphInfo.msg
-)
+# add_message_files(
+#   FILES
+#   Message1.msg
+#   Message2.msg
+# )
 
 ## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  InverseKinematicCalc.srv
-)
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -69,10 +69,10 @@ add_service_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -104,10 +104,10 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-   #INCLUDE_DIRS include
-   #LIBRARIES arm_us
-   # CATKIN_DEPENDS roscpp rospy std_msgs
-   # DEPENDS system_lib
+#  INCLUDE_DIRS include
+#  LIBRARIES arm_us_inv_kin_calc
+#  CATKIN_DEPENDS arm_us roscpp rospy std_msgs
+#  DEPENDS system_lib
 )
 
 ###########
@@ -117,17 +117,13 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
+# include
   ${catkin_INCLUDE_DIRS}
 )
 
-add_subdirectory(librairies/ArmUs)
-add_subdirectory(librairies/ArmUs_Info)
-add_subdirectory(librairies/ArmUs_Controller)
-
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/GuiInfo.cpp
+#   src/${PROJECT_NAME}/arm_us_inv_kin_calc.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -138,7 +134,7 @@ add_subdirectory(librairies/ArmUs_Controller)
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(arm_us_node src/master_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/arm_us_inv_kin_calc_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -148,12 +144,12 @@ add_executable(arm_us_node src/master_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-add_dependencies(arm_us_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-# add_dependencies(master_node arm_us_generate_messages_cpp)
+# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(arm_us_node ${catkin_LIBRARIES} ArmUs ArmUs_Info ArmUs_Controller)
+# target_link_libraries(${PROJECT_NAME}_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -202,7 +198,7 @@ target_link_libraries(arm_us_node ${catkin_LIBRARIES} ArmUs ArmUs_Info ArmUs_Con
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_arm_us.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_arm_us_inv_kin_calc.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

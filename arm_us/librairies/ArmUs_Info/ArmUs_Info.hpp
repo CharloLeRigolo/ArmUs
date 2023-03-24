@@ -3,6 +3,7 @@
 #include "ros/ros.h"
 
 #include <vector>
+#include <functional>
 
 const float MIN_POS = 0; 
 const float MAX_POS = 4095;
@@ -45,6 +46,8 @@ class ArmUsInfo
 {
 public:
 
+    ArmUsInfo(std::function<bool()> call_inv_kin_calc_server);
+
     virtual void calculate_motor_velocities() = 0;
 
     void calculate_joint_angles();
@@ -66,14 +69,25 @@ public:
     int JointControlled = 1;
 
     float PositionDifference = 0.0f;
+
+protected:
+
+    std::function<bool()> mf_call_inv_kin_calc_server;
+
 };
 
 class ArmUsInfoSimul : public ArmUsInfo
 {
+public:
+    ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_server);
+
     void calculate_motor_velocities();
 };
 
 class ArmUsInfoReal : public ArmUsInfo
 {
+public:
+    ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_server);
+
     void calculate_motor_velocities();
 };
