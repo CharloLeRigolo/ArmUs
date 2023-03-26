@@ -61,7 +61,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "basic_shapes");
     ros::NodeHandle n;
     ros::Publisher pub_marker = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-    sub_shoulder_angles = n.subscribe("pos_wrist", 1, sub_shoulder_angles_cb);
+    sub_shoulder_angles = n.subscribe("pos_shoulder", 1, sub_shoulder_angles_cb);
     ros::Rate rate(10);
 
     markerObject p_shoulder_marker("arm_us", 0, visualization_msgs::Marker::SPHERE);
@@ -104,7 +104,7 @@ void sub_shoulder_angles_cb(const arm_us::accel_pos::ConstPtr &data)
 {
     q_shoulder.setW(data->w);
     q_shoulder.setX(data->x);
-    q_shoulder.setY(0.0 /*data->y*/);
+    q_shoulder.setY(data->y);
     q_shoulder.setZ(data->z);
 
 
