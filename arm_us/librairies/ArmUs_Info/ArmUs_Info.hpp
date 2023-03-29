@@ -50,7 +50,7 @@ class ArmUsInfo
 {
 public:
 
-    ArmUsInfo(ros::NodeHandle &nh);
+    ArmUsInfo(std::function<bool()> call_inv_kin_calc_service);
 
     virtual void calculate_motor_velocities() = 0;
 
@@ -78,16 +78,14 @@ public:
     float PositionDifference = 0.0f;
 
 protected:
-    ros::NodeHandle m_nh;
+    std::function<bool()> mf_call_inv_kin_calc_service;
 
-private:
-    ros::ServiceClient m_client_inv_kin_calc;
 };
 
 class ArmUsInfoSimul : public ArmUsInfo
 {
 public:
-    ArmUsInfoSimul(ros::NodeHandle &nh);
+    ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_service);
 
     void calculate_motor_velocities();
 };
@@ -95,7 +93,7 @@ public:
 class ArmUsInfoReal : public ArmUsInfo
 {
 public:
-    ArmUsInfoReal(ros::NodeHandle &nh);
+    ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_service);
 
     void calculate_motor_velocities();
 };

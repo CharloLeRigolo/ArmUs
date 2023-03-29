@@ -7,6 +7,8 @@
 #include "arm_us/GuiInfo.h"
 #include "arm_us/GraphInfo.h"
 
+#include "arm_us/InverseKinematicCalc.h"
+
 #include "../ArmUs_Info/ArmUs_Info.hpp"
 #include "../ArmUs_Controller/ArmUs_Controller.hpp"
 
@@ -44,6 +46,8 @@ private:
 
     void send_3d_graph_info();
 
+    bool call_inv_kin_calc_service();
+
     ros::NodeHandle m_nh;
 
     ros::Subscriber m_sub_input;
@@ -53,6 +57,8 @@ private:
     ros::Publisher m_pub_motor;
     ros::Publisher m_pub_gui;
     ros::Publisher m_pub_3d_graph;
+
+    ros::ServiceClient m_client_inv_kin_calc;
 
     Controller m_controller;
 
