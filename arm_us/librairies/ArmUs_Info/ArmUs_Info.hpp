@@ -46,7 +46,7 @@ class ArmUsInfo
 {
 public:
 
-    ArmUsInfo(std::function<bool()> call_inv_kin_calc_server);
+    ArmUsInfo(std::function<bool()> call_inv_kin_calc_service);
 
     virtual void calculate_motor_velocities() = 0;
 
@@ -72,14 +72,13 @@ public:
 
 protected:
 
-    std::function<bool()> mf_call_inv_kin_calc_server;
-
+    const std::function<bool()> mf_call_inv_kin_calc_service;
 };
 
 class ArmUsInfoSimul : public ArmUsInfo
 {
 public:
-    ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_server);
+    ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_service);
 
     void calculate_motor_velocities();
 };
@@ -87,7 +86,7 @@ public:
 class ArmUsInfoReal : public ArmUsInfo
 {
 public:
-    ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_server);
+    ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_service);
 
     void calculate_motor_velocities();
 };

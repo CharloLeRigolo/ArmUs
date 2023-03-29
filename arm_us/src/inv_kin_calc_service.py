@@ -1,4 +1,4 @@
-#!usr/bin/env python
+#!/usr/bin/env python
 
 import rospy
 import numpy as np
@@ -69,6 +69,9 @@ def build_jacbienne(q1, q2, q3, q4, q5):
     return j
 
 def handle_inv_kin_calc(req):
+
+    rospy.loginfo("Service called from python node")
+
     resp = InverseKinematicCalcResponse()
 
     command = np.array([0.0] * 5).T
@@ -104,10 +107,10 @@ def angle_deg(angle : float):
 def angle_rad(angle : float):
     return angle * PI / 180
 
-def inv_kin_calc_server():
-    rospy.init_node("inv_kin_calc_server")
-    inv_calc_service = rospy.Service('inverse_kinematic_calc_server', InverseKinematicCalc, handle_inv_kin_calc)
+def inv_kin_calc_service():
+    rospy.init_node("inv_kin_calc_service")
+    inv_calc_service = rospy.Service('inverse_kinematic_calc_service', InverseKinematicCalc, handle_inv_kin_calc)
     rospy.spin()
 
 if __name__ == "__main__":
-    inv_kin_calc_server()
+    inv_kin_calc_service()

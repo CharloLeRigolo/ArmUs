@@ -4,12 +4,14 @@ ArmUs::ArmUs(ControlMode controlMode) : m_controlMode(controlMode)
 {
     if (controlMode == ControlMode::Real)
     {
-        m_arm_us_info = std::make_unique<ArmUsInfoReal>(std::bind(&ArmUs::call_inv_kin_calc_server, this));
+        m_arm_us_info = std::make_unique<ArmUsInfoReal>(std::bind(&ArmUs::call_inv_kin_calc_service, this));
     }
     else if (controlMode == ControlMode::Simulation)
     {
-        m_arm_us_info = std::make_unique<ArmUsInfoSimul>(std::bind(&ArmUs::call_inv_kin_calc_server, this));
+        m_arm_us_info = std::make_unique<ArmUsInfoSimul>(std::bind(&ArmUs::call_inv_kin_calc_service, this));
     }
+
+    Initalize();
 }
 
 void ArmUs::Run()
@@ -54,7 +56,7 @@ void ArmUs::Initalize()
     m_pub_gui =           m_nh.advertise<arm_us::GuiInfo>("gui_info", 10);
     m_pub_3d_graph =      m_nh.advertise<arm_us::GraphInfo>("graph_info", 10);
 
-    m_client_inv_kin_calc = m_nh.serviceClient<arm_us::InverseKinematicCalc>("inverse_kinematic_calc_server");
+    m_client_inv_kin_calc = m_nh.serviceClient<arm_us::InverseKinematicCalc>("inverse_kinematic_calc_service");
 
     setParams();
 }
@@ -79,12 +81,12 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
         if (m_arm_us_info->MoveMode == MovementMode::Cartesian)
         {
             m_arm_us_info->MoveMode = MovementMode::Joint;
-            ROS_WARN("Joint");
+            ROS_INFO("Joint");
         }
         else 
         {
             m_arm_us_info->MoveMode = MovementMode::Cartesian;
-            ROS_WARN("Cartesian");
+            ROS_INFO("Cartesian");
         }
     }
     
@@ -99,7 +101,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
             {
                 m_arm_us_info->JointControlled = 1;
             }
-            ROS_WARN("Joint controlled : %d", m_arm_us_info->JointControlled);
+            ROS_INFO("Joint controlled : %d", m_arm_us_info->JointControlled);
         }
 
         if (data->buttons[BUTTON_2] == 1 && m_controller.Buttons.Button2 == 0)
@@ -109,7 +111,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
             {
                 m_arm_us_info->JointControlled = 5;
             }
-            ROS_WARN("Joint controlled : %d", m_arm_us_info->JointControlled);
+            ROS_INFO("Joint controlled : %d", m_arm_us_info->JointControlled);
         }
 
         // Set speed of joint
@@ -123,7 +125,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
         m_arm_us_info->CartesianCommand.y += m_controller.JoyLeft.Horizontal * MAX_VEL;
         m_arm_us_info->CartesianCommand.z += m_controller.JoyRight.Vertical * MAX_VEL;
 
-        // ROS_WARN("x = %f, y = %f, z = %f", m_arm_us_info->CartesianCommand.x, m_arm_us_info->CartesianCommand.y, m_arm_us_info->CartesianCommand.z);
+        // ROS_INFO("x = %f, y = %f, z = %f", m_arm_us_info->CartesianCommand.x, m_arm_us_info->CartesianCommand.y, m_arm_us_info->CartesianCommand.z);
     }
 
     m_controller.Buttons.set(data->buttons[BUTTON_1], data->buttons[BUTTON_2], data->buttons[BUTTON_3], data->buttons[BUTTON_4]);
@@ -191,7 +193,7 @@ void ArmUs::send_cmd_motor_stop()
     m_pub_motor.publish(msg);
     if (verbose)
     {
-        ROS_WARN("All motors stopped");
+        ROS_INFO("All motors stopped");
     }
 }
 
@@ -213,8 +215,10 @@ void ArmUs::send_3d_graph_info()
     m_pub_3d_graph.publish(msg);
 }
 
-bool ArmUs::call_inv_kin_calc_server()
+bool ArmUs::call_inv_kin_calc_service()
 {
+    ROS_INFO("Service function called");
+
     arm_us::InverseKinematicCalc srv;
 
     Vector5f angles = m_arm_us_info->JointAngles;
@@ -232,9 +236,13 @@ bool ArmUs::call_inv_kin_calc_server()
         }
         else 
         {
-            ROS_WARN("Singular Matrix");
+            ROS_INFO("Singular Matrix");
         }
         return true;
     }
-    else return false;
+    else 
+    {
+        ROS_ERROR("Failed to call service ");
+        return false;
+    }
 }

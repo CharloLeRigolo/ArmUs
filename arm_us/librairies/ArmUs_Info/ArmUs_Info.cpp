@@ -89,7 +89,7 @@ void Vector5f::add(float f, int m)
 
 void Vector5f::print()
 {
-    ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", m1, m2, m3, m4, m5);
+    ROS_INFO("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", m1, m2, m3, m4, m5);
 }
 
 float Vector5f::CheckLimits(float m)
@@ -126,8 +126,8 @@ void Vector3f::set(float xx, float yy, float zz)
     z = zz;
 }
 
-ArmUsInfo::ArmUsInfo(std::function<bool()> call_inv_kin_calc_server) :
-mf_call_inv_kin_calc_server(call_inv_kin_calc_server)
+ArmUsInfo::ArmUsInfo(std::function<bool()> call_inv_kin_calc_service) :
+mf_call_inv_kin_calc_service(call_inv_kin_calc_service)
 {
 
 }
@@ -147,8 +147,8 @@ float ArmUsInfo::convert_motor_pos_to_deg(float current_pos, float min_input, fl
     return ((current_pos / (max_input - min_input)) * (max_val - min_val)) + min_val;
 }
 
-ArmUsInfoSimul::ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_server) :
-ArmUsInfo(call_inv_kin_calc_server)
+ArmUsInfoSimul::ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_service) :
+ArmUsInfo(call_inv_kin_calc_service)
 {
 
 }
@@ -164,19 +164,24 @@ void ArmUsInfoSimul::calculate_motor_velocities()
     }
     else if (MoveMode == MovementMode::Cartesian)
     {
-        if (!mf_call_inv_kin_calc_server)
+        ROS_INFO("Calling function pointer to service");
+        mf_call_inv_kin_calc_service;
+        /*
+        bool service_success = static_cast<bool>(mf_call_inv_kin_calc_service);
+        if (service_success)
         {
-            ROS_WARN("Error calling server");
+            //ROS_INFO("Service called");
         }
         else 
         {
-            //MotorVelocities.print();
+            //ROS_INFO("Error calling service");
         }
+        */
     }
 }
 
-ArmUsInfoReal::ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_server) :
-ArmUsInfo(call_inv_kin_calc_server)
+ArmUsInfoReal::ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_service) :
+ArmUsInfo(call_inv_kin_calc_service)
 {
 
 }

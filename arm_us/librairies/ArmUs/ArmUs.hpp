@@ -46,7 +46,7 @@ private:
 
     void send_3d_graph_info();
 
-    bool call_inv_kin_calc_server();
+    bool call_inv_kin_calc_service();
 
     ros::NodeHandle m_nh;
 
