@@ -1,0 +1,61 @@
+The quantity of each part is indicated between parenthesis
+---------------
+Wrist
+---------------
+3d printed parts :
+- ARMUS-500-001 (x1)
+- ARMUS-500-003 (x1)
+
+- XL430-W250-T (x2)
+- HN11-I101 set (x1)
+- M2 x 0.4 x 6 Flat Head Countersunk Screw (x12)
+- M2.5 x 0.44 x 6 Flat Head Countersunk Screw (x12)
+
+---------------
+Forearm
+---------------
+3d printed parts :
+- ARMUS-500-004 (x1)
+
+---------------
+Elbow
+---------------
+- XM430-W350-T (x1)
+- D-Shaft 1.25x6 (x2)
+- Hub 0.25 (x1)
+- Bore Set Screw D hub (x1)
+- 24T 6mm Bore 32P Shaft Mount Pinion Gear (x1)
+- 32T 1/4” Bore 32P Shaft Mount Pinion Gear (x1)
+
+---------------
+Upper Arm
+---------------
+3d printed parts :
+- ARMUS-202-002 (x2)
+
+---------------
+Shoulder
+---------------
+3d printed parts :
+- ARMUS-REV4-002 (x2)
+- ARMUS-REV4-003 (x1)
+- ARMUS-REV4-004 (x1)
+- ARMUS-REV4-200 (x1)
+- ARMUS-REV4-301 (x2)
+- ARMUS-REV4-400 (x1)
+- ARMUS-REV4-500 (x2)
+
+Laser-cut parts :
+- ARMUS-REV4-001 cut in acrylic (x1)
+
+- XM430-W350-T (x2)
+- Bore Side Tapped Pillow Block 1.25 (x12)
+- Bore Set Screw D hub (x4)
+- Hub 0.25 (x1)
+- Hnut 0.2500-20-D-N (x1)
+- Hbolt 0.2500-20x4.5x0.75-N
+- 6" Aluminum Channel (x2)
+- Flat Triple Channel Bracket (x2)
+- 90 Degree Single Angle Channel Bracket (x4)
+- D-Shaft 1.25x6 (x2)
+- D-Shaft 1.25x8 (x1)
