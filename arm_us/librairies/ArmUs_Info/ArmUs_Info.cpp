@@ -126,11 +126,10 @@ void Vector3f::set(float xx, float yy, float zz)
     z = zz;
 }
 
-ArmUsInfo::ArmUsInfo(std::function<bool()> call_inv_kin_calc_service) :
-mf_call_inv_kin_calc_service(call_inv_kin_calc_service)
+ArmUsInfo::ArmUsInfo(ros::NodeHandle &nh) : m_nh(nh) 
 {
-
-}
+    m_client_inv_kin_calc = m_nh.serviceClient<arm_us::InverseKinematicCalc>("inverse_kinematic_calc_service");
+};
 
 void ArmUsInfo::calculate_joint_angles()
 {
@@ -147,8 +146,8 @@ float ArmUsInfo::convert_motor_pos_to_deg(float current_pos, float min_input, fl
     return ((current_pos / (max_input - min_input)) * (max_val - min_val)) + min_val;
 }
 
-ArmUsInfoSimul::ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_service) :
-ArmUsInfo(call_inv_kin_calc_service)
+ArmUsInfoSimul::ArmUsInfoSimul(ros::NodeHandle &nh) :
+ArmUsInfo(nh)
 {
 
 }
@@ -165,7 +164,7 @@ void ArmUsInfoSimul::calculate_motor_velocities()
     else if (MoveMode == MovementMode::Cartesian)
     {
         ROS_INFO("Calling function pointer to service");
-        mf_call_inv_kin_calc_service;
+        call_inv_kin_calc_service;
         /*
         bool service_success = static_cast<bool>(mf_call_inv_kin_calc_service);
         if (service_success)
@@ -180,8 +179,8 @@ void ArmUsInfoSimul::calculate_motor_velocities()
     }
 }
 
-ArmUsInfoReal::ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_service) :
-ArmUsInfo(call_inv_kin_calc_service)
+ArmUsInfoReal::ArmUsInfoReal(ros::NodeHandle &nh) :
+ArmUsInfo(nh)
 {
 
 }
@@ -197,3 +196,35 @@ void ArmUsInfoReal::calculate_motor_velocities()
 
     }
 };
+
+bool ArmUsInfo::call_inv_kin_calc_service()
+{
+    ROS_INFO("Service function called");
+
+    arm_us::InverseKinematicCalc srv;
+
+    Vector5f angles = JointAngles;
+    srv.request.angles =  { angles.m1, angles.m2, angles.m3, angles.m4, angles.m5 };
+
+    srv.request.commands[0] = CartesianCommand.x;
+    srv.request.commands[1] = CartesianCommand.y;
+    srv.request.commands[2] = CartesianCommand.z;
+
+    if (m_client_inv_kin_calc.call(srv))
+    {
+        if (srv.response.singularMatrix == false)
+        {
+            MotorPositions.set(srv.response.velocities[0], srv.response.velocities[1], srv.response.velocities[2], srv.response.velocities[3], srv.response.velocities[4]);
+        }
+        else 
+        {
+            ROS_INFO("Singular Matrix");
+        }
+        return true;
+    }
+    else 
+    {
+        ROS_ERROR("Failed to call service ");
+        return false;
+    }
+}

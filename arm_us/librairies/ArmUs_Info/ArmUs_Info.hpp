@@ -5,6 +5,10 @@
 #include <vector>
 #include <functional>
 
+#include "arm_us/InverseKinematicCalc.h"
+
+typedef bool (*func_inv_kin_calc_service_t)();
+
 const float MIN_POS = 0; 
 const float MAX_POS = 4095;
 
@@ -46,13 +50,16 @@ class ArmUsInfo
 {
 public:
 
-    ArmUsInfo(std::function<bool()> call_inv_kin_calc_service);
+    ArmUsInfo(ros::NodeHandle &nh);
 
     virtual void calculate_motor_velocities() = 0;
 
     void calculate_joint_angles();
 
     float convert_motor_pos_to_deg(float current_pos, float min_input = 0, float max_input = 4095, float min_val = 0, float max_val = 360);
+
+    bool call_inv_kin_calc_service();
+
 
     float JointCommand;
     Vector3f CartesianCommand;
@@ -71,14 +78,16 @@ public:
     float PositionDifference = 0.0f;
 
 protected:
+    ros::NodeHandle m_nh;
 
-    const std::function<bool()> mf_call_inv_kin_calc_service;
+private:
+    ros::ServiceClient m_client_inv_kin_calc;
 };
 
 class ArmUsInfoSimul : public ArmUsInfo
 {
 public:
-    ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_service);
+    ArmUsInfoSimul(ros::NodeHandle &nh);
 
     void calculate_motor_velocities();
 };
@@ -86,7 +95,7 @@ public:
 class ArmUsInfoReal : public ArmUsInfo
 {
 public:
-    ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_service);
+    ArmUsInfoReal(ros::NodeHandle &nh);
 
     void calculate_motor_velocities();
 };

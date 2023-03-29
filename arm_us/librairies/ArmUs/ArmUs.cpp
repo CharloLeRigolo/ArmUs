@@ -4,11 +4,11 @@ ArmUs::ArmUs(ControlMode controlMode) : m_controlMode(controlMode)
 {
     if (controlMode == ControlMode::Real)
     {
-        m_arm_us_info = std::make_unique<ArmUsInfoReal>(std::bind(&ArmUs::call_inv_kin_calc_service, this));
+        m_arm_us_info = std::make_unique<ArmUsInfoReal>(m_nh);
     }
     else if (controlMode == ControlMode::Simulation)
     {
-        m_arm_us_info = std::make_unique<ArmUsInfoSimul>(std::bind(&ArmUs::call_inv_kin_calc_service, this));
+        m_arm_us_info = std::make_unique<ArmUsInfoSimul>(m_nh);
     }
 
     Initalize();
@@ -55,8 +55,6 @@ void ArmUs::Initalize()
     m_pub_motor =         m_nh.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
     m_pub_gui =           m_nh.advertise<arm_us::GuiInfo>("gui_info", 10);
     m_pub_3d_graph =      m_nh.advertise<arm_us::GraphInfo>("graph_info", 10);
-
-    m_client_inv_kin_calc = m_nh.serviceClient<arm_us::InverseKinematicCalc>("inverse_kinematic_calc_service");
 
     setParams();
 }
@@ -213,36 +211,4 @@ void ArmUs::send_3d_graph_info()
     arm_us::GraphInfo msg;
     msg.angle = m_arm_us_info->JointAngles.get();
     m_pub_3d_graph.publish(msg);
-}
-
-bool ArmUs::call_inv_kin_calc_service()
-{
-    ROS_INFO("Service function called");
-
-    arm_us::InverseKinematicCalc srv;
-
-    Vector5f angles = m_arm_us_info->JointAngles;
-    srv.request.angles =  { angles.m1, angles.m2, angles.m3, angles.m4, angles.m5 };
-
-    srv.request.commands[0] = m_arm_us_info->CartesianCommand.x;
-    srv.request.commands[1] = m_arm_us_info->CartesianCommand.y;
-    srv.request.commands[2] = m_arm_us_info->CartesianCommand.z;
-
-    if (m_client_inv_kin_calc.call(srv))
-    {
-        if (srv.response.singularMatrix == false)
-        {
-            m_arm_us_info->MotorPositions.set(srv.response.velocities[0], srv.response.velocities[1], srv.response.velocities[2], srv.response.velocities[3], srv.response.velocities[4]);
-        }
-        else 
-        {
-            ROS_INFO("Singular Matrix");
-        }
-        return true;
-    }
-    else 
-    {
-        ROS_ERROR("Failed to call service ");
-        return false;
-    }
 }
