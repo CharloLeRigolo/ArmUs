@@ -62,7 +62,7 @@ def build_jacbienne(q1, q2, q3, q4, q5):
     #rospy.logwarn("Z = %f, %f, %f, %f, %f", z_q1, z_q2, z_q3, z_q4, z_q5)
 
     # Create matrix
-    j = np.zeros((5, 5), dtype=float)
+    j = np.zeros((5, 3), dtype=float)
 
     j[0][0] = x_q1
     j[0][1] = x_q2
@@ -82,17 +82,17 @@ def build_jacbienne(q1, q2, q3, q4, q5):
     j[2][3] = z_q4
     j[2][4] = z_q5
 
-    j[3][0] = a_q1
-    j[3][1] = a_q2
-    j[3][2] = a_q3
-    j[3][3] = a_q4
-    j[3][4] = a_q5
+    #j[3][0] = a_q1
+    #j[3][1] = a_q2
+    #j[3][2] = a_q3
+    #j[3][3] = a_q4
+    #j[3][4] = a_q5
 
-    j[4][0] = b_q1
-    j[4][1] = b_q2
-    j[4][2] = b_q3
-    j[4][3] = b_q4
-    j[4][4] = b_q5
+    #j[4][0] = b_q1
+    #j[4][1] = b_q2
+    #j[4][2] = b_q3
+    #j[4][3] = b_q4
+    #j[4][4] = b_q5
 
     return j
 
@@ -114,8 +114,8 @@ def handle_inv_kin_calc(req):
         command[0] = req.commands[0]
         command[1] = req.commands[1]
         command[2] = req.commands[2]
-        command[3] = req.commands[3]
-        command[4] = req.commands[4]
+        #command[3] = req.commands[3]
+        #command[4] = req.commands[4]
 
         #rospy.logwarn("Angles = %f, %f, %f, %f, %f", q1, q2, q3, q4, q5)
         #rospy.logwarn("Commande = %f, %f, %f, %f, %f", command[0], command[1], command[2], command[3], command[4])
@@ -126,8 +126,8 @@ def handle_inv_kin_calc(req):
         rospy.logwarn(j[0])
         rospy.logwarn(j[1])
         rospy.logwarn(j[2])
-        rospy.logwarn(j[3])
-        rospy.logwarn(j[4])
+        #rospy.logwarn(j[3])
+        #rospy.logwarn(j[4])
         rospy.logwarn("Déterminant de la jacobienne = %f", det(j))
 
         if det(j) != 0:
