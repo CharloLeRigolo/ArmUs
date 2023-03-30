@@ -31,7 +31,9 @@ Elbow
 Upper Arm
 ---------------
 3d printed parts :
-- ARMUS-202-002 (x2)
+- ARMUS-203-001 (x1)
+- ARMUS-203-002 (x1)
+- ARMUS-203-003 (x1)
 
 ---------------
 Shoulder
