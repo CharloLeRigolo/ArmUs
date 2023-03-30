@@ -27,23 +27,23 @@ def build_jacbienne(q1, q2, q3, q4, q5):
     J4z : float = 0
 
     # Initialisation de la Jacobienne
-    x_q1 = -J1x*m.sin(q1) - J2x*m.sin(q1)*m.cos(q2) - J3x*(m.sin(q1)*m.cos(q2)*m.cos(q3) + m.sin(q3)*m.cos(q1)) + J3z*(-m.sin(q1)*m.sin(q3)*m.cos(q2) + m.cos(q1)*m.cos(q3)) - J4x*(-(-(-m.sin(q3)*m.sin(q5)*m.cos(q4) + m.cos(q3)*m.cos(q5))*m.cos(q2) + m.sin(q2)*m.sin(q4)*m.sin(q5))*m.sin(q1) + (m.sin(q3)*m.cos(q5) + m.sin(q5)*m.cos(q3)*m.cos(q4))*m.cos(q1)) + J4y*(-(-m.sin(q2)*m.cos(q4) + m.sin(q3)*m.sin(q4)*m.cos(q2))*m.sin(q1) + m.sin(q4)*m.cos(q1)*m.cos(q3)) - J4z*(-(-(m.sin(q3)*m.cos(q4)*m.cos(q5) + m.sin(q5)*m.cos(q3))*m.cos(q2) - m.sin(q2)*m.sin(q4)*m.cos(q5))*m.sin(q1) + (m.sin(q3)*m.sin(q5) - m.cos(q3)*m.cos(q4)*m.cos(q5))*m.cos(q1)) + (J1z + J2z)*m.cos(q1) - (-J2y - J3y)*m.sin(q1)*m.sin(q2) 
-    x_q2 = -J2x*m.sin(q2)*m.cos(q1) - J3x*m.sin(q2)*m.cos(q1)*m.cos(q3) - J3z*m.sin(q2)*m.sin(q3)*m.cos(q1) - J4x*(-(m.sin(q3)*m.sin(q5)*m.cos(q4) - m.cos(q3)*m.cos(q5))*m.sin(q2) + m.sin(q4)*m.sin(q5)*m.cos(q2))*m.cos(q1) + J4y*(-m.sin(q2)*m.sin(q3)*m.sin(q4) - m.cos(q2)*m.cos(q4))*m.cos(q1) - J4z*((m.sin(q3)*m.cos(q4)*m.cos(q5) + m.sin(q5)*m.cos(q3))*m.sin(q2) - m.sin(q4)*m.cos(q2)*m.cos(q5))*m.cos(q1) + (-J2y - J3y)*m.cos(q1)*m.cos(q2) 
-    x_q3 = -J3x*(m.sin(q1)*m.cos(q3) + m.sin(q3)*m.cos(q1)*m.cos(q2)) + J3z*(-m.sin(q1)*m.sin(q3) + m.cos(q1)*m.cos(q2)*m.cos(q3)) - J4x*((m.sin(q3)*m.cos(q5) + m.sin(q5)*m.cos(q3)*m.cos(q4))*m.cos(q1)*m.cos(q2) + (-m.sin(q3)*m.sin(q5)*m.cos(q4) + m.cos(q3)*m.cos(q5))*m.sin(q1)) + J4y*(-m.sin(q1)*m.sin(q3)*m.sin(q4) + m.sin(q4)*m.cos(q1)*m.cos(q2)*m.cos(q3)) - J4z*(-(-m.sin(q3)*m.sin(q5) + m.cos(q3)*m.cos(q4)*m.cos(q5))*m.cos(q1)*m.cos(q2) + (m.sin(q3)*m.cos(q4)*m.cos(q5) + m.sin(q5)*m.cos(q3))*m.sin(q1)) 
-    x_q4 = -J4x*((m.sin(q2)*m.sin(q5)*m.cos(q4) - m.sin(q3)*m.sin(q4)*m.sin(q5)*m.cos(q2))*m.cos(q1) - m.sin(q1)*m.sin(q4)*m.sin(q5)*m.cos(q3)) + J4y*((m.sin(q2)*m.sin(q4) + m.sin(q3)*m.cos(q2)*m.cos(q4))*m.cos(q1) + m.sin(q1)*m.cos(q3)*m.cos(q4)) - J4z*((-m.sin(q2)*m.cos(q4)*m.cos(q5) + m.sin(q3)*m.sin(q4)*m.cos(q2)*m.cos(q5))*m.cos(q1) + m.sin(q1)*m.sin(q4)*m.cos(q3)*m.cos(q5)) 
-    x_q5 = -J4x*(((m.sin(q3)*m.cos(q4)*m.cos(q5) + m.sin(q5)*m.cos(q3))*m.cos(q2) + m.sin(q2)*m.sin(q4)*m.cos(q5))*m.cos(q1) + (-m.sin(q3)*m.sin(q5) + m.cos(q3)*m.cos(q4)*m.cos(q5))*m.sin(q1)) - J4z*((-(-m.sin(q3)*m.sin(q5)*m.cos(q4) + m.cos(q3)*m.cos(q5))*m.cos(q2) + m.sin(q2)*m.sin(q4)*m.sin(q5))*m.cos(q1) + (m.sin(q3)*m.cos(q5) + m.sin(q5)*m.cos(q3)*m.cos(q4))*m.sin(q1)) 
+    x_q1 = -J1x*m.m.sin(q1) - J2x*m.m.sin(q1)*m.m.cos(q2) - J3x*(m.m.sin(q1)*m.m.cos(q2)*m.m.cos(q3) + m.m.sin(q3)*m.m.cos(q1)) + J3z*(-m.m.sin(q1)*m.m.sin(q3)*m.m.cos(q2) + m.m.cos(q1)*m.m.cos(q3)) - J4x*(-(-(-m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) + m.m.cos(q3)*m.m.cos(q5))*m.m.cos(q2) + m.m.sin(q2)*m.m.sin(q4)*m.m.sin(q5))*m.m.sin(q1) + (m.m.sin(q3)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3)*m.m.cos(q4))*m.m.cos(q1)) + J4y*(-(-m.m.sin(q2)*m.m.cos(q4) + m.m.sin(q3)*m.m.sin(q4)*m.m.cos(q2))*m.m.sin(q1) + m.m.sin(q4)*m.m.cos(q1)*m.m.cos(q3)) - J4z*(-(-(m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3))*m.m.cos(q2) - m.m.sin(q2)*m.m.sin(q4)*m.m.cos(q5))*m.m.sin(q1) + (m.m.sin(q3)*m.m.sin(q5) - m.m.cos(q3)*m.m.cos(q4)*m.m.cos(q5))*m.m.cos(q1)) + (J1z + J2z)*m.m.cos(q1) - (-J2y - J3y)*m.m.sin(q1)*m.m.sin(q2) 
+    x_q2 = -J2x*m.m.sin(q2)*m.m.cos(q1) - J3x*m.m.sin(q2)*m.m.cos(q1)*m.m.cos(q3) - J3z*m.m.sin(q2)*m.m.sin(q3)*m.m.cos(q1) - J4x*(-(m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) - m.m.cos(q3)*m.m.cos(q5))*m.m.sin(q2) + m.m.sin(q4)*m.m.sin(q5)*m.m.cos(q2))*m.m.cos(q1) + J4y*(-m.m.sin(q2)*m.m.sin(q3)*m.m.sin(q4) - m.m.cos(q2)*m.m.cos(q4))*m.m.cos(q1) - J4z*((m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3))*m.m.sin(q2) - m.m.sin(q4)*m.m.cos(q2)*m.m.cos(q5))*m.m.cos(q1) + (-J2y - J3y)*m.m.cos(q1)*m.m.cos(q2) 
+    x_q3 = -J3x*(m.m.sin(q1)*m.m.cos(q3) + m.m.sin(q3)*m.m.cos(q1)*m.m.cos(q2)) + J3z*(-m.m.sin(q1)*m.m.sin(q3) + m.m.cos(q1)*m.m.cos(q2)*m.m.cos(q3)) - J4x*((m.m.sin(q3)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3)*m.m.cos(q4))*m.m.cos(q1)*m.m.cos(q2) + (-m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) + m.m.cos(q3)*m.m.cos(q5))*m.m.sin(q1)) + J4y*(-m.m.sin(q1)*m.m.sin(q3)*m.m.sin(q4) + m.m.sin(q4)*m.m.cos(q1)*m.m.cos(q2)*m.m.cos(q3)) - J4z*(-(-m.m.sin(q3)*m.m.sin(q5) + m.m.cos(q3)*m.m.cos(q4)*m.m.cos(q5))*m.m.cos(q1)*m.m.cos(q2) + (m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3))*m.m.sin(q1)) 
+    x_q4 = -J4x*((m.m.sin(q2)*m.m.sin(q5)*m.m.cos(q4) - m.m.sin(q3)*m.m.sin(q4)*m.m.sin(q5)*m.m.cos(q2))*m.m.cos(q1) - m.m.sin(q1)*m.m.sin(q4)*m.m.sin(q5)*m.m.cos(q3)) + J4y*((m.m.sin(q2)*m.m.sin(q4) + m.m.sin(q3)*m.m.cos(q2)*m.m.cos(q4))*m.m.cos(q1) + m.m.sin(q1)*m.m.cos(q3)*m.m.cos(q4)) - J4z*((-m.m.sin(q2)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q3)*m.m.sin(q4)*m.m.cos(q2)*m.m.cos(q5))*m.m.cos(q1) + m.m.sin(q1)*m.m.sin(q4)*m.m.cos(q3)*m.m.cos(q5)) 
+    x_q5 = -J4x*(((m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3))*m.m.cos(q2) + m.m.sin(q2)*m.m.sin(q4)*m.m.cos(q5))*m.m.cos(q1) + (-m.m.sin(q3)*m.m.sin(q5) + m.m.cos(q3)*m.m.cos(q4)*m.m.cos(q5))*m.m.sin(q1)) - J4z*((-(-m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) + m.m.cos(q3)*m.m.cos(q5))*m.m.cos(q2) + m.m.sin(q2)*m.m.sin(q4)*m.m.sin(q5))*m.m.cos(q1) + (m.m.sin(q3)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3)*m.m.cos(q4))*m.m.sin(q1)) 
 
     y_q1 = 0 
-    y_q2 = J2x*m.cos(q2) + J3x*m.cos(q2)*m.cos(q3) + J3z*m.sin(q3)*m.cos(q2) + J4x*((-m.sin(q3)*m.sin(q5)*m.cos(q4) + m.cos(q3)*m.cos(q5))*m.cos(q2) - m.sin(q2)*m.sin(q4)*m.sin(q5)) + J4y*(-m.sin(q2)*m.cos(q4) + m.sin(q3)*m.sin(q4)*m.cos(q2)) - J4z*((-m.sin(q3)*m.cos(q4)*m.cos(q5) - m.sin(q5)*m.cos(q3))*m.cos(q2) - m.sin(q2)*m.sin(q4)*m.cos(q5)) - (J2y + J3y)*m.sin(q2) 
-    y_q3 = -J3x*m.sin(q2)*m.sin(q3) + J3z*m.sin(q2)*m.cos(q3) + J4x*(-m.sin(q3)*m.cos(q5) - m.sin(q5)*m.cos(q3)*m.cos(q4))*m.sin(q2) + J4y*m.sin(q2)*m.sin(q4)*m.cos(q3) - J4z*(m.sin(q3)*m.sin(q5) - m.cos(q3)*m.cos(q4)*m.cos(q5))*m.sin(q2) 
-    y_q4 = J4x*(m.sin(q2)*m.sin(q3)*m.sin(q4)*m.sin(q5) + m.sin(q5)*m.cos(q2)*m.cos(q4)) + J4y*(m.sin(q2)*m.sin(q3)*m.cos(q4) - m.sin(q4)*m.cos(q2)) - J4z*(m.sin(q2)*m.sin(q3)*m.sin(q4)*m.cos(q5) + m.cos(q2)*m.cos(q4)*m.cos(q5)) 
-    y_q5 = J4x*((-m.sin(q3)*m.cos(q4)*m.cos(q5) - m.sin(q5)*m.cos(q3))*m.sin(q2) + m.sin(q4)*m.cos(q2)*m.cos(q5)) - J4z*((m.sin(q3)*m.sin(q5)*m.cos(q4) - m.cos(q3)*m.cos(q5))*m.sin(q2) - m.sin(q4)*m.sin(q5)*m.cos(q2)) 
+    y_q2 = J2x*m.m.cos(q2) + J3x*m.m.cos(q2)*m.m.cos(q3) + J3z*m.m.sin(q3)*m.m.cos(q2) + J4x*((-m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) + m.m.cos(q3)*m.m.cos(q5))*m.m.cos(q2) - m.m.sin(q2)*m.m.sin(q4)*m.m.sin(q5)) + J4y*(-m.m.sin(q2)*m.m.cos(q4) + m.m.sin(q3)*m.m.sin(q4)*m.m.cos(q2)) - J4z*((-m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) - m.m.sin(q5)*m.m.cos(q3))*m.m.cos(q2) - m.m.sin(q2)*m.m.sin(q4)*m.m.cos(q5)) - (J2y + J3y)*m.m.sin(q2) 
+    y_q3 = -J3x*m.m.sin(q2)*m.m.sin(q3) + J3z*m.m.sin(q2)*m.m.cos(q3) + J4x*(-m.m.sin(q3)*m.m.cos(q5) - m.m.sin(q5)*m.m.cos(q3)*m.m.cos(q4))*m.m.sin(q2) + J4y*m.m.sin(q2)*m.m.sin(q4)*m.m.cos(q3) - J4z*(m.m.sin(q3)*m.m.sin(q5) - m.m.cos(q3)*m.m.cos(q4)*m.m.cos(q5))*m.m.sin(q2) 
+    y_q4 = J4x*(m.m.sin(q2)*m.m.sin(q3)*m.m.sin(q4)*m.m.sin(q5) + m.m.sin(q5)*m.m.cos(q2)*m.m.cos(q4)) + J4y*(m.m.sin(q2)*m.m.sin(q3)*m.m.cos(q4) - m.m.sin(q4)*m.m.cos(q2)) - J4z*(m.m.sin(q2)*m.m.sin(q3)*m.m.sin(q4)*m.m.cos(q5) + m.m.cos(q2)*m.m.cos(q4)*m.m.cos(q5)) 
+    y_q5 = J4x*((-m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) - m.m.sin(q5)*m.m.cos(q3))*m.m.sin(q2) + m.m.sin(q4)*m.m.cos(q2)*m.m.cos(q5)) - J4z*((m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) - m.m.cos(q3)*m.m.cos(q5))*m.m.sin(q2) - m.m.sin(q4)*m.m.sin(q5)*m.m.cos(q2)) 
 
-    z_q1 = -J1x*m.cos(q1) - J2x*m.cos(q1)*m.cos(q2) - J3x*(-m.sin(q1)*m.sin(q3) + m.cos(q1)*m.cos(q2)*m.cos(q3)) + J3z*(-m.sin(q1)*m.cos(q3) - m.sin(q3)*m.cos(q1)*m.cos(q2)) - J4x*(((-m.sin(q3)*m.sin(q5)*m.cos(q4) + m.cos(q3)*m.cos(q5))*m.cos(q2) - m.sin(q2)*m.sin(q4)*m.sin(q5))*m.cos(q1) - (m.sin(q3)*m.cos(q5) + m.sin(q5)*m.cos(q3)*m.cos(q4))*m.sin(q1)) + J4y*((m.sin(q2)*m.cos(q4) - m.sin(q3)*m.sin(q4)*m.cos(q2))*m.cos(q1) - m.sin(q1)*m.sin(q4)*m.cos(q3)) - J4z*(((m.sin(q3)*m.cos(q4)*m.cos(q5) + m.sin(q5)*m.cos(q3))*m.cos(q2) + m.sin(q2)*m.sin(q4)*m.cos(q5))*m.cos(q1) - (m.sin(q3)*m.sin(q5) - m.cos(q3)*m.cos(q4)*m.cos(q5))*m.sin(q1)) - (J1z + J2z)*m.sin(q1) + (J2y + J3y)*m.sin(q2)*m.cos(q1) 
-    z_q2 = J2x*m.sin(q1)*m.sin(q2) + J3x*m.sin(q1)*m.sin(q2)*m.cos(q3) + J3z*m.sin(q1)*m.sin(q2)*m.sin(q3) - J4x*((m.sin(q3)*m.sin(q5)*m.cos(q4) - m.cos(q3)*m.cos(q5))*m.sin(q2) - m.sin(q4)*m.sin(q5)*m.cos(q2))*m.sin(q1) + J4y*(m.sin(q2)*m.sin(q3)*m.sin(q4) + m.cos(q2)*m.cos(q4))*m.sin(q1) - J4z*(-(m.sin(q3)*m.cos(q4)*m.cos(q5) + m.sin(q5)*m.cos(q3))*m.sin(q2) + m.sin(q4)*m.cos(q2)*m.cos(q5))*m.sin(q1) + (J2y + J3y)*m.sin(q1)*m.cos(q2) 
-    z_q3 = -J3x*(-m.sin(q1)*m.sin(q3)*m.cos(q2) + m.cos(q1)*m.cos(q3)) + J3z*(-m.sin(q1)*m.cos(q2)*m.cos(q3) - m.sin(q3)*m.cos(q1)) - J4x*(-(m.sin(q3)*m.cos(q5) + m.sin(q5)*m.cos(q3)*m.cos(q4))*m.sin(q1)*m.cos(q2) + (-m.sin(q3)*m.sin(q5)*m.cos(q4) + m.cos(q3)*m.cos(q5))*m.cos(q1)) + J4y*(-m.sin(q1)*m.sin(q4)*m.cos(q2)*m.cos(q3) - m.sin(q3)*m.sin(q4)*m.cos(q1)) - J4z*((-m.sin(q3)*m.sin(q5) + m.cos(q3)*m.cos(q4)*m.cos(q5))*m.sin(q1)*m.cos(q2) + (m.sin(q3)*m.cos(q4)*m.cos(q5) + m.sin(q5)*m.cos(q3))*m.cos(q1)) 
-    z_q4 = -J4x*((-m.sin(q2)*m.sin(q5)*m.cos(q4) + m.sin(q3)*m.sin(q4)*m.sin(q5)*m.cos(q2))*m.sin(q1) - m.sin(q4)*m.sin(q5)*m.cos(q1)*m.cos(q3)) + J4y*((-m.sin(q2)*m.sin(q4) - m.sin(q3)*m.cos(q2)*m.cos(q4))*m.sin(q1) + m.cos(q1)*m.cos(q3)*m.cos(q4)) - J4z*((m.sin(q2)*m.cos(q4)*m.cos(q5) - m.sin(q3)*m.sin(q4)*m.cos(q2)*m.cos(q5))*m.sin(q1) + m.sin(q4)*m.cos(q1)*m.cos(q3)*m.cos(q5)) 
-    z_q5 = -J4x*((-(m.sin(q3)*m.cos(q4)*m.cos(q5) + m.sin(q5)*m.cos(q3))*m.cos(q2) - m.sin(q2)*m.sin(q4)*m.cos(q5))*m.sin(q1) + (-m.sin(q3)*m.sin(q5) + m.cos(q3)*m.cos(q4)*m.cos(q5))*m.cos(q1)) - J4z*(((-m.sin(q3)*m.sin(q5)*m.cos(q4) + m.cos(q3)*m.cos(q5))*m.cos(q2) - m.sin(q2)*m.sin(q4)*m.sin(q5))*m.sin(q1) + (m.sin(q3)*m.cos(q5) + m.sin(q5)*m.cos(q3)*m.cos(q4))*m.cos(q1)) 
+    z_q1 = -J1x*m.m.cos(q1) - J2x*m.m.cos(q1)*m.m.cos(q2) - J3x*(-m.m.sin(q1)*m.m.sin(q3) + m.m.cos(q1)*m.m.cos(q2)*m.m.cos(q3)) + J3z*(-m.m.sin(q1)*m.m.cos(q3) - m.m.sin(q3)*m.m.cos(q1)*m.m.cos(q2)) - J4x*(((-m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) + m.m.cos(q3)*m.m.cos(q5))*m.m.cos(q2) - m.m.sin(q2)*m.m.sin(q4)*m.m.sin(q5))*m.m.cos(q1) - (m.m.sin(q3)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3)*m.m.cos(q4))*m.m.sin(q1)) + J4y*((m.m.sin(q2)*m.m.cos(q4) - m.m.sin(q3)*m.m.sin(q4)*m.m.cos(q2))*m.m.cos(q1) - m.m.sin(q1)*m.m.sin(q4)*m.m.cos(q3)) - J4z*(((m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3))*m.m.cos(q2) + m.m.sin(q2)*m.m.sin(q4)*m.m.cos(q5))*m.m.cos(q1) - (m.m.sin(q3)*m.m.sin(q5) - m.m.cos(q3)*m.m.cos(q4)*m.m.cos(q5))*m.m.sin(q1)) - (J1z + J2z)*m.m.sin(q1) + (J2y + J3y)*m.m.sin(q2)*m.m.cos(q1) 
+    z_q2 = J2x*m.m.sin(q1)*m.m.sin(q2) + J3x*m.m.sin(q1)*m.m.sin(q2)*m.m.cos(q3) + J3z*m.m.sin(q1)*m.m.sin(q2)*m.m.sin(q3) - J4x*((m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) - m.m.cos(q3)*m.m.cos(q5))*m.m.sin(q2) - m.m.sin(q4)*m.m.sin(q5)*m.m.cos(q2))*m.m.sin(q1) + J4y*(m.m.sin(q2)*m.m.sin(q3)*m.m.sin(q4) + m.m.cos(q2)*m.m.cos(q4))*m.m.sin(q1) - J4z*(-(m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3))*m.m.sin(q2) + m.m.sin(q4)*m.m.cos(q2)*m.m.cos(q5))*m.m.sin(q1) + (J2y + J3y)*m.m.sin(q1)*m.m.cos(q2) 
+    z_q3 = -J3x*(-m.m.sin(q1)*m.m.sin(q3)*m.m.cos(q2) + m.m.cos(q1)*m.m.cos(q3)) + J3z*(-m.m.sin(q1)*m.m.cos(q2)*m.m.cos(q3) - m.m.sin(q3)*m.m.cos(q1)) - J4x*(-(m.m.sin(q3)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3)*m.m.cos(q4))*m.m.sin(q1)*m.m.cos(q2) + (-m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) + m.m.cos(q3)*m.m.cos(q5))*m.m.cos(q1)) + J4y*(-m.m.sin(q1)*m.m.sin(q4)*m.m.cos(q2)*m.m.cos(q3) - m.m.sin(q3)*m.m.sin(q4)*m.m.cos(q1)) - J4z*((-m.m.sin(q3)*m.m.sin(q5) + m.m.cos(q3)*m.m.cos(q4)*m.m.cos(q5))*m.m.sin(q1)*m.m.cos(q2) + (m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3))*m.m.cos(q1)) 
+    z_q4 = -J4x*((-m.m.sin(q2)*m.m.sin(q5)*m.m.cos(q4) + m.m.sin(q3)*m.m.sin(q4)*m.m.sin(q5)*m.m.cos(q2))*m.m.sin(q1) - m.m.sin(q4)*m.m.sin(q5)*m.m.cos(q1)*m.m.cos(q3)) + J4y*((-m.m.sin(q2)*m.m.sin(q4) - m.m.sin(q3)*m.m.cos(q2)*m.m.cos(q4))*m.m.sin(q1) + m.m.cos(q1)*m.m.cos(q3)*m.m.cos(q4)) - J4z*((m.m.sin(q2)*m.m.cos(q4)*m.m.cos(q5) - m.m.sin(q3)*m.m.sin(q4)*m.m.cos(q2)*m.m.cos(q5))*m.m.sin(q1) + m.m.sin(q4)*m.m.cos(q1)*m.m.cos(q3)*m.m.cos(q5)) 
+    z_q5 = -J4x*((-(m.m.sin(q3)*m.m.cos(q4)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3))*m.m.cos(q2) - m.m.sin(q2)*m.m.sin(q4)*m.m.cos(q5))*m.m.sin(q1) + (-m.m.sin(q3)*m.m.sin(q5) + m.m.cos(q3)*m.m.cos(q4)*m.m.cos(q5))*m.m.cos(q1)) - J4z*(((-m.m.sin(q3)*m.m.sin(q5)*m.m.cos(q4) + m.m.cos(q3)*m.m.cos(q5))*m.m.cos(q2) - m.m.sin(q2)*m.m.sin(q4)*m.m.sin(q5))*m.m.sin(q1) + (m.m.sin(q3)*m.m.cos(q5) + m.m.sin(q5)*m.m.cos(q3)*m.m.cos(q4))*m.m.cos(q1)) 
 
     a_q1 = 0
     a_q2 = 0
@@ -57,42 +57,52 @@ def build_jacbienne(q1, q2, q3, q4, q5):
     b_q4 = 0
     b_q5 = 0
 
+    x_q1 = -J1x*m.sin(q1) - J2x*m.sin(q1)*m.cos(q2) - J3x*(m.sin(q1)*m.cos(q2)*m.cos(q3) + m.sin(q3)*m.cos(q1)) + J3z*(-m.sin(q1)*m.sin(q3)*m.cos(q2) + m.cos(q1)*m.cos(q3)) - J4x*(m.sin(q1)*m.cos(q2)*m.cos(q3 + q4) + m.sin(q3 + q4)*m.cos(q1)) + J4y*m.sin(q1)*m.sin(q2) + J4z*(-m.sin(q1)*m.sin(q3 + q4)*m.cos(q2) + m.cos(q1)*m.cos(q3 + q4)) + (J1z + J2z)*m.cos(q1) - (-J2y - J3y)*m.sin(q1)*m.sin(q2) 
+    x_q2 = -J2x*m.sin(q2)*m.cos(q1) - J3x*m.sin(q2)*m.cos(q1)*m.cos(q3) - J3z*m.sin(q2)*m.sin(q3)*m.cos(q1) - J4x*m.sin(q2)*m.cos(q1)*m.cos(q3 + q4) - J4y*m.cos(q1)*m.cos(q2) - J4z*m.sin(q2)*m.sin(q3 + q4)*m.cos(q1) + (-J2y - J3y)*m.cos(q1)*m.cos(q2) 
+    x_q3 = -J3x*(m.sin(q1)*m.cos(q3) + m.sin(q3)*m.cos(q1)*m.cos(q2)) + J3z*(-m.sin(q1)*m.sin(q3) + m.cos(q1)*m.cos(q2)*m.cos(q3)) - J4x*(m.sin(q1)*m.cos(q3 + q4) + m.sin(q3 + q4)*m.cos(q1)*m.cos(q2)) + J4z*(-m.sin(q1)*m.sin(q3 + q4) + m.cos(q1)*m.cos(q2)*m.cos(q3 + q4)) 
+    x_q4 = -J4x*(m.sin(q1)*m.cos(q3 + q4) + m.sin(q3 + q4)*m.cos(q1)*m.cos(q2)) + J4z*(-m.sin(q1)*m.sin(q3 + q4) + m.cos(q1)*m.cos(q2)*m.cos(q3 + q4)) 
+
+    y_q1 = 0 
+    y_q2 = J2x*m.cos(q2) + J3x*m.cos(q2)*m.cos(q3) + J3z*m.sin(q3)*m.cos(q2) + J4x*m.cos(q2)*m.cos(q3 + q4) - J4y*m.sin(q2) + J4z*m.sin(q3 + q4)*m.cos(q2) - (J2y + J3y)*m.sin(q2) 
+    y_q3 = -J3x*m.sin(q2)*m.sin(q3) + J3z*m.sin(q2)*m.cos(q3) - J4x*m.sin(q2)*m.sin(q3 + q4) + J4z*m.sin(q2)*m.cos(q3 + q4) 
+    y_q4 = -J4x*m.sin(q2)*m.sin(q3 + q4) + J4z*m.sin(q2)*m.cos(q3 + q4) 
+
+    z_q1 = -J1x*m.cos(q1) - J2x*m.cos(q1)*m.cos(q2) - J3x*(-m.sin(q1)*m.sin(q3) + m.cos(q1)*m.cos(q2)*m.cos(q3)) + J3z*(-m.sin(q1)*m.cos(q3) - m.sin(q3)*m.cos(q1)*m.cos(q2)) - J4x*(-m.sin(q1)*m.sin(q3 + q4) + m.cos(q1)*m.cos(q2)*m.cos(q3 + q4)) + J4y*m.sin(q2)*m.cos(q1) + J4z*(-m.sin(q1)*m.cos(q3 + q4) - m.sin(q3 + q4)*m.cos(q1)*m.cos(q2)) - (J1z + J2z)*m.sin(q1) + (J2y + J3y)*m.sin(q2)*m.cos(q1) 
+    z_q2 = J2x*m.sin(q1)*m.sin(q2) + J3x*m.sin(q1)*m.sin(q2)*m.cos(q3) + J3z*m.sin(q1)*m.sin(q2)*m.sin(q3) + J4x*m.sin(q1)*m.sin(q2)*m.cos(q3 + q4) + J4y*m.sin(q1)*m.cos(q2) + J4z*m.sin(q1)*m.sin(q2)*m.sin(q3 + q4) + (J2y + J3y)*m.sin(q1)*m.cos(q2) 
+    z_q3 = -J3x*(-m.sin(q1)*m.sin(q3)*m.cos(q2) + m.cos(q1)*m.cos(q3)) + J3z*(-m.sin(q1)*m.cos(q2)*m.cos(q3) - m.sin(q3)*m.cos(q1)) - J4x*(-m.sin(q1)*m.sin(q3 + q4)*m.cos(q2) + m.cos(q1)*m.cos(q3 + q4)) + J4z*(-m.sin(q1)*m.cos(q2)*m.cos(q3 + q4) - m.sin(q3 + q4)*m.cos(q1)) 
+    z_q4 = -J4x*(-m.sin(q1)*m.sin(q3 + q4)*m.cos(q2) + m.cos(q1)*m.cos(q3 + q4)) + J4z*(-m.sin(q1)*m.cos(q2)*m.cos(q3 + q4) - m.sin(q3 + q4)*m.cos(q1)) 
+
+    a_q1 = ((-m.sin(q1)*m.sin(q3)*m.cos(q2) + m.cos(q1)*m.cos(q3))*m.sin(q4) + (m.sin(q1)*m.cos(q2)*m.cos(q3) + m.sin(q3)*m.cos(q1))*m.cos(q4))/m.sqrt(1 - ((m.sin(q1)*m.sin(q3) - m.cos(q1)*m.cos(q2)*m.cos(q3))*m.cos(q4) + (m.sin(q1)*m.cos(q3) + m.sin(q3)*m.cos(q1)*m.cos(q2))*m.sin(q4))**2) 
+    a_q2 = (-m.sin(q2)*m.sin(q3)*m.sin(q4)*m.cos(q1) + m.sin(q2)*m.cos(q1)*m.cos(q3)*m.cos(q4))/m.sqrt(1 - ((m.sin(q1)*m.sin(q3) - m.cos(q1)*m.cos(q2)*m.cos(q3))*m.cos(q4) + (m.sin(q1)*m.cos(q3) + m.sin(q3)*m.cos(q1)*m.cos(q2))*m.sin(q4))**2) 
+    a_q3 = ((-m.sin(q1)*m.sin(q3) + m.cos(q1)*m.cos(q2)*m.cos(q3))*m.sin(q4) + (m.sin(q1)*m.cos(q3) + m.sin(q3)*m.cos(q1)*m.cos(q2))*m.cos(q4))/m.sqrt(1 - ((m.sin(q1)*m.sin(q3) - m.cos(q1)*m.cos(q2)*m.cos(q3))*m.cos(q4) + (m.sin(q1)*m.cos(q3) + m.sin(q3)*m.cos(q1)*m.cos(q2))*m.sin(q4))**2) 
+    a_q4 = (-(m.sin(q1)*m.sin(q3) - m.cos(q1)*m.cos(q2)*m.cos(q3))*m.sin(q4) + (m.sin(q1)*m.cos(q3) + m.sin(q3)*m.cos(q1)*m.cos(q2))*m.cos(q4))/m.sqrt(1 - ((m.sin(q1)*m.sin(q3) - m.cos(q1)*m.cos(q2)*m.cos(q3))*m.cos(q4) + (m.sin(q1)*m.cos(q3) + m.sin(q3)*m.cos(q1)*m.cos(q2))*m.sin(q4))**2) 
+
     #rospy.logwarn("X = %f, %f, %f, %f, %f", x_q1, x_q2, x_q3, x_q4, x_q5)
     #rospy.logwarn("Y = %f, %f, %f, %f, %f", y_q1, y_q2, y_q3, y_q4, y_q5)
     #rospy.logwarn("Z = %f, %f, %f, %f, %f", z_q1, z_q2, z_q3, z_q4, z_q5)
 
     # Create matrix
-    j = np.zeros((5, 3), dtype=float)
+    j = np.zeros((4, 4), dtype=float)
 
     j[0][0] = x_q1
     j[0][1] = x_q2
     j[0][2] = x_q3
     j[0][3] = x_q4
-    j[0][4] = x_q5
 
     j[1][0] = y_q1
     j[1][1] = y_q2
     j[1][2] = y_q3
     j[1][3] = y_q4
-    j[1][4] = y_q5
 
     j[2][0] = z_q1
     j[2][1] = z_q2
     j[2][2] = z_q3
     j[2][3] = z_q4
-    j[2][4] = z_q5
 
-    #j[3][0] = a_q1
-    #j[3][1] = a_q2
-    #j[3][2] = a_q3
-    #j[3][3] = a_q4
-    #j[3][4] = a_q5
-
-    #j[4][0] = b_q1
-    #j[4][1] = b_q2
-    #j[4][2] = b_q3
-    #j[4][3] = b_q4
-    #j[4][4] = b_q5
+    j[3][0] = a_q1
+    j[3][1] = a_q2
+    j[3][2] = a_q3
+    j[3][3] = a_q4
 
     return j
 
@@ -100,7 +110,7 @@ def handle_inv_kin_calc(req):
 
     resp = InverseKinematicCalcResponse()
 
-    command = np.array([0.0] * 5).T
+    command = np.array([0.0] * 4).T
 
     try:
         # Angles initiaux
@@ -108,42 +118,38 @@ def handle_inv_kin_calc(req):
         q2 = angle_rad(req.angles[1])
         q3 = angle_rad(req.angles[2])
         q4 = angle_rad(req.angles[3])
-        q5 = angle_rad(req.angles[4])
 
         # Commande
         command[0] = req.commands[0]
         command[1] = req.commands[1]
         command[2] = req.commands[2]
-        #command[3] = req.commands[3]
-        #command[4] = req.commands[4]
 
         #rospy.logwarn("Angles = %f, %f, %f, %f, %f", q1, q2, q3, q4, q5)
         #rospy.logwarn("Commande = %f, %f, %f, %f, %f", command[0], command[1], command[2], command[3], command[4])
 
-        j = build_jacbienne(q1, q2, q3, q4, q5)
+        j = build_jacbienne(q1, q2, q3, q4)
 
         rospy.logwarn("Jacobienne :")   
         rospy.logwarn(j[0])
         rospy.logwarn(j[1])
         rospy.logwarn(j[2])
-        #rospy.logwarn(j[3])
-        #rospy.logwarn(j[4])
+        rospy.logwarn(j[3])
         rospy.logwarn("Déterminant de la jacobienne = %f", det(j))
 
         if det(j) != 0:
             resp.velocities = np.matmul(inv(j), command)
-            resp.singularMatrix = 0
+            resp.m.singularMatrix = 0
         else:
             rospy.logwarn("Can't create inverse matrix, jacobian determinant is %f", det(j))
             rospy.logwarn("Jog in joint to a less critical position")
-            resp.velocities = [0, 0, 0, 0, 0]
-            resp.singularMatrix = 1
+            resp.velocities = [0, 0, 0, 0]
+            resp.m.singularMatrix = 1
         
     except:
-        rospy.logwarn("Singular matrix : encountered a column of 0 (can't divide by 0)")
+        rospy.logwarn("m.singular matrix : encountered a column of 0 (can't divide by 0)")
         rospy.logwarn("Jog in joint to a less critical position")
-        resp.velocities = [0, 0, 0, 0, 0]
-        resp.singularMatrix = 1
+        resp.velocities = [0, 0, 0, 0]
+        resp.m.singularMatrix = 1
 
     return resp
 

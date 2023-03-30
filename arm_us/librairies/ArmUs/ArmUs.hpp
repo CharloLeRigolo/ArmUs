@@ -22,7 +22,7 @@ class ArmUs
 {
 public:
     
-    ArmUs(ControlMode controlMode);
+    ArmUs();
 
     void Run();
     

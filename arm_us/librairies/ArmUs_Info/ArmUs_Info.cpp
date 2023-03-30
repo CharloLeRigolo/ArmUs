@@ -189,7 +189,20 @@ void ArmUsInfoReal::calculate_motor_velocities()
 {
     if (MoveMode == MovementMode::Joint)
     {
-
+        if (JointControlled == 1)
+        {
+            MotorVelocities.m1 = JointCommand;
+            MotorVelocities.m2 = JointCommand;
+        }
+        else if (JointControlled)
+        {
+            MotorVelocities.m1 = JointCommand;
+            MotorVelocities.m2 = JointCommand;
+        }
+        else
+        {
+            MotorVelocities.set(JointCommand, JointControlled);
+        }
     }
     else if (MoveMode == MovementMode::Cartesian)
     {

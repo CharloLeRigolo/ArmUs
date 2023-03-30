@@ -1,17 +1,17 @@
 #include "ArmUs.hpp"
 
-ArmUs::ArmUs(ControlMode controlMode) : m_controlMode(controlMode)
+ArmUs::ArmUs()
 {
-    if (controlMode == ControlMode::Real)
+    Initalize();
+
+    if (m_controlMode == ControlMode::Real)
     {
         m_arm_us_info = std::make_unique<ArmUsInfoReal>(std::bind(&ArmUs::call_inv_kin_calc_service, this));
     }
-    else if (controlMode == ControlMode::Simulation)
+    else if (m_controlMode == ControlMode::Simulation)
     {
         m_arm_us_info = std::make_unique<ArmUsInfoSimul>(std::bind(&ArmUs::call_inv_kin_calc_service, this));
     }
-
-    Initalize();
 }
 
 void ArmUs::Run()
@@ -154,7 +154,35 @@ void ArmUs::sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &d
 }
 
 void ArmUs::setParams()
-{   
+{
+    int controlMode = 100;
+    m_nh.getParam("/master_node/control_mode", controlMode);
+
+    switch (controlMode)
+    {
+        // Real
+        case 0:
+        {
+            m_controlMode = ControlMode::Real;
+            ROS_INFO("Started master node in real control mode");
+            break;
+        }
+        // Simulation
+        case 1:
+        {
+            m_controlMode = ControlMode::Simulation;
+            ROS_INFO("Started master node in simulation control mode");
+            break;
+        }
+        // Default
+        default:
+        {
+            m_controlMode = ControlMode::Real;
+            ROS_ERROR("Control mode parameter not read from launch file");
+            break;
+        }
+    }
+
     m_nh.getParam("/master_node/left_joy_hori", LEFT_JOY_HORI);
     m_nh.getParam("/master_node/left_joy_vert", LEFT_JOY_VERT);
     
@@ -222,7 +250,7 @@ bool ArmUs::call_inv_kin_calc_service()
     arm_us::InverseKinematicCalc srv;
 
     Vector5f angles = m_arm_us_info->JointAngles;
-    srv.request.angles =  { angles.m1, angles.m2, angles.m3, angles.m4, angles.m5 };
+    srv.request.angles =  { angles.m1, angles.m2, angles.m3, angles.m4 };
 
     srv.request.commands[0] = m_arm_us_info->CartesianCommand.x;
     srv.request.commands[1] = m_arm_us_info->CartesianCommand.y;
@@ -232,7 +260,7 @@ bool ArmUs::call_inv_kin_calc_service()
     {
         if (srv.response.singularMatrix == false)
         {
-            m_arm_us_info->MotorPositions.set(srv.response.velocities[0], srv.response.velocities[1], srv.response.velocities[2], srv.response.velocities[3], srv.response.velocities[4]);
+            m_arm_us_info->MotorPositions.set(srv.response.velocities[0], srv.response.velocities[1], srv.response.velocities[2], srv.response.velocities[3], 0);
         }
         else 
         {
