@@ -15,7 +15,7 @@ Wrist
 Forearm
 ---------------
 3d printed parts :
-- ARMUS-500-004 (x1)
+- ARMUS-400-000 (x1)
 
 ---------------
 Elbow
@@ -39,16 +39,16 @@ Upper Arm
 Shoulder
 ---------------
 3d printed parts :
-- ARMUS-REV4-002 (x2)
-- ARMUS-REV4-003 (x1)
-- ARMUS-REV4-004 (x1)
-- ARMUS-REV4-200 (x1)
-- ARMUS-REV4-301 (x2)
-- ARMUS-REV4-400 (x1)
-- ARMUS-REV4-500 (x2)
+- ARMUS-103-002 (x2)
+- ARMUS-103-003 (x1)
+- ARMUS-103-004 (x1)
+- ARMUS-103-200 (x1)
+- ARMUS-103-301 (x2)
+- ARMUS-103-400 (x1)
+- ARMUS-103-500 (x2)
 
 Laser-cut parts :
-- ARMUS-REV4-001 cut in acrylic (x1)
+- ARMUS-103-001 cut in acrylic (x1)
 
 - XM430-W350-T (x2)
 - Bore Side Tapped Pillow Block 1.25 (x12)
