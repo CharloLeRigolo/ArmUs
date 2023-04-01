@@ -12,19 +12,24 @@
 		</node>
 	</group>
 	
-	<!-- Master node -->
+	<!-- Verbose mode -->
 	<group if="$(eval arg('verbose') == 0)">
+		<!-- Master node -->
 		<node name="master_node" pkg="arm_us" type="arm_us_node">
 			<param name="control_mode" value="$(arg simulation)"/>
 			<rosparam file="$(find arm_us)/config/controller_config.yaml"/>
 		</node>
+		<!-- Service node to calculate inverse kinematics of arm -->
+		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py"/>
 	</group>
-
 	<group if="$(eval arg('verbose') == 1)">
+		<!-- Master node -->
 		<node name="master_node" pkg="arm_us" type="arm_us_node" output="screen">
 			<param name="control_mode" value="$(arg simulation)"/>
 			<rosparam file="$(find arm_us)/config/controller_config.yaml"/>
 		</node>
+		<!-- Service node to calculate inverse kinematics of arm -->
+		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py"/>
 	</group>
 
 	<!-- Communication with controller -->
@@ -36,10 +41,7 @@
 	<!-- Starting rviz with config -->
 	<node name="rviz" type="rviz" pkg="rviz" args="-d $(find arm_us)/config/rviz_config.rviz"/>
 	
-	<!-- Service node to calculate inverse kinematics of arm -->
-	<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py"/>
-
-	<!-- Start HMI node and start RQT -->
+	<!-- Start GUI node and RQT -->
   	<!-- <node name = "arm_us_dashboard" pkg = "rqt_gui" type = "rqt_gui" respawn = "false" output = "screen"/> -->
   	
 </launch>

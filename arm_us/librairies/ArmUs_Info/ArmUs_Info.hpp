@@ -24,6 +24,7 @@ struct Vector5f
     void set(float f, int m);
     std::vector<double> get();
     float get(int m);
+    void add(float f1, float f2, float f3, float f4, float f5);
     void add(float f, int m);
     void print();
     float CheckLimits(float m);
@@ -39,18 +40,18 @@ struct Vector5b
     bool m1, m2, m3, m4, m5;
 };
 
-struct Vector3f
+struct Vector4f
 {
-    void set(float xx, float yy, float zz);
+    void set(float xx, float yy, float zz, float aa);
 
-    float x, y, z;
+    float x, y, z, a;
 };
 
 class ArmUsInfo
 {
 public:
 
-    ArmUsInfo(std::function<bool()> call_inv_kin_calc_service);
+    ArmUsInfo(std::function<bool(Vector4f &velocities, int &singularMatrix)> call_inv_kin_calc_service);
 
     virtual void calculate_motor_velocities() = 0;
 
@@ -62,7 +63,7 @@ public:
 
 
     float JointCommand;
-    Vector3f CartesianCommand;
+    Vector4f CartesianCommand;
 
     Vector5f MotorPositions;
     Vector5f MotorVelocities;
@@ -78,14 +79,14 @@ public:
     float PositionDifference = 0.0f;
 
 protected:
-    std::function<bool()> mf_call_inv_kin_calc_service;
+    std::function<bool(Vector4f &velocities, int &singularMatrix)> mf_call_inv_kin_calc_service;
 
 };
 
 class ArmUsInfoSimul : public ArmUsInfo
 {
 public:
-    ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_service);
+    ArmUsInfoSimul(std::function<bool(Vector4f &velocities, int &singularMatrix)> call_inv_kin_calc_service);
 
     void calculate_motor_velocities();
 };
@@ -93,7 +94,7 @@ public:
 class ArmUsInfoReal : public ArmUsInfo
 {
 public:
-    ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_service);
+    ArmUsInfoReal(std::function<bool(Vector4f &velocities, int &singularMatrix)> call_inv_kin_calc_service);
 
     void calculate_motor_velocities();
 };

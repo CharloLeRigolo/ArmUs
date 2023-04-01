@@ -60,6 +60,15 @@ float Vector5f::get(int m)
     }
 }
 
+void Vector5f::add(float f1, float f2, float f3, float f4, float f5)
+{
+    m1 += f1;
+    m2 += f2;
+    m3 += f3;
+    m4 += f4;
+    m5 += f5;
+}
+
 void Vector5f::add(float f, int m)
 {
     switch(m)
@@ -119,14 +128,15 @@ std::vector<uint8_t> Vector5b::get()
     return { m1, m2, m3, m4, m5 };
 }
 
-void Vector3f::set(float xx, float yy, float zz)
+void Vector4f::set(float xx, float yy, float zz, float aa)
 {
     x = xx;
     y = yy;
     z = zz;
+    a = aa;
 }
 
-ArmUsInfo::ArmUsInfo(std::function<bool()> call_inv_kin_calc_service) : mf_call_inv_kin_calc_service(call_inv_kin_calc_service) 
+ArmUsInfo::ArmUsInfo(std::function<bool(Vector4f &velocities, int &singularMatrix)> call_inv_kin_calc_service) : mf_call_inv_kin_calc_service(call_inv_kin_calc_service) 
 {
 
 };
@@ -146,7 +156,7 @@ float ArmUsInfo::convert_motor_pos_to_deg(float current_pos, float min_input, fl
     return ((current_pos / (max_input - min_input)) * (max_val - min_val)) + min_val;
 }
 
-ArmUsInfoSimul::ArmUsInfoSimul(std::function<bool()> call_inv_kin_calc_service) :
+ArmUsInfoSimul::ArmUsInfoSimul(std::function<bool(Vector4f &velocities, int &singularMatrix)> call_inv_kin_calc_service) :
 ArmUsInfo(call_inv_kin_calc_service)
 {
 
@@ -163,23 +173,25 @@ void ArmUsInfoSimul::calculate_motor_velocities()
     }
     else if (MoveMode == MovementMode::Cartesian)
     {
-        ROS_INFO("Calling function pointer to service");
-        mf_call_inv_kin_calc_service();
-        /*
-        bool service_success = static_cast<bool>(mf_call_inv_kin_calc_service);
-        if (service_success)
+        Vector4f velocities = { 0.f, 0.f, 0.f, 0.f };
+        int singularMatrix = 0;
+        bool service_success = static_cast<bool>(mf_call_inv_kin_calc_service(velocities, singularMatrix));
+        if (service_success  == false)
         {
-            //ROS_INFO("Service called");
+            ROS_ERROR("Inverse kinematic calculation service not called");
         }
-        else 
-        {
-            //ROS_INFO("Error calling service");
-        }
-        */
+
+        // ROS_INFO("--------------------------------------------------");
+        // ROS_INFO("Velocities: %f, %f, %f, %f", velocities.x, velocities.y, velocities.z, velocities.a);
+        // ROS_INFO("Singular matrix: %d", singularMatrix);
+        // ROS_INFO("--------------------------------------------------");
+
+        MotorVelocities.set(velocities.x, velocities.y, velocities.z, velocities.a, 0);
+        MotorPositions.add(velocities.x, velocities.y, velocities.z, velocities.a, 0);    
     }
 }
 
-ArmUsInfoReal::ArmUsInfoReal(std::function<bool()> call_inv_kin_calc_service) :
+ArmUsInfoReal::ArmUsInfoReal(std::function<bool(Vector4f &velocities, int &singularMatrix)> call_inv_kin_calc_service) :
 ArmUsInfo(call_inv_kin_calc_service)
 {
 

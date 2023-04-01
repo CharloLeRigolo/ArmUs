@@ -46,7 +46,7 @@ private:
 
     void send_3d_graph_info();
 
-    bool call_inv_kin_calc_service();
+    bool call_inv_kin_calc_service(Vector4f &velocities, int &singularMatrix);
 
     ros::NodeHandle m_nh;
 

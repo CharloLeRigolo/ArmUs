@@ -3,14 +3,14 @@
 ArmUs::ArmUs()
 {
     Initalize();
-
+    
     if (m_controlMode == ControlMode::Real)
     {
-        m_arm_us_info = std::make_unique<ArmUsInfoReal>(std::bind(&ArmUs::call_inv_kin_calc_service, this));
+        m_arm_us_info = std::make_unique<ArmUsInfoReal>(std::bind(&ArmUs::call_inv_kin_calc_service, this, std::placeholders::_1, std::placeholders::_2));
     }
     else if (m_controlMode == ControlMode::Simulation)
     {
-        m_arm_us_info = std::make_unique<ArmUsInfoSimul>(std::bind(&ArmUs::call_inv_kin_calc_service, this));
+        m_arm_us_info = std::make_unique<ArmUsInfoSimul>(std::bind(&ArmUs::call_inv_kin_calc_service, this, std::placeholders::_1, std::placeholders::_2));
     }
 }
 
@@ -66,6 +66,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
     
     m_controller.JoyLeft.set(data->axes[LEFT_JOY_VERT], data->axes[LEFT_JOY_HORI]);
     m_controller.JoyRight.set(data->axes[RIGHT_JOY_VERT], data->axes[RIGHT_JOY_HORI]);
+    m_controller.Bumpers.set(data->buttons[LEFT_BUMP], data->buttons[RIGHT_BUMP]);
 
     /*
     m_controller.Pad.set(data->axes[PAD_VERT], data->axes[PAD_HORI]);
@@ -121,11 +122,13 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
     /********** Cartesian **********/
     else if (m_arm_us_info->MoveMode == MovementMode::Cartesian)
     {
-        m_arm_us_info->CartesianCommand.x += m_controller.JoyLeft.Vertical * MAX_VEL;
-        m_arm_us_info->CartesianCommand.y += m_controller.JoyLeft.Horizontal * MAX_VEL;
-        m_arm_us_info->CartesianCommand.z += m_controller.JoyRight.Vertical * MAX_VEL;
+        // Command is velocity of end effector wanted
+        m_arm_us_info->CartesianCommand.x = m_controller.JoyLeft.Vertical * MAX_VEL;
+        m_arm_us_info->CartesianCommand.y = -m_controller.JoyLeft.Horizontal * MAX_VEL;
+        m_arm_us_info->CartesianCommand.z = m_controller.JoyRight.Vertical * MAX_VEL;
+        m_arm_us_info->CartesianCommand.a = (-m_controller.Bumpers.Left + m_controller.Bumpers.Right) * MAX_VEL;
 
-        // ROS_INFO("x = %f, y = %f, z = %f", m_arm_us_info->CartesianCommand.x, m_arm_us_info->CartesianCommand.y, m_arm_us_info->CartesianCommand.z);
+        // ROS_INFO("x = %f, y = %f, z = %f, a = %f", m_arm_us_info->CartesianCommand.x, m_arm_us_info->CartesianCommand.y, m_arm_us_info->CartesianCommand.z, m_arm_us_info->CartesianCommand.a);
     }
 
     m_controller.Buttons.set(data->buttons[BUTTON_1], data->buttons[BUTTON_2], data->buttons[BUTTON_3], data->buttons[BUTTON_4]);
@@ -243,34 +246,27 @@ void ArmUs::send_3d_graph_info()
     m_pub_3d_graph.publish(msg);
 }
 
-bool ArmUs::call_inv_kin_calc_service()
+bool ArmUs::call_inv_kin_calc_service(Vector4f &velocities, int &singularMatrix)
 {
-    ROS_INFO("Service function called");
-
     arm_us::InverseKinematicCalc srv;
 
     Vector5f angles = m_arm_us_info->JointAngles;
-    srv.request.angles =  { angles.m1, angles.m2, angles.m3, angles.m4 };
+    Vector4f commands = m_arm_us_info->CartesianCommand;
 
-    srv.request.commands[0] = m_arm_us_info->CartesianCommand.x;
-    srv.request.commands[1] = m_arm_us_info->CartesianCommand.y;
-    srv.request.commands[2] = m_arm_us_info->CartesianCommand.z;
+    srv.request.angles = { angles.m1, angles.m2, angles.m3, angles.m4 };
+    srv.request.commands = { commands.x, commands.y, commands.z, commands.a };
 
     if (m_client_inv_kin_calc.call(srv))
     {
-        if (srv.response.singularMatrix == false)
-        {
-            m_arm_us_info->MotorPositions.set(srv.response.velocities[0], srv.response.velocities[1], srv.response.velocities[2], srv.response.velocities[3], 0);
-        }
-        else 
-        {
-            ROS_INFO("Singular Matrix");
-        }
+        velocities = { static_cast<float>(srv.response.velocities[0]), 
+                       static_cast<float>(srv.response.velocities[1]), 
+                       static_cast<float>(srv.response.velocities[2]), 
+                       static_cast<float>(srv.response.velocities[3]) };
+        singularMatrix = srv.response.singularMatrix;
         return true;
     }
     else 
     {
-        ROS_ERROR("Failed to call service ");
         return false;
     }
 }
