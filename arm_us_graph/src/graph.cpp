@@ -3,13 +3,13 @@
 #include <math.h>
 #include <tf2/LinearMath/Quaternion.h>
 
-#include "arm_us/GraphInfo.h"
+#include "arm_us_msg/GraphInfo.h"
 
 const int ROS_RATE = 50;
 
 void UpdateGraph();
 void CalculatePositions();
-void sub_angle_callback(const arm_us::GraphInfo::ConstPtr &msg);
+void sub_angle_callback(const arm_us_msg::GraphInfo::ConstPtr &msg);
 
 const float J1x = 0;
 const float J1y = 0;
@@ -72,7 +72,7 @@ int main( int argc, char** argv )
   ros::shutdown();
 }
 
-void sub_angle_callback(const arm_us::GraphInfo::ConstPtr &data)
+void sub_angle_callback(const arm_us_msg::GraphInfo::ConstPtr &data)
 {
   arm.q1 = data->angle[0];
   arm.q2 = data->angle[1];

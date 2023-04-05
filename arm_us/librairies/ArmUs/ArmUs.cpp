@@ -53,10 +53,10 @@ void ArmUs::Initalize()
     }
     
     m_pub_motor =         m_nh.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
-    m_pub_gui =           m_nh.advertise<arm_us::GuiInfo>("gui_info", 10);
-    m_pub_3d_graph =      m_nh.advertise<arm_us::GraphInfo>("graph_info", 10);
+    m_pub_gui =           m_nh.advertise<arm_us_msg::GuiInfo>("gui_info", 10);
+    m_pub_3d_graph =      m_nh.advertise<arm_us_msg::GraphInfo>("graph_info", 10);
 
-    m_client_inv_kin_calc = m_nh.serviceClient<arm_us::InverseKinematicCalc>("inverse_kinematic_calc_service");
+    m_client_inv_kin_calc = m_nh.serviceClient<arm_us_msg::InverseKinematicCalc>("inverse_kinematic_calc_service");
 
     setParams();
 }
@@ -134,7 +134,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
     m_controller.Buttons.set(data->buttons[BUTTON_1], data->buttons[BUTTON_2], data->buttons[BUTTON_3], data->buttons[BUTTON_4]);
 }
 
-void ArmUs::sub_gui_callback(const arm_us::GuiFeedback::ConstPtr &data)
+void ArmUs::sub_gui_callback(const arm_us_msg::GuiFeedback::ConstPtr &data)
 {
     if (data->joint)
     {
@@ -230,7 +230,7 @@ void ArmUs::send_cmd_motor_stop()
 
 void ArmUs::send_gui_info()
 {
-    arm_us::GuiInfo msg;
+    arm_us_msg::GuiInfo msg;
 
     msg.position = m_arm_us_info->MotorPositions.get();
     msg.velocity = m_arm_us_info->MotorVelocities.get();
@@ -241,14 +241,14 @@ void ArmUs::send_gui_info()
 
 void ArmUs::send_3d_graph_info()
 {
-    arm_us::GraphInfo msg;
+    arm_us_msg::GraphInfo msg;
     msg.angle = m_arm_us_info->JointAngles.get();
     m_pub_3d_graph.publish(msg);
 }
 
 bool ArmUs::call_inv_kin_calc_service(Vector4f &velocities, int &singularMatrix)
 {
-    arm_us::InverseKinematicCalc srv;
+    arm_us_msg::InverseKinematicCalc srv;
 
     Vector5f angles = m_arm_us_info->JointAngles;
     Vector4f commands = m_arm_us_info->CartesianCommand;

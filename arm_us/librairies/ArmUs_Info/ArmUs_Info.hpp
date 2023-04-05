@@ -5,7 +5,7 @@
 #include <vector>
 #include <functional>
 
-#include "arm_us/InverseKinematicCalc.h"
+// #include "arm_us_msg/InverseKinematicCalc.h"
 
 typedef bool (*func_inv_kin_calc_service_t)();
 

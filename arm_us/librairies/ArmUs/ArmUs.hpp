@@ -3,11 +3,11 @@
 #include "sensor_msgs/Joy.h"
 #include "sensor_msgs/JointState.h"
 
-#include "arm_us/GuiFeedback.h"
-#include "arm_us/GuiInfo.h"
-#include "arm_us/GraphInfo.h"
+#include "arm_us_msg/GuiFeedback.h"
+#include "arm_us_msg/GuiInfo.h"
+#include "arm_us_msg/GraphInfo.h"
 
-#include "arm_us/InverseKinematicCalc.h"
+#include "arm_us_msg/InverseKinematicCalc.h"
 
 #include "../ArmUs_Info/ArmUs_Info.hpp"
 #include "../ArmUs_Controller/ArmUs_Controller.hpp"
@@ -32,7 +32,7 @@ private:
 
     void subControllerCallback(const sensor_msgs::Joy::ConstPtr &data);
 
-    void sub_gui_callback(const arm_us::GuiFeedback::ConstPtr &data);
+    void sub_gui_callback(const arm_us_msg::GuiFeedback::ConstPtr &data);
 
     void sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &data);
 

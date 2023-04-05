@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  arm_us_msg
 )
 
 ## System dependencies are found with CMake's conventions
@@ -48,18 +49,18 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-add_message_files(
-  FILES
-  GuiFeedback.msg
-  GuiInfo.msg
-  GraphInfo.msg
-)
+# add_message_files(
+#   FILES
+#   GuiFeedback.msg
+#   GuiInfo.msg
+#   GraphInfo.msg
+# )
 
 ## Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  InverseKinematicCalc.srv
-)
+# add_service_files(
+#   FILES
+#   InverseKinematicCalc.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -69,10 +70,10 @@ add_service_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -106,7 +107,7 @@ generate_messages(
 catkin_package(
    #INCLUDE_DIRS include
    #LIBRARIES arm_us
-   # CATKIN_DEPENDS roscpp rospy std_msgs
+   CATKIN_DEPENDS roscpp rospy std_msgs arm_us_msg
    # DEPENDS system_lib
 )
 
