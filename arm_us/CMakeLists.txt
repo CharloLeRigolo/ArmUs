@@ -150,6 +150,7 @@ add_executable(arm_us_node src/master_node.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(arm_us_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(arm_us_node arm_us_generate_messages_cpp)
 
 # add_dependencies(master_node arm_us_generate_messages_cpp)
 
