@@ -12,7 +12,7 @@ typedef bool (*func_inv_kin_calc_service_t)();
 const float MIN_POS = 0; 
 const float MAX_POS = 4095;
 
-const float MAX_VEL = 4.8;
+const float MAX_VEL = 1;
 const float MIN_DIFF = -6.8;
 const float MAX_DIFF = 5;
 

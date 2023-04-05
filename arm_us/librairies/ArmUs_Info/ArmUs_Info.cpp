@@ -206,10 +206,10 @@ void ArmUsInfoReal::calculate_motor_velocities()
             MotorVelocities.m1 = JointCommand;
             MotorVelocities.m2 = JointCommand;
         }
-        else if (JointControlled)
+        else if (JointControlled == 2)
         {
             MotorVelocities.m1 = JointCommand;
-            MotorVelocities.m2 = JointCommand;
+            MotorVelocities.m2 = -JointCommand;
         }
         else
         {
