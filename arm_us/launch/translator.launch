@@ -1,0 +1,5 @@
+<launch>
+		<node name="motor_translator" pkg="arm_us" type="motor_translator" output="screen">
+			<rosparam file="$(find arm_us)/config/joint_limit.yaml"/>
+		</node>
+</launch>
