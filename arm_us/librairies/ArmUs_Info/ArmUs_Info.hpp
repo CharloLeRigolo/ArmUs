@@ -55,7 +55,7 @@ public:
 
     virtual void calculate_motor_velocities() = 0;
 
-    void calculate_joint_angles();
+    //void calculate_joint_angles();
 
     float convert_motor_pos_to_deg(float current_pos, float min_input = 0, float max_input = 4095, float min_val = 0, float max_val = 360);
 
@@ -65,8 +65,6 @@ public:
     float JointCommand;
     Vector4f CartesianCommand;
 
-    Vector5f MotorPositions;
-    Vector5f MotorVelocities;
     Vector5f JointAngles;
 
     Vector5b MotorConnections;

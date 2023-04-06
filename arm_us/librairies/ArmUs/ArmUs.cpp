@@ -49,10 +49,10 @@ void ArmUs::Initalize()
     m_sub_gui =           m_nh.subscribe("gui_arm_us_chatter", 1, &ArmUs::sub_gui_callback, this);
     if (m_controlMode == ControlMode::Real)
     {
-        m_sub_joint_states =  m_nh.subscribe("joint_states", 1, &ArmUs::sub_joint_states_callback, this);
+        m_sub_joint_states =  m_nh.subscribe("angle_joint_state", 1, &ArmUs::sub_joint_states_callback, this);
     }
     
-    m_pub_motor =         m_nh.advertise<sensor_msgs::JointState>("desired_joint_states", 10);
+    m_pub_motor =         m_nh.advertise<sensor_msgs::JointState>("raw_desired_joint_states", 10);
     m_pub_gui =           m_nh.advertise<arm_us_msg::GuiInfo>("gui_info", 10);
     m_pub_3d_graph =      m_nh.advertise<arm_us_msg::GraphInfo>("graph_info", 10);
 
@@ -150,10 +150,7 @@ void ArmUs::sub_gui_callback(const arm_us_msg::GuiFeedback::ConstPtr &data)
 
 void ArmUs::sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &data)
 {
-    m_arm_us_info->MotorPositions.set(data->position[0], data->position[1], data->position[2], data->position[3], data->position[4]);
-    m_arm_us_info->MotorVelocities.set(data->velocity[0], data->velocity[1], data->velocity[2], data->velocity[3], data->velocity[4]);
-
-    m_arm_us_info->PositionDifference = data->position[0] - data->position[1];
+    m_arm_us_info->JointAngles.set(data->position[0], data->position[1], data->position[2], data->position[3], data->position[4]);
 }
 
 void ArmUs::setParams()
