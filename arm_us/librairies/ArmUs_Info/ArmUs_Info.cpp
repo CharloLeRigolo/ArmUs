@@ -277,23 +277,32 @@ ArmUsInfo(call_inv_kin_calc_service)
 
 void ArmUsInfoReal::calculate_motor_velocities()
 {
+    // Joint mode
     if (MoveMode == MovementMode::Joint)
     {
         if (JointControlled == 1)
         {
             MotorVelocities.m1 = JointCommand;
-            MotorVelocities.m2 = JointCommand;
+            MotorVelocities.m2 = -JointCommand;
         }
         else if (JointControlled == 2)
         {
             MotorVelocities.m1 = JointCommand;
-            MotorVelocities.m2 = -JointCommand;
+            MotorVelocities.m2 = JointCommand;
         }
         else
         {
             MotorVelocities.set(JointCommand, JointControlled);
         }
+
+        // if (!MotorVelocities.checkIfNull())
+        // {
+        //     ROS_INFO("Joint commands :");
+        //     MotorVelocities.print();
+        // }
     }
+
+    // Cartesian mode
     else if (MoveMode == MovementMode::Cartesian)
     {
         Vector3f velocities = { 0.f, 0.f, 0.f };
