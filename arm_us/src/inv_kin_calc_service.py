@@ -25,6 +25,11 @@ def handle_inv_kin_calc(req):
     # Commande
     command = np.array([req.commands[0], req.commands[1], req.commands[2]]).T
 
+    if (command[0] == 0.0 and command[1] == 0.0 and command[2] == 0.0):
+        resp.velocities = [0.0, 0.0, 0.0]
+        resp.singularMatrix = 0
+        return resp
+
     rospy.loginfo("--------------------------------------------------")
     rospy.loginfo("Angles: %f, %f, %f", q1, q2, q3)
     rospy.loginfo("Commandes: {}".format(command))
@@ -88,13 +93,13 @@ def handle_inv_kin_calc(req):
         else:
             rospy.logerr("Can't create inverse matrix, jacobian determinant is %f", det(j))
             # rospy.logerr("Jog in joint to a less critical position")
-            resp.velocities = [0, 0, 0]
+            resp.velocities = [0.0, 0.0, 0.0]
             resp.singularMatrix = 1
         
     except:
         rospy.logerr("Singular matrix : encountered a column of 0 (can't divide by 0)")
         # rospy.logerr("Jog in joint to a less critical position")
-        resp.velocities = [0, 0, 0]
+        resp.velocities = [0.0, 0.0, 0.0]
         resp.singularMatrix = 1
 
     rospy.loginfo("-------------------------")

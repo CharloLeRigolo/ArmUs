@@ -14,8 +14,6 @@
 
 const int ROS_RATE = 50;
 
-bool verbose = true;
-
 enum class ControlMode { Real = 0, Simulation = 1 };
 
 class ArmUs

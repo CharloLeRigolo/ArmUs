@@ -140,6 +140,18 @@ void Vector5f::add(float f, int m)
     }
 }
 
+bool Vector5f::checkIfNull()
+{
+    if (m1 == 0.0 && m2 == 0.0 && m3 == 0.0 && m4 == 0.0 && m5 == 0.0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 /**
  * @brief Print all 5 floats on one line
  * 
@@ -223,13 +235,18 @@ ArmUsInfo(call_inv_kin_calc_service)
  */
 void ArmUsInfoSimul::calculate_motor_velocities()
 {
+    // Joint mode
     if (MoveMode == MovementMode::Joint)
     {
         MotorVelocities.set(JointCommand, JointControlled);
-        // MotorPositions.add(JointCommand, JointControlled);
-        // MotorVelocities.print();
-        // MotorPositions.print();
+        // if (!MotorVelocities.checkIfNull())
+        // {
+        //     ROS_INFO("Joint commands :");
+        //     MotorVelocities.print();
+        // }
     }
+    
+    // Cartesian mode
     else if (MoveMode == MovementMode::Cartesian)
     {
         Vector3f velocities = { 0.f, 0.f, 0.f };

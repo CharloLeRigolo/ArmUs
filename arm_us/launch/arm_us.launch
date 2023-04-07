@@ -23,6 +23,10 @@
 		</node>
 		<!-- Service node to calculate inverse kinematics of arm -->
 		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py"/>
+		<!-- Motor interface node for joint limits -->
+		<node name="motor_translator" pkg="arm_us" type="motor_translator">
+			<rosparam file="$(find arm_us)/config/joint_limit.yaml"/>
+		</node>
 	</group>
 	<group if="$(eval arg('verbose') == 1)">
 		<!-- Master node -->
@@ -31,7 +35,11 @@
 			<rosparam file="$(find arm_us)/config/controller_config.yaml"/>
 		</node>
 		<!-- Service node to calculate inverse kinematics of arm -->
-		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py"/>
+		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py" output="screen"/>
+		<!-- Motor interface node for joint limits -->
+		<node name="motor_translator" pkg="arm_us" type="motor_translator" output="screen">
+			<rosparam file="$(find arm_us)/config/joint_limit.yaml"/>
+		</node>
 	</group>
 
 	<!-- Communication with controller -->
