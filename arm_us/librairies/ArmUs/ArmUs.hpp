@@ -34,7 +34,7 @@ private:
 
     void sub_gui_callback(const arm_us_msg::GuiFeedback::ConstPtr &data);
 
-    void sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &data);
+    void sub_join_angles_callback(const sensor_msgs::JointState::ConstPtr &data);
 
     void setParams();
 
@@ -53,6 +53,7 @@ private:
     ros::Subscriber m_sub_input; // Controller
     ros::Subscriber m_sub_gui; // GUI
     // ros::Subscriber m_sub_joint_states;
+    ros::Subscriber m_sub_joint_angles;
 
     ros::Publisher m_pub_motor_interface; // Send motor velocities
     ros::Publisher m_pub_gui; // Send info to GUI

@@ -65,6 +65,7 @@ void ArmUs::Initalize()
     // {
     //     m_sub_joint_states =  m_nh.subscribe("angle_joint_state", 1, &ArmUs::sub_joint_states_callback, this);
     // }
+    m_sub_joint_angles = m_nh.subscribe("angles_joint_state", 1, &ArmUs::sub_join_angles_callback, this);
     
     m_pub_motor_interface =         m_nh.advertise<sensor_msgs::JointState>("raw_desired_joint_states", 10);
     m_pub_gui =           m_nh.advertise<arm_us_msg::GuiInfo>("gui_info", 10);
@@ -179,7 +180,7 @@ void ArmUs::sub_gui_callback(const arm_us_msg::GuiFeedback::ConstPtr &data)
     m_arm_us_info->JointControlled = data->joint_controlled;
 }
 
-void ArmUs::sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &data)
+void ArmUs::sub_join_angles_callback(const sensor_msgs::JointState::ConstPtr &data)
 {
     m_arm_us_info->JointAngles.set(data->position[0], data->position[1], data->position[2], data->position[3], data->position[4]);
 }
