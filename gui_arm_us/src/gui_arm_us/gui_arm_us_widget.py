@@ -1,4 +1,4 @@
-from __future__ import (print_function, absolute_import, division, unicode_literals)
+from __future__ import print_function, absolute_import, division, unicode_literals
 
 import os
 import rospkg
@@ -13,86 +13,98 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QShortcut, QSlider, QLCDNumber, QLabel, QPushButton, QFrame
 import rosservice
 
-from arm_us.msg import GuiInfo
+from sensor_msgs.msg import JointState
+
+ROS_PARAM_HEADING: str = "/motor_translator/j"
 
 
 class GuiArmUsWidget(QtWidgets.QWidget):
-
     def __init__(self):
-    
         super(GuiArmUsWidget, self).__init__()
 
-        ui_file = os.path.join(rospkg.RosPack().get_path('gui_arm_us'), 'resource', 'gui_arm_us.ui')
+        ui_file = os.path.join(
+            rospkg.RosPack().get_path("gui_arm_us"), "resource", "gui_arm_us.ui"
+        )
         loadUi(ui_file, self)
-        self.setObjectName('GuiArmUsWidget')
+        self.setObjectName("GuiArmUsWidget")
 
         self.launch: roslaunch.ROSLaunch = roslaunch.scriptapi.ROSLaunch()
         self.launch.start()
 
-        self.sub_gui_info = rospy.Subscriber("gui_info", GuiInfo, self.update_gui)
+        # Callbacks
+        self.sub_gui_info = rospy.Subscriber(
+            "angles_joint_state", JointState, self.update_gui
+        )
 
-        self.rate = rospy.Rate(10) # 10Hz
+        self.rate = rospy.Rate(10)  # 10Hz
 
-    def update_gui(self, data):
-        self.motor1_position.display(data.position[0])
-        self.motor2_position.display(data.position[1])
-        self.motor3_position.display(data.position[2])
-        self.motor4_position.display(data.position[3])
-        self.motor5_position.display(data.position[4])
+        self.calib_min_objects = (
+            self.calib_min_1,
+            self.calib_min_2,
+            self.calib_min_3,
+            self.calib_min_4,
+            self.calib_min_5,
+        )
+        self.calib_max_objects = (
+            self.calib_max_1,
+            self.calib_max_2,
+            self.calib_max_3,
+            self.calib_max_4,
+            self.calib_max_5,
+        )
 
-        self.motor1_velocity.display(data.velocity[0])
-        self.motor2_velocity.display(data.velocity[1])
-        self.motor3_velocity.display(data.velocity[2])
-        self.motor4_velocity.display(data.velocity[3])
-        self.motor5_velocity.display(data.velocity[4])
+        self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
 
-        if data.connected[0]:
-            self.motor1_connection.setText("Connected")
+        self.init_param(self.calib_min_objects, "/min_limit")
+        self.init_param(self.calib_max_objects, "/max_limit")
+
+        # Button callbacks
+        self.calib_min_b_1.released.connect(lambda: self.calib_btn_callback(1, "min"))
+        self.calib_max_b_1.released.connect(lambda: self.calib_btn_callback(1, "max"))
+
+        self.calib_min_b_2.released.connect(lambda: self.calib_btn_callback(2, "min"))
+        self.calib_max_b_2.released.connect(lambda: self.calib_btn_callback(2, "max"))
+
+        self.calib_min_b_3.released.connect(lambda: self.calib_btn_callback(3, "min"))
+        self.calib_max_b_3.released.connect(lambda: self.calib_btn_callback(3, "max"))
+
+        self.calib_min_b_4.released.connect(lambda: self.calib_btn_callback(4, "min"))
+        self.calib_max_b_4.released.connect(lambda: self.calib_btn_callback(4, "max"))
+
+        self.calib_min_b_5.released.connect(lambda: self.calib_btn_callback(5, "min"))
+        self.calib_max_b_5.released.connect(lambda: self.calib_btn_callback(5, "max"))
+
+    # Update loop for GUI, linked with motor controller's translated topic messages
+    def update_gui(self, data: JointState):
+        nothing = True
+
+    def calib_btn_callback(self, joint_index: int, limit_type: str):
+        if limit_type == "min":
+            rospy.set_param(
+                ROS_PARAM_HEADING + str(joint_index) + "/min_limit",
+                self.calib_min_objects[joint_index - 1].value(),
+            )
+            rospy.set_param(
+                ROS_PARAM_HEADING + str(joint_index) + "/pos_min_angle",
+                self.raw_angles[joint_index - 1],
+            )
+
+        elif limit_type == "max":
+            rospy.set_param(
+                ROS_PARAM_HEADING + str(joint_index) + "/max_limit",
+                self.calib_max_objects[joint_index - 1].value(),
+            )
+            rospy.set_param(
+                ROS_PARAM_HEADING + str(joint_index) + "/pos_max_angle",
+                self.raw_angles[joint_index - 1],
+            )
         else:
-            self.motor1_connection.setText("Not connected")
+            rospy.loginfo("Wrong limit type in calibration callback call")
 
-        if data.connected[1]:
-            self.motor2_connection.setText("Connected")
-        else:
-            self.motor2_connection.setText("Not connected")
+    def init_param(self, object_list, param_name: str):
+        index = 1
+        for qbutton in object_list:
+            qbutton.setValue(rospy.get_param(ROS_PARAM_HEADING + str(index) + param_name))
+            index += 1
 
-        if data.connected[2]:
-            self.motor3_connection.setText("Connected")
-        else:
-            self.motor3_connection.setText("Not connected")
-
-        if data.connected[3]:
-            self.motor4_connection.setText("Connected")
-        else:
-            self.motor4_connection.setText("Not connected")
-
-        if data.connected[4]:
-            self.motor5_connection.setText("Connected")
-        else:
-            self.motor5_connection.setText("Not connected")
-
-
-        if data.limit_reached[0]:
-            self.motor1_limit.setText("Connected")
-        else:
-            self.motor1_limit.setText("Not connected")
-
-        if data.limit_reached[1]:
-            self.motor2_limit.setText("Connected")
-        else:
-            self.motor2_limit.setText("Not connected")
-
-        if data.limit_reached[2]:
-            self.motor3_limit.setText("Connected")
-        else:
-            self.motor3_limit.setText("Not connected")
-
-        if data.limit_reached[3]:
-            self.motor4_limit.setText("Connected")
-        else:
-            self.motor4_limit.setText("Not connected")
-
-        if data.limit_reached[4]:
-            self.motor5_limit.setText("Connected")
-        else:
-            self.motor5_limit.setText("Not connected")
+    #TODO add topic for angle and current velocity from angle_joint_state and link raw motor pos 
