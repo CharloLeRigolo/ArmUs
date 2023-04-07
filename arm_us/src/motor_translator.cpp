@@ -94,8 +94,8 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         }
     }
 
-    // ROS_INFO("Command with joint limits :");
-    // ROS_INFO("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", cmd.velocity[0], cmd.velocity[1], cmd.velocity[2], cmd.velocity[3], cmd.velocity[4]);
+    // ROS_WARN("Command with joint limits :");
+    // ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", cmd.velocity[0], cmd.velocity[1], cmd.velocity[2], cmd.velocity[3], cmd.velocity[4]);
 
     if (g_control_mode == ControlMode::Simulation)
     {
@@ -104,8 +104,8 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         joint_positions[2] += cmd.velocity[2];
         joint_positions[3] += cmd.velocity[3];
         joint_positions[4] += cmd.velocity[4];
-        ROS_INFO("Joint positions with joint limits :");
-        ROS_INFO("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", joint_positions[0], joint_positions[1], joint_positions[2], joint_positions[3], joint_positions[4]);
+        ROS_WARN("Joint positions with joint limits :");
+        ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", joint_positions[0], joint_positions[1], joint_positions[2], joint_positions[3], joint_positions[4]);
     }
 
     pub_command.publish(cmd);
@@ -113,7 +113,7 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
 
 void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 {
-    ROS_INFO("State callback called");
+    ROS_WARN("State callback called");
 
     sensor_msgs::JointState angle_feedback;
 
@@ -145,7 +145,7 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
     for (auto i = 0, motor_index = 0; i < NB_JOINT; i++)
     {
         motor_index = motor_map[msg->name[i]];
-        // ROS_INFO("Motor index order: %d", motor_index);
+        // ROS_WARN("Motor index order: %d", motor_index);
         joint_angles[motor_index] = min_angles[motor_index] + ((msg->position[i] - pos_min_angles[motor_index]) * (max_angles[motor_index] - min_angles[motor_index]) / (pos_max_angles[motor_index] - pos_min_angles[motor_index]));
     }
 
@@ -158,8 +158,8 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
         // angle_feedback.effort[i] = 0.0;
     }
 
-    ROS_INFO("Joint angles with joint limits :");
-    ROS_INFO("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", angle_feedback.position[0], angle_feedback.position[1], angle_feedback.position[2], angle_feedback.position[3], angle_feedback.position[4]);
+    ROS_WARN("Joint angles with joint limits :");
+    ROS_WARN("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", angle_feedback.position[0], angle_feedback.position[1], angle_feedback.position[2], angle_feedback.position[3], angle_feedback.position[4]);
 
     std_msgs::Header head;
     head.stamp = ros::Time::now();
@@ -193,8 +193,8 @@ void simulateStateCallback()
         angle_feedback.position[i] = joint_angles[i];
     }
 
-    ROS_INFO("Joint angles with joint limits :");
-    ROS_INFO("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", angle_feedback.position[0], angle_feedback.position[1], angle_feedback.position[2], angle_feedback.position[3], angle_feedback.position[4]);
+    ROS_WARN("Joint angles with joint limits :");
+    ROS_WARN("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", angle_feedback.position[0], angle_feedback.position[1], angle_feedback.position[2], angle_feedback.position[3], angle_feedback.position[4]);
 
     pub_angles.publish(angle_feedback);
 }
@@ -210,14 +210,14 @@ void setParams(ros::NodeHandle n)
         case 0:
         {
             g_control_mode = ControlMode::Real;
-            ROS_INFO("Started interface node in real control mode");
+            ROS_WARN("Started interface node in real control mode");
             break;
         }
         // Simulation
         case 1:
         {
             g_control_mode = ControlMode::Simulation;
-            ROS_INFO("Started interface node in simulation control mode");
+            ROS_WARN("Started interface node in simulation control mode");
             break;
         }
         // Default
