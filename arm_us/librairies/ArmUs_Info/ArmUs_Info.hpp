@@ -24,9 +24,10 @@ struct Vector5f
     void add(float f1, float f2, float f3, float f4, float f5);
     void add(float f, int m);
     void print();
+    bool checkIfNull();
     // float CheckLimits(float m);
 
-    float m1, m2, m3, m4, m5;
+    float m1 = 0.0f, m2 = 0.0f, m3 = 0.0f, m4 = 0.0f, m5 = 0.0f;
 };
 
 /**
@@ -38,7 +39,7 @@ struct Vector5b
     void set(bool b1, bool b2, bool b3, bool b4, bool b5);
     std::vector<uint8_t> get();
 
-    bool m1, m2, m3, m4, m5;
+    bool m1 = false, m2 = false, m3 = false, m4 = false, m5 = false;
 };
 
 /**
@@ -49,7 +50,7 @@ struct Vector3f
 {
     void set(float xx, float yy, float zz);
 
-    float x, y, z;
+    float x = 0.0f, y = 0.0f, z = 0.0f;
 };
 
 /**
@@ -80,7 +81,7 @@ public:
     // Vector5b MotorConnections;
     // Vector5b MotorLimits;
 
-    MovementMode MoveMode = MovementMode::Cartesian;
+    MovementMode MoveMode = MovementMode::Joint;
     
     int JointControlled = 1;
 

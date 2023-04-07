@@ -246,6 +246,13 @@ void ArmUs::send_cmd_motor()
     sensor_msgs::JointState msg;
     msg.name = { "motor1", "motor2" , "motor3", "motor4", "motor5" };
     msg.velocity = m_arm_us_info->MotorVelocities.get();
+
+    // if (!m_arm_us_info->MotorVelocities.checkIfNull())
+    // {
+    //     ROS_INFO("Motor velocities sent to interface :");
+    //     m_arm_us_info->MotorVelocities.print();
+    // }
+
     m_pub_motor_interface.publish(msg);
 }
 
@@ -259,10 +266,7 @@ void ArmUs::send_cmd_motor_stop()
     msg.name = { "motor1", "motor2", "motor3", "motor4", "motor5" };
     msg.velocity = { 0.0, 0.0, 0.0, 0.0, 0.0 };
     m_pub_motor_interface.publish(msg);
-    if (verbose)
-    {
-        ROS_ERROR("All motors stopped");
-    }
+    ROS_ERROR("All motors stopped");
 }
 
 void ArmUs::send_gui_info()
