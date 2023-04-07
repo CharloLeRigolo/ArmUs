@@ -9,15 +9,15 @@ j2:
   max_limit: 180.0
   min_limit: -180.0
 
-  pos_max_angle: 4096.0
-  pos_min_angle: 0.0
+  pos_max_angle: -1.50 
+  pos_min_angle: -3.75
 
 j3:
   max_limit: 0.0
   min_limit: -90.0
 
-  pos_max_angle: -1.21 
-  pos_min_angle: 0.81
+  pos_max_angle: -1.92 
+  pos_min_angle: -3.75
 
 j4:
   max_limit: 720.0

@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
 #include <unordered_map>
+#include "std_msgs/Header.h"
 
 #define NB_JOINT 5
 const std::string NODE_NAME = "motor_translator";
@@ -11,6 +12,7 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg);
 ros::Publisher pub_command;
 ros::Publisher pub_angles;
 double joint_angles[NB_JOINT];
+bool flag_no_connection = 0;
 
 std::unordered_map<std::string, int> motor_map = {
     {"motor1", 0},
@@ -29,7 +31,7 @@ int main(int argc, char *argv[])
 
     ros::Subscriber sub_command = n.subscribe("raw_desired_joint_states", 1, commandCallback);
     ros::Subscriber sub_state = n.subscribe("joint_states", 1, stateCallback);
-    pub_command = n.advertise<sensor_msgs::JointState>("motor_topic", 1);
+    pub_command = n.advertise<sensor_msgs::JointState>("desired_joint_states", 1);
     pub_angles = n.advertise<sensor_msgs::JointState>("angles_joint_state", 1);
 
     while (ros::ok())
@@ -54,6 +56,13 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         cmd.velocity[i] = 0.0;
     }
 
+    //No limit set for differential
+    for (auto i = 0; i < 2; i++)
+    {
+        cmd.velocity[i] = msg->velocity[i];
+    }
+
+
     // Checking motor limits
     for (auto i = 2; i < NB_JOINT; i++)
     {
@@ -75,6 +84,17 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 {
     sensor_msgs::JointState angle_feedback;
 
+    if (msg->position.size() < NB_JOINT)
+    {
+        if (!flag_no_connection)
+        {
+            ROS_WARN("Lost connection to a motor, only %d motor detected", msg->position.size());
+            flag_no_connection = 1;
+        }
+        return;
+    }
+    flag_no_connection = 0;
+    
     double max_angles[NB_JOINT];
     double min_angles[NB_JOINT];
     double pos_max_angles[NB_JOINT];
@@ -88,19 +108,25 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
         ros::param::get("/" + NODE_NAME + "/j" + std::to_string(i + 1) + "/min_limit", min_angles[i]);
     }
 
-    angle_feedback = *msg;
     for (auto i = 0, motor_index = 0; i < NB_JOINT; i++)
     {
         motor_index = motor_map[msg->name[i]];
-        joint_angles[motor_index] = min_angles[motor_index] + ((msg->position[motor_index] - pos_min_angles[motor_index]) * (max_angles[motor_index] - min_angles[motor_index]) / (pos_max_angles[motor_index] - pos_min_angles[motor_index]));
+        // ROS_INFO("Motor index order: %d", motor_index);
+        joint_angles[motor_index] = min_angles[motor_index] + ((msg->position[i] - pos_min_angles[motor_index]) * (max_angles[motor_index] - min_angles[motor_index]) / (pos_max_angles[motor_index] - pos_min_angles[motor_index]));
     }
 
     angle_feedback.name = {"motor1", "motor2", "motor3", "motor4", "motor5"};
 
     for (auto i=0; i < NB_JOINT; i++)
     {
-        angle_feedback.position[i] = joint_angles[i];
+        angle_feedback.position.push_back(joint_angles[i]);
+        // angle_feedback.velocity[i] = 0.0;
+        // angle_feedback.effort[i] = 0.0;
     }
+
+    std_msgs::Header head;
+    head.stamp = ros::Time::now();
+    angle_feedback.header = head;
 
     pub_angles.publish(angle_feedback);
 }
