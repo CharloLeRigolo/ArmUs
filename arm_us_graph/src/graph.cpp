@@ -13,17 +13,17 @@ void sub_angle_callback(const arm_us_msg::GraphInfo::ConstPtr &msg);
 
 const float J1x = 0;
 const float J1y = 0;
-const float J1z = 1;
+const float J1z = 1.25;
 
-const float J2x = 1;
+const float J2x = 2.25;
 const float J2y = 0;
 const float J2z = 0;
 
-const float J3x = 1;
+const float J3x = 2.00;
 const float J3y = 0;
 const float J3z = 0;
 
-const float J4x = 1;
+const float J4x = 0.40;
 const float J4y = 0;
 const float J4z = 0;
 
@@ -74,8 +74,8 @@ int main( int argc, char** argv )
 
 void sub_angle_callback(const arm_us_msg::GraphInfo::ConstPtr &data)
 {
-  arm.q1 = data->angle[0];
-  arm.q2 = data->angle[1];
+  arm.q1 = data->angle[1];
+  arm.q2 = data->angle[0];
   arm.q3 = data->angle[2];
   arm.q4 = data->angle[3];
   arm.q5 = data->angle[4];

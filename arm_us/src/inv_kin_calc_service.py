@@ -37,17 +37,17 @@ def handle_inv_kin_calc(req):
     # Grandeurs physiques
     J1x : float = 0
     J1y : float = 0
-    J1z : float = 1
+    J1z : float = 1.25
 
-    J2x : float = 1
+    J2x : float = 2.25
     J2y : float = 0
     J2z : float = 0
     
-    J3x : float = 1
+    J3x : float = 2.00
     J3y : float = 0
     J3z : float = 0
     
-    J4x : float = 1
+    J4x : float = 0.40
     J4y : float = 0
     J4z : float = 0
 
