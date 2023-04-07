@@ -39,10 +39,7 @@ int main(int argc, char *argv[])
     setParams(n);
 
     ros::Subscriber sub_command = n.subscribe("raw_desired_joint_states", 1, commandCallback);
-    if (g_control_mode == ControlMode::Real)
-    {
-        ros::Subscriber sub_state = n.subscribe("joint_states", 1, stateCallback);
-    }
+    ros::Subscriber sub_state = n.subscribe("joint_states", 1, stateCallback);
 
     pub_command = n.advertise<sensor_msgs::JointState>("desired_joint_states", 1);
     pub_angles = n.advertise<sensor_msgs::JointState>("angles_joint_state", 1);
@@ -113,8 +110,6 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
 
 void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 {
-    ROS_WARN("State callback called");
-
     sensor_msgs::JointState angle_feedback;
 
     int msg_size = msg->position.size();
@@ -122,7 +117,7 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
     {
         if (!flag_no_connection)
         {
-            ROS_WARN("Lost connection to a motor, only %d motor(s) detected", msg_size);
+            ROS_WARN("Lost connection to a motor, only %d motor detected", msg_size);
             flag_no_connection = 1;
         }
         return;
@@ -145,7 +140,7 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
     for (auto i = 0, motor_index = 0; i < NB_JOINT; i++)
     {
         motor_index = motor_map[msg->name[i]];
-        // ROS_WARN("Motor index order: %d", motor_index);
+        // ROS_INFO("Motor index order: %d", motor_index);
         joint_angles[motor_index] = min_angles[motor_index] + ((msg->position[i] - pos_min_angles[motor_index]) * (max_angles[motor_index] - min_angles[motor_index]) / (pos_max_angles[motor_index] - pos_min_angles[motor_index]));
     }
 
@@ -158,12 +153,12 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
         // angle_feedback.effort[i] = 0.0;
     }
 
-    ROS_WARN("Joint angles with joint limits :");
-    ROS_WARN("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", angle_feedback.position[0], angle_feedback.position[1], angle_feedback.position[2], angle_feedback.position[3], angle_feedback.position[4]);
-
     std_msgs::Header head;
     head.stamp = ros::Time::now();
     angle_feedback.header = head;
+
+    ROS_WARN("Joint angles with joint limits :");
+    ROS_WARN("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", angle_feedback.position[0], angle_feedback.position[1], angle_feedback.position[2], angle_feedback.position[3], angle_feedback.position[4]);
 
     pub_angles.publish(angle_feedback);
 }
