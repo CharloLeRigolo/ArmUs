@@ -18,33 +18,59 @@ ports:
     device: /dev/ttyACM0       # serial device this port will communicate on
     baudrate: 57600            # baudrate in use
     use_legacy_protocol: false # wether to use new 2.0 protocol (false) or legacy 1.0 protocol (true)
-    group_read_enabled: true   # specify whether to use group comms for reading
-    group_write_enabled: true  # specify whether to use group comms for writing
+    group_read_enabled: false   # specify whether to use group comms for reading
+    group_write_enabled: false  # specify whether to use group comms for writing
     servos:
         # SERVO LIST FOR THIS PORT
+<<<<<<< Updated upstream
           
         - id: 9
+          joint_name: motor5
+=======
+        - id: 50
           joint_name: motor5
           zero_pos: 2048
           min_pos: 0
           max_pos: 4095
 
+        - id: 40
+          joint_name: motor4
+>>>>>>> Stashed changes
+          zero_pos: 2048
+          min_pos: 0
+          max_pos: 4095
+
+<<<<<<< Updated upstream
         - id: 1
           joint_name: motor4
+=======
+        - id: 30
+          joint_name: motor3
+>>>>>>> Stashed changes
           zero_pos: 2048
           min_pos: 0
           max_pos: 4095
 
+<<<<<<< Updated upstream
         - id: 3
           joint_name: motor3
+=======
+        - id: 20
+          joint_name: motor2
+>>>>>>> Stashed changes
           zero_pos: 2048
           min_pos: 0
           max_pos: 4095
 
+<<<<<<< Updated upstream
         - id: 18
           joint_name: motor2
+=======
+        - id: 10
+          joint_name: motor1
+>>>>>>> Stashed changes
           zero_pos: 2048
-          min_pos: 0
+          min_pos: 0           
           max_pos: 4095
 
         - id: 103                # (ID set in servo eeprom, must be unique on this port)

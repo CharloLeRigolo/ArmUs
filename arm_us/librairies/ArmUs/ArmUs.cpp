@@ -14,45 +14,59 @@ ArmUs::ArmUs()
     }
 }
 
+/**
+ * @brief Main loop of program
+ * 
+ */
 void ArmUs::Run()
 {
     ros::Rate loop_rate(ROS_RATE);
 
     while (ros::ok())
     {
+        // Calculate motor velocities depending if in joint or cartesian mode
         m_arm_us_info->calculate_motor_velocities();
-        m_arm_us_info->calculate_joint_angles();
 
         if (!ros::ok())
         {
+            // Set all motor velocities to 0
             send_cmd_motor_stop();
         }
         else 
         {
+            // Send motor velocities to interface that checks joint limits and returns joint angles
             send_cmd_motor();
         }
 
+        // Send info to GUI : Motor velocities, positions, etc
         send_gui_info();
+        // Send info to graph for real time representation of arm in Rviz : Joint angles
         send_3d_graph_info();
 
+        // Check callbacks
         ros::spinOnce();
         loop_rate.sleep();
     }
 
+    // St all motor velocities to 0
     send_cmd_motor_stop();
     ros::shutdown();
 }
 
+/**
+ * @brief Initialize publishers, subscribers, services, get RosParams
+ * 
+ */
 void ArmUs::Initalize()
 {
     m_sub_input =         m_nh.subscribe("joy", 1, &ArmUs::subControllerCallback, this);
     m_sub_gui =           m_nh.subscribe("gui_arm_us_chatter", 1, &ArmUs::sub_gui_callback, this);
-    if (m_controlMode == ControlMode::Real)
-    {
-        m_sub_joint_states =  m_nh.subscribe("angle_joint_state", 1, &ArmUs::sub_joint_states_callback, this);
-    }
+    // if (m_controlMode == ControlMode::Real)
+    // {
+    //     m_sub_joint_states =  m_nh.subscribe("angle_joint_state", 1, &ArmUs::sub_joint_states_callback, this);
+    // }
     
-    m_pub_motor =         m_nh.advertise<sensor_msgs::JointState>("raw_desired_joint_states", 10);
+    m_pub_motor_interface =         m_nh.advertise<sensor_msgs::JointState>("raw_desired_joint_states", 10);
     m_pub_gui =           m_nh.advertise<arm_us_msg::GuiInfo>("gui_info", 10);
     m_pub_3d_graph =      m_nh.advertise<arm_us_msg::GraphInfo>("graph_info", 10);
 
@@ -61,9 +75,13 @@ void ArmUs::Initalize()
     setParams();
 }
 
+/**
+ * @brief Controller callback, get joysticks, buttons, bumpers, triggers
+ * 
+ * @param data 
+ */
 void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
 {
-    
     m_controller.JoyLeft.set(data->axes[LEFT_JOY_VERT], data->axes[LEFT_JOY_HORI]);
     m_controller.JoyRight.set(data->axes[RIGHT_JOY_VERT], data->axes[RIGHT_JOY_HORI]);
     m_controller.Bumpers.set(data->buttons[LEFT_BUMP], data->buttons[RIGHT_BUMP]);
@@ -76,7 +94,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
     m_controller.DisplayControllerInputs();
     */
 
-    // Switch modes (cartesian and joint) with controller
+    // Switch modes (between cartesian and joint) with controller
     if (data->buttons[BUTTON_3] == 1 && m_controller.Buttons.Button3 == 0)
     {
         if (m_arm_us_info->MoveMode == MovementMode::Cartesian)
@@ -84,7 +102,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
             m_arm_us_info->MoveMode = MovementMode::Joint;
             ROS_INFO("Joint");
         }
-        else 
+        else
         {
             m_arm_us_info->MoveMode = MovementMode::Cartesian;
             ROS_INFO("Cartesian");
@@ -95,6 +113,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
     if (m_arm_us_info->MoveMode == MovementMode::Joint)
     {
         // Change joint controlled with controller
+        // Go up one joint
         if (data->buttons[BUTTON_4] == 1 && m_controller.Buttons.Button4 == 0)
         {
             m_arm_us_info->JointControlled++;
@@ -104,7 +123,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
             }
             ROS_INFO("Joint controlled : %d", m_arm_us_info->JointControlled);
         }
-
+        // Go down one joint
         if (data->buttons[BUTTON_2] == 1 && m_controller.Buttons.Button2 == 0)
         {
             m_arm_us_info->JointControlled--;
@@ -115,7 +134,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
             ROS_INFO("Joint controlled : %d", m_arm_us_info->JointControlled);
         }
 
-        // Set speed of joint
+        // Get joint command from left joystick (set velocity)
         m_arm_us_info->JointCommand = m_controller.JoyLeft.Vertical * MAX_VEL;
 
     }
@@ -126,16 +145,28 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
         m_arm_us_info->CartesianCommand.x = m_controller.JoyLeft.Vertical * MAX_VEL;
         m_arm_us_info->CartesianCommand.y = -m_controller.JoyLeft.Horizontal * MAX_VEL;
         m_arm_us_info->CartesianCommand.z = m_controller.JoyRight.Vertical * MAX_VEL;
-        m_arm_us_info->CartesianCommand.a = (-m_controller.Bumpers.Left + m_controller.Bumpers.Right) * MAX_VEL;
 
-        // ROS_INFO("x = %f, y = %f, z = %f, a = %f", m_arm_us_info->CartesianCommand.x, m_arm_us_info->CartesianCommand.y, m_arm_us_info->CartesianCommand.z, m_arm_us_info->CartesianCommand.a);
+        m_arm_us_info->MotorVelocities.m4 = (-m_controller.Bumpers.Left + m_controller.Bumpers.Right) * MAX_VEL;
+        m_arm_us_info->MotorVelocities.m5 = (-m_controller.Triggers.Left + m_controller.Triggers.Right) * MAX_VEL;
+
+        // ROS_INFO("x = %f, y = %f, z = %f, a = %f, b = %f", m_arm_us_info->CartesianCommand.x, 
+        //                                                       m_arm_us_info->CartesianCommand.y, 
+        //                                                       m_arm_us_info->CartesianCommand.z, 
+        //                                                       m_arm_us_info->MotorVelocities.m4,
+        //                                                       m_arm_us_info->MotorVelocities.m5);
     }
 
     m_controller.Buttons.set(data->buttons[BUTTON_1], data->buttons[BUTTON_2], data->buttons[BUTTON_3], data->buttons[BUTTON_4]);
 }
 
+/**
+ * @brief GUI callback
+ * 
+ * @param data 
+ */
 void ArmUs::sub_gui_callback(const arm_us_msg::GuiFeedback::ConstPtr &data)
 {
+    // Switch modes (between cartesian and joint) with GUI
     if (data->joint)
     {
         m_arm_us_info->MoveMode = MovementMode::Joint;
@@ -155,7 +186,7 @@ void ArmUs::sub_joint_states_callback(const sensor_msgs::JointState::ConstPtr &d
 
 void ArmUs::setParams()
 {
-    int controlMode = 100;
+    int controlMode = -1;
     m_nh.getParam("/master_node/control_mode", controlMode);
 
     switch (controlMode)
@@ -205,23 +236,31 @@ void ArmUs::setParams()
     m_nh.getParam("/master_node/right_trig", RIGHT_TRIG);
 }
 
+/**
+ * @brief Send motor velocities calculated to interface that checks joint limits
+ * 
+ */
 void ArmUs::send_cmd_motor()
 {
     sensor_msgs::JointState msg;
     msg.name = { "motor1", "motor2" , "motor3", "motor4", "motor5" };
     msg.velocity = m_arm_us_info->MotorVelocities.get();
-    m_pub_motor.publish(msg);
+    m_pub_motor_interface.publish(msg);
 }
 
+/**
+ * @brief Set all motor velocities to 0
+ * 
+ */
 void ArmUs::send_cmd_motor_stop()
 {
     sensor_msgs::JointState msg;
     msg.name = { "motor1", "motor2", "motor3", "motor4", "motor5" };
     msg.velocity = { 0.0, 0.0, 0.0, 0.0, 0.0 };
-    m_pub_motor.publish(msg);
+    m_pub_motor_interface.publish(msg);
     if (verbose)
     {
-        ROS_INFO("All motors stopped");
+        ROS_ERROR("All motors stopped");
     }
 }
 
@@ -229,10 +268,10 @@ void ArmUs::send_gui_info()
 {
     arm_us_msg::GuiInfo msg;
 
-    msg.position = m_arm_us_info->MotorPositions.get();
+    //msg.position = m_arm_us_info->MotorPositions.get();
     msg.velocity = m_arm_us_info->MotorVelocities.get();
-    msg.connected = m_arm_us_info->MotorConnections.get();
-    msg.limit_reached = m_arm_us_info->MotorLimits.get();
+    //msg.connected = m_arm_us_info->MotorConnections.get();
+    //msg.limit_reached = m_arm_us_info->MotorLimits.get();
     m_pub_gui.publish(msg);
 }
 
@@ -243,27 +282,42 @@ void ArmUs::send_3d_graph_info()
     m_pub_3d_graph.publish(msg);
 }
 
-bool ArmUs::call_inv_kin_calc_service(Vector4f &velocities, int &singularMatrix)
+/**
+ * @brief Call inverse kinematic calculation service to calculate velocities of first 3 motors to move in cartesian mode
+ * 
+ * @param velocities Motor velocities calculated by service, returns [0, 0, 0] if service call failed or singular matrix detected
+ * @param singularMatrix 1 of singular matrix detected, 0 otherwise
+ * @return true if call to service was successful
+ * @return false if call to service was unsuccessful
+ */
+bool ArmUs::call_inv_kin_calc_service(Vector3f &velocities, int &singularMatrix)
 {
     arm_us_msg::InverseKinematicCalc srv;
 
+    // Send current angles of first 3 joints to service
     Vector5f angles = m_arm_us_info->JointAngles;
-    Vector4f commands = m_arm_us_info->CartesianCommand;
+    // Send cartesian command to service (Desired velocities in x, y, z)
+    Vector3f commands = m_arm_us_info->CartesianCommand;
 
-    srv.request.angles = { angles.m1, angles.m2, angles.m3, angles.m4 };
-    srv.request.commands = { commands.x, commands.y, commands.z, commands.a };
+    srv.request.angles = { angles.m1, angles.m2, angles.m3 };
+    srv.request.commands = { commands.x, commands.y, commands.z };
 
+    // If call to service is successful
     if (m_client_inv_kin_calc.call(srv))
     {
+        // Returns velocities of first 3 motors
         velocities = { static_cast<float>(srv.response.velocities[0]), 
                        static_cast<float>(srv.response.velocities[1]), 
-                       static_cast<float>(srv.response.velocities[2]), 
-                       static_cast<float>(srv.response.velocities[3]) };
+                       static_cast<float>(srv.response.velocities[2]) };
+        // Returns if matrix is singular
         singularMatrix = srv.response.singularMatrix;
         return true;
     }
+    // If call is unsuccessful
     else 
     {
+        velocities = { 0.f, 0.f, 0.f };
+        singularMatrix = 0;
         return false;
     }
 }

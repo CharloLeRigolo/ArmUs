@@ -46,25 +46,25 @@ private:
 
     void send_3d_graph_info();
 
-    bool call_inv_kin_calc_service(Vector4f &velocities, int &singularMatrix);
+    bool call_inv_kin_calc_service(Vector3f &velocities, int &singularMatrix);
 
     ros::NodeHandle m_nh;
 
-    ros::Subscriber m_sub_input;
-    ros::Subscriber m_sub_gui;
-    ros::Subscriber m_sub_joint_states;
+    ros::Subscriber m_sub_input; // Controller
+    ros::Subscriber m_sub_gui; // GUI
+    // ros::Subscriber m_sub_joint_states;
 
-    ros::Publisher m_pub_motor;
-    ros::Publisher m_pub_gui;
-    ros::Publisher m_pub_3d_graph;
+    ros::Publisher m_pub_motor_interface; // Send motor velocities
+    ros::Publisher m_pub_gui; // Send info to GUI
+    ros::Publisher m_pub_3d_graph; // Send joint angles for real time representation of arm
 
-    ros::ServiceClient m_client_inv_kin_calc;
+    ros::ServiceClient m_client_inv_kin_calc; // Inverse kinematic calculation client
 
-    Controller m_controller;
+    Controller m_controller; // Object that olds information about the controller (Joysticks, buttons, triggers, bumpers)
 
-    std::unique_ptr<ArmUsInfo> m_arm_us_info;
+    std::unique_ptr<ArmUsInfo> m_arm_us_info; // Object that holds information about the arm (Motor velocities)
 
-    ControlMode m_controlMode;
+    ControlMode m_controlMode; // Joint or Cartesian
 
     /********** Constantes **********/
 

@@ -56,7 +56,7 @@ void command_callback(const sensor_msgs::JointStateConstPtr &msg)
     // Checking motor limits
     for (auto i = 2; i < NB_JOINT; i++)
     {
-        if (msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i] || msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i])
+        if ((msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i]) || (msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i]))
         {
             cmd.velocity[i] = 0.0;
             ROS_WARN("Joint #%d at limit", (i + 1));

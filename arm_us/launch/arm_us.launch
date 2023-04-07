@@ -4,6 +4,8 @@
 	<arg name="verbose" default="0"/>
 	<!-- Mode simulation off by default -->
 	<arg name="simulation" default="0"/>
+	<!-- Controller connected, on by default -->
+	<arg name="controller" default="1"/>
 
 	<!-- If mode real, start communication with dynamixels -->
 	<group if="$(eval arg('simulation') == 0)">
@@ -33,7 +35,9 @@
 	</group>
 
 	<!-- Communication with controller -->
-	<node name="joy" pkg="joy" type="joy_node"/>
+	<group if="$(eval arg('controller') == 1)">
+		<node name="joy" pkg="joy" type="joy_node"/>
+	</group>
 
 	<!-- Real time position of arm in Rviz -->
 	<node name="arm_us_graphic" pkg="arm_us_graph" type="graph"/>
