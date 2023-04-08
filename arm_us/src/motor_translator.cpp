@@ -2,15 +2,17 @@
 #include "sensor_msgs/JointState.h"
 #include <unordered_map>
 #include "std_msgs/Header.h"
+#include "ArmUs.hpp"
 
-#define NB_JOINT 5
-const std::string NODE_NAME = "motor_translator";
+#define NB_JOINT 5                                // numbers of Joints
+const std::string NODE_NAME = "motor_translator"; // used for getting rosparam with correct name
 
 void commandCallback(const sensor_msgs::JointStateConstPtr &msg);
 void stateCallback(const sensor_msgs::JointStateConstPtr &msg);
 void simulateStateCallback();
-void setParams(ros::NodeHandle n);
+void setParams();
 
+// Global variables
 ros::Publisher pub_command;
 ros::Publisher pub_angles;
 
@@ -19,8 +21,13 @@ double joint_velocity[NB_JOINT];
 double joint_effort[NB_JOINT];
 double joint_positions[NB_JOINT];
 bool flag_no_connection = 0;
+double max_speed;
 
-enum class ControlMode { Real = 0, Simulation = 1 };
+enum class ControlMode
+{
+    Real = 0,
+    Simulation = 1
+};
 ControlMode g_control_mode;
 
 std::unordered_map<std::string, int> motor_map = {
@@ -28,8 +35,7 @@ std::unordered_map<std::string, int> motor_map = {
     {"motor2", 1},
     {"motor3", 2},
     {"motor4", 3},
-    {"motor5", 4}
-};
+    {"motor5", 4}};
 
 short motor_order[5] = {0, 1, 2, 3, 4};
 
@@ -38,7 +44,7 @@ int main(int argc, char *argv[])
     ros::init(argc, argv, NODE_NAME);
     ros::NodeHandle n;
 
-    setParams(n);
+    setParams();
 
     ros::Subscriber sub_command = n.subscribe("raw_desired_joint_states", 1, commandCallback);
     ros::Subscriber sub_state = n.subscribe("joint_states", 1, stateCallback);
@@ -57,6 +63,13 @@ int main(int argc, char *argv[])
     }
 }
 
+/**
+ * @brief Get's raw JointState comming from Arm_us
+ * and checks joint limits and add a speed limiter
+ * correction factor to keep cartesian control accurate
+ *
+ * @param msg
+ */
 void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
 {
     sensor_msgs::JointState cmd;
@@ -65,7 +78,6 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
     // Updating parameters
     double max_angles[NB_JOINT];
     double min_angles[NB_JOINT];
-
     for (short i = 0; i < NB_JOINT; i++)
     {
         ros::param::get("/" + NODE_NAME + "/j" + std::to_string(i + 1) + "/max_limit", max_angles[i]);
@@ -73,7 +85,7 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         cmd.velocity[i] = 0.0;
     }
 
-    //No limit set for differential
+    // No limit set for differential
     for (auto i = 0; i < 2; i++)
     {
         cmd.velocity[i] = msg->velocity[i];
@@ -96,6 +108,19 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
     // ROS_WARN("Command with joint limits :");
     // ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", cmd.velocity[0], cmd.velocity[1], cmd.velocity[2], cmd.velocity[3], cmd.velocity[4]);
 
+    // Applying speed limiter
+    //NEEDS to be tested
+    double cmd_max_speed = *std::max_element(std::begin(cmd.velocity), std::end(cmd.velocity));
+    if (cmd_max_speed < max_speed)
+    {
+        double factor = max_speed/cmd_max_speed;
+        for (auto i = 0; i < NB_JOINT; i++)
+        {
+            cmd.velocity[i] *= factor;
+        }
+    }
+
+    // Building and sending cmd msg
     if (g_control_mode == ControlMode::Simulation)
     {
         joint_positions[0] += cmd.velocity[0];
@@ -110,6 +135,12 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
     pub_command.publish(cmd);
 }
 
+/**
+ * @brief Callback to translate raw position value of motor to angle
+ * and reorganise msg with sorted motor order (1, 2, 3, ...)
+ * 
+ * @param msg 
+ */
 void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 {
     sensor_msgs::JointState angle_feedback;
@@ -125,7 +156,7 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
         return;
     }
     flag_no_connection = 0;
-    
+
     double max_angles[NB_JOINT];
     double min_angles[NB_JOINT];
     double pos_max_angles[NB_JOINT];
@@ -150,7 +181,7 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 
     angle_feedback.name = {"motor1", "motor2", "motor3", "motor4", "motor5"};
 
-    for (auto i=0; i < NB_JOINT; i++)
+    for (auto i = 0; i < NB_JOINT; i++)
     {
         angle_feedback.position.push_back(joint_angles[i]);
         angle_feedback.velocity.push_back(joint_velocity[i]);
@@ -167,11 +198,15 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
     pub_angles.publish(angle_feedback);
 }
 
+/**
+ * @brief Angle callback when in simulation mode (bypass normal callback)
+ * 
+ */
 void simulateStateCallback()
-{   
+{
     sensor_msgs::JointState angle_feedback;
-    angle_feedback.name = { "motor1", "motor2", "motor3", "motor4", "motor5" };
-    angle_feedback.position = { 0.0, 0.0, 0.0, 0.0, 0.0 };
+    angle_feedback.name = {"motor1", "motor2", "motor3", "motor4", "motor5"};
+    angle_feedback.position = {0.0, 0.0, 0.0, 0.0, 0.0};
 
     double max_angles[NB_JOINT];
     double min_angles[NB_JOINT];
@@ -185,7 +220,7 @@ void simulateStateCallback()
         ros::param::get("/" + NODE_NAME + "/j" + std::to_string(i + 1) + "/max_limit", max_angles[i]);
         ros::param::get("/" + NODE_NAME + "/j" + std::to_string(i + 1) + "/min_limit", min_angles[i]);
     }
-    
+
     for (auto i = 0; i < NB_JOINT; i++)
     {
         joint_angles[i] = min_angles[i] + ((joint_positions[i] - pos_min_angles[i]) * (max_angles[i] - min_angles[i]) / (pos_max_angles[i] - pos_min_angles[i]));
@@ -198,34 +233,40 @@ void simulateStateCallback()
     pub_angles.publish(angle_feedback);
 }
 
-void setParams(ros::NodeHandle n)
+/**
+ * @brief Gets and set the needed ros::Params as global variable
+ * 
+ */
+void setParams()
 {
     int controlMode = -1;
-    n.getParam("/master_node/control_mode", controlMode);
+
+    ros::param::get("/dynamixel_interface_node/global_max_vel:global_max_vel", max_speed);
+    ros::param::get("/master_node/control_mode", controlMode);
 
     switch (controlMode)
     {
-        // Real
-        case 0:
-        {
-            g_control_mode = ControlMode::Real;
-            ROS_WARN("Started interface node in real control mode");
-            break;
-        }
-        // Simulation
-        case 1:
-        {
-            g_control_mode = ControlMode::Simulation;
-            ROS_WARN("Started interface node in simulation control mode");
-            break;
-        }
-        // Default
-        default:
-        {
-            g_control_mode = ControlMode::Real;
-            ROS_ERROR("Control mode parameter not read from launch file");
-            break;
-        }
+    // Real
+    case 0:
+    {
+        g_control_mode = ControlMode::Real;
+        ROS_WARN("Started interface node in real control mode");
+        break;
+    }
+    // Simulation
+    case 1:
+    {
+        g_control_mode = ControlMode::Simulation;
+        ROS_WARN("Started interface node in simulation control mode");
+        break;
+    }
+    // Default
+    default:
+    {
+        g_control_mode = ControlMode::Real;
+        ROS_ERROR("Control mode parameter not read from launch file");
+        break;
+    }
     }
 
     joint_positions[0] = 2048.0;
