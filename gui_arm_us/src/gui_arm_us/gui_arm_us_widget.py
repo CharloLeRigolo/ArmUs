@@ -10,7 +10,15 @@ from python_qt_binding import loadUi
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QKeySequence
-from PyQt5.QtWidgets import QShortcut, QSlider, QLCDNumber, QLabel, QPushButton, QFrame
+from PyQt5.QtWidgets import (
+    QShortcut,
+    QSlider,
+    QLCDNumber,
+    QLabel,
+    QPushButton,
+    QFrame,
+    QDoubleSpinBox,
+)
 import rosservice
 
 from sensor_msgs.msg import JointState
@@ -53,6 +61,22 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.calib_max_5,
         )
 
+        self.curr_vel_objects: QDoubleSpinBox = (
+            self.curr_vel_1,
+            self.curr_vel_2,
+            self.curr_vel_3,
+            self.curr_vel_4,
+            self.curr_vel_5,
+        )
+
+        self.curr_angle_objects: QDoubleSpinBox = (
+            self.curr_angle_1,
+            self.curr_angle_2,
+            self.curr_angle_3,
+            self.curr_angle_4,
+            self.curr_angle_5,
+        )
+
         self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
 
         self.init_param(self.calib_min_objects, "/min_limit")
@@ -76,7 +100,16 @@ class GuiArmUsWidget(QtWidgets.QWidget):
 
     # Update loop for GUI, linked with motor controller's translated topic messages
     def update_gui(self, data: JointState):
-        nothing = True
+        index: int = 0
+        for qbutton in self.curr_vel_objects:
+            rospy.loginfo("Index:" + str(index))
+            qbutton.setValue(data.velocity[index])
+            index += 1
+
+        index = 0
+        for qbutton in self.curr_angle_objects:
+            qbutton.setValue(data.position[index])
+            index += 1
 
     def calib_btn_callback(self, joint_index: int, limit_type: str):
         if limit_type == "min":
@@ -104,7 +137,9 @@ class GuiArmUsWidget(QtWidgets.QWidget):
     def init_param(self, object_list, param_name: str):
         index = 1
         for qbutton in object_list:
-            qbutton.setValue(rospy.get_param(ROS_PARAM_HEADING + str(index) + param_name))
+            qbutton.setValue(
+                rospy.get_param(ROS_PARAM_HEADING + str(index) + param_name)
+            )
             index += 1
 
-    #TODO add topic for angle and current velocity from angle_joint_state and link raw motor pos 
+    # TODO add topic for angle and current velocity from angle_joint_state and link raw motor pos
