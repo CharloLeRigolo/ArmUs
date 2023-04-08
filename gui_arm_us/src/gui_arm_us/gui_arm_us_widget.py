@@ -29,23 +29,24 @@ ROS_PARAM_HEADING: str = "/motor_translator/j"
 class GuiArmUsWidget(QtWidgets.QWidget):
     def __init__(self):
         super(GuiArmUsWidget, self).__init__()
-
         ui_file = os.path.join(
             rospkg.RosPack().get_path("gui_arm_us"), "resource", "gui_arm_us.ui"
         )
         loadUi(ui_file, self)
+
+        # Members
         self.setObjectName("GuiArmUsWidget")
-
         self.launch: roslaunch.ROSLaunch = roslaunch.scriptapi.ROSLaunch()
-        self.launch.start()
+        self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
 
-        # Callbacks
+        # ROS
+        self.launch.start()
         self.sub_gui_info = rospy.Subscriber(
             "angles_joint_state", JointState, self.update_gui
         )
-
         self.rate = rospy.Rate(10)  # 10Hz
 
+        # List of GUI objects
         self.calib_min_objects = (
             self.calib_min_1,
             self.calib_min_2,
@@ -60,7 +61,6 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.calib_max_4,
             self.calib_max_5,
         )
-
         self.curr_vel_objects: QDoubleSpinBox = (
             self.curr_vel_1,
             self.curr_vel_2,
@@ -68,7 +68,6 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.curr_vel_4,
             self.curr_vel_5,
         )
-
         self.curr_angle_objects: QDoubleSpinBox = (
             self.curr_angle_1,
             self.curr_angle_2,
@@ -77,12 +76,10 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.curr_angle_5,
         )
 
-        self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
-
         self.init_param(self.calib_min_objects, "/min_limit")
         self.init_param(self.calib_max_objects, "/max_limit")
 
-        # Button callbacks
+        # Button callback
         self.calib_min_b_1.released.connect(lambda: self.calib_btn_callback(1, "min"))
         self.calib_max_b_1.released.connect(lambda: self.calib_btn_callback(1, "max"))
 
@@ -100,6 +97,11 @@ class GuiArmUsWidget(QtWidgets.QWidget):
 
     # Update loop for GUI, linked with motor controller's translated topic messages
     def update_gui(self, data: JointState):
+        """Update loop for GUI, linked with motor controller's translated topic messages
+
+        Args:
+            data (JointState): data from arm_us /angles_joint_state's topic messages
+        """
         index: int = 0
         for qbutton in self.curr_vel_objects:
             rospy.loginfo("Index:" + str(index))
@@ -112,6 +114,12 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             index += 1
 
     def calib_btn_callback(self, joint_index: int, limit_type: str):
+        """Calibration called when one calib button release is triggered. Updates the angle with the real time position of arm_us
+
+        Args:
+            joint_index (int): joint number (index starts at 1...)
+            limit_type (str): 'min' or 'max'
+        """
         if limit_type == "min":
             rospy.set_param(
                 ROS_PARAM_HEADING + str(joint_index) + "/min_limit",
@@ -135,6 +143,12 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             rospy.loginfo("Wrong limit type in calibration callback call")
 
     def init_param(self, object_list, param_name: str):
+        """Initialise calibration's QDoubleBox with param loaded in arm_us/config/joint_limits.yaml  
+
+        Args:
+            object_list (_type_): QDoubleSpinBox list
+            param_name (str): param name from yaml file
+        """
         index = 1
         for qbutton in object_list:
             qbutton.setValue(
