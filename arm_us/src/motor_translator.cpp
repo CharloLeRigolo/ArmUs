@@ -108,11 +108,11 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
 
     // ROS_WARN("Command with joint limits :");
     // ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", cmd.velocity[0], cmd.velocity[1], cmd.velocity[2], cmd.velocity[3], cmd.velocity[4]);
-
+    
     // Applying speed limiter
-    //NEEDS to be tested
+    // NEEDS to be tested
     double cmd_max_speed = *std::max_element(std::begin(cmd.velocity), std::end(cmd.velocity));
-    if (cmd_max_speed < max_speed)
+    if (cmd_max_speed > max_speed)
     {
         double factor = max_speed/cmd_max_speed;
         for (auto i = 0; i < NB_JOINT; i++)
@@ -120,6 +120,9 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
             cmd.velocity[i] *= factor;
         }
     }
+
+    ROS_WARN("Command with joint limits and speed limiter :");
+    ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", cmd.velocity[0], cmd.velocity[1], cmd.velocity[2], cmd.velocity[3], cmd.velocity[4]);
 
     // Building and sending cmd msg
     if (g_control_mode == ControlMode::Simulation)
@@ -133,7 +136,7 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         // ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", joint_positions[0], joint_positions[1], joint_positions[2], joint_positions[3], joint_positions[4]);
     }
 
-    pub_command.publish(cmd);
+    // pub_command.publish(cmd);
 }
 
 /**
@@ -242,12 +245,8 @@ void setParams()
 {
     int controlMode = -1;
 
-    max_speed = -1000;
-
     ros::param::get("/dynamixel_interface_node/global_max_vel", max_speed);
     ros::param::get("/master_node/control_mode", controlMode);
-
-    ROS_WARN("max_speed : %f", max_speed);
 
     switch (controlMode)
     {
