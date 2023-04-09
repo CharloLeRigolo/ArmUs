@@ -61,14 +61,14 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.calib_max_4,
             self.calib_max_5,
         )
-        self.curr_vel_objects: QDoubleSpinBox = (
+        self.curr_vel_objects = (
             self.curr_vel_1,
             self.curr_vel_2,
             self.curr_vel_3,
             self.curr_vel_4,
             self.curr_vel_5,
         )
-        self.curr_angle_objects: QDoubleSpinBox = (
+        self.curr_angle_objects = (
             self.curr_angle_1,
             self.curr_angle_2,
             self.curr_angle_3,
@@ -104,14 +104,16 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         """
         index: int = 0
         for qbutton in self.curr_vel_objects:
-            rospy.loginfo("Index:" + str(index))
-            qbutton.setValue(data.velocity[index])
+            # rospy.loginfo("Index:" + str(index))
+            qbutton[index].setValue(data.velocity[index])
             index += 1
 
         index = 0
         for qbutton in self.curr_angle_objects:
-            qbutton.setValue(data.position[index])
+            qbutton[index].setValue(data.position[index])
+            # rospy.loginfo("Index " + str(index) + " : " + str(data.position[index]))
             index += 1
+
 
     def calib_btn_callback(self, joint_index: int, limit_type: str):
         """Calibration called when one calib button release is triggered. Updates the angle with the real time position of arm_us

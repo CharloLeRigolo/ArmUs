@@ -187,6 +187,16 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 
     for (auto i = 0; i < NB_JOINT; i++)
     {
+        // Bring back all angles between 0 and 360 degres
+        if (joint_angles[i] < 0.0)
+        {
+            joint_angles[i] += 360.0;
+        }
+        else if (joint_angles[i] >= 360.0)
+        {
+            joint_angles[i] -= 360.0;
+        }
+
         angle_feedback.position.push_back(joint_angles[i]);
         angle_feedback.velocity.push_back(joint_velocity[i]);
         angle_feedback.effort.push_back(joint_effort[i]);
