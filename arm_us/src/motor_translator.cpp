@@ -121,8 +121,8 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         }
     }
 
-    ROS_WARN("Command with joint limits and speed limiter :");
-    ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", cmd.velocity[0], cmd.velocity[1], cmd.velocity[2], cmd.velocity[3], cmd.velocity[4]);
+    // ROS_WARN("Command with joint limits and speed limiter :");
+    // ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", cmd.velocity[0], cmd.velocity[1], cmd.velocity[2], cmd.velocity[3], cmd.velocity[4]);
 
     // Building and sending cmd msg
     if (g_control_mode == ControlMode::Simulation)
@@ -136,7 +136,7 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         // ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", joint_positions[0], joint_positions[1], joint_positions[2], joint_positions[3], joint_positions[4]);
     }
 
-    // pub_command.publish(cmd);
+    pub_command.publish(cmd);
 }
 
 /**
