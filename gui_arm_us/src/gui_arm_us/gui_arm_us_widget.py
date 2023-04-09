@@ -27,6 +27,14 @@ ROS_PARAM_HEADING: str = "/motor_translator/j"
 
 
 class GuiArmUsWidget(QtWidgets.QWidget):
+
+    curr_angle_1 : QDoubleSpinBox
+    curr_angle_2 : QDoubleSpinBox
+    curr_angle_3 : QDoubleSpinBox
+    curr_angle_4 : QDoubleSpinBox
+    curr_angle_5 : QDoubleSpinBox
+
+
     def __init__(self):
         super(GuiArmUsWidget, self).__init__()
         ui_file = os.path.join(
@@ -68,13 +76,13 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.curr_vel_4,
             self.curr_vel_5,
         )
-        self.curr_angle_objects = (
-            self.curr_angle_1,
-            self.curr_angle_2,
-            self.curr_angle_3,
-            self.curr_angle_4,
-            self.curr_angle_5,
-        )
+        # self.curr_angle_objects = (
+        #     self.curr_angle_1,
+        #     self.curr_angle_2,
+        #     self.curr_angle_3,
+        #     self.curr_angle_4,
+        #     self.curr_angle_5,
+        # )
 
         self.init_param(self.calib_min_objects, "/min_limit")
         self.init_param(self.calib_max_objects, "/max_limit")
@@ -105,14 +113,20 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         index: int = 0
         for qbutton in self.curr_vel_objects:
             # rospy.loginfo("Index:" + str(index))
-            qbutton[index].setValue(data.velocity[index])
+            qbutton.setValue(data.velocity[index])
             index += 1
 
-        index = 0
-        for qbutton in self.curr_angle_objects:
-            qbutton[index].setValue(data.position[index])
-            # rospy.loginfo("Index " + str(index) + " : " + str(data.position[index]))
-            index += 1
+        # index = 0
+        # for qbutton in self.curr_angle_objects:
+        #     qbutton[index].setValue(data.position[index])
+        #     # rospy.loginfo("Index " + str(index) + " : " + str(data.position[index]))
+        #     index += 1
+
+        self.curr_angle_1.setValue(data.velocity[0])
+        self.curr_angle_2.setValue(data.velocity[1])
+        self.curr_angle_3.setValue(data.velocity[2])
+        self.curr_angle_4.setValue(data.velocity[3])
+        self.curr_angle_5.setValue(data.velocity[4])
 
 
     def calib_btn_callback(self, joint_index: int, limit_type: str):
