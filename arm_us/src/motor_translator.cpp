@@ -2,7 +2,7 @@
 #include "sensor_msgs/JointState.h"
 #include <unordered_map>
 #include "std_msgs/Header.h"
-#include "ArmUs.hpp"
+// #include "ArmUs.hpp" Cannot build with this include
 
 #define NB_JOINT 5                                // numbers of Joints
 const std::string NODE_NAME = "motor_translator"; // used for getting rosparam with correct name
@@ -19,7 +19,7 @@ ros::Publisher pub_angles;
 double joint_angles[NB_JOINT];
 double joint_velocity[NB_JOINT];
 double joint_effort[NB_JOINT];
-double joint_positions[NB_JOINT];
+double joint_positions[NB_JOINT]; // For simulation purposes only
 bool flag_no_connection = 0;
 double max_speed;
 
@@ -41,6 +41,7 @@ short motor_order[5] = {0, 1, 2, 3, 4};
 
 int main(int argc, char *argv[])
 {
+   
     ros::init(argc, argv, NODE_NAME);
     ros::NodeHandle n;
 
@@ -241,8 +242,12 @@ void setParams()
 {
     int controlMode = -1;
 
-    ros::param::get("/dynamixel_interface_node/global_max_vel:global_max_vel", max_speed);
+    max_speed = -1000;
+
+    ros::param::get("/dynamixel_interface_node/global_max_vel", max_speed);
     ros::param::get("/master_node/control_mode", controlMode);
+
+    ROS_WARN("max_speed : %f", max_speed);
 
     switch (controlMode)
     {
