@@ -2,7 +2,7 @@
 #include "sensor_msgs/JointState.h"
 #include <unordered_map>
 #include "std_msgs/Header.h"
-// #include "ArmUs.hpp" Cannot build with this include
+#include "arm_us_msg/GuiInfo.h"
 
 #define NB_JOINT 5                                // numbers of Joints
 const std::string NODE_NAME = "motor_translator"; // used for getting rosparam with correct name
@@ -10,18 +10,18 @@ const std::string NODE_NAME = "motor_translator"; // used for getting rosparam w
 void commandCallback(const sensor_msgs::JointStateConstPtr &msg);
 void stateCallback(const sensor_msgs::JointStateConstPtr &msg);
 void simulateStateCallback();
-void angleOffsetCallback(const sensor_msgs::JointStateConstPtr &msg);
 void setParams();
 
 // Global variables
 ros::Publisher pub_command;
 ros::Publisher pub_angles;
+ros::Publisher pub_gui;
 
 double joint_angles[NB_JOINT];
 double joint_velocity[NB_JOINT];
 double joint_effort[NB_JOINT];
 double joint_positions[NB_JOINT]; // For simulation purposes only
-double joint_offset[NB_JOINT];
+bool joint_limits[NB_JOINT];
 bool flag_no_connection = 0;
 double max_speed;
 
@@ -51,10 +51,10 @@ int main(int argc, char *argv[])
 
     ros::Subscriber sub_command = n.subscribe("raw_desired_joint_states", 1, commandCallback);
     ros::Subscriber sub_state = n.subscribe("joint_states", 1, stateCallback);
-    ros::Subscriber sub_angle_offset = n.subscribe("gui_angles_joint_state", 1, angleOffsetCallback);
 
     pub_command = n.advertise<sensor_msgs::JointState>("desired_joint_states", 1);
     pub_angles = n.advertise<sensor_msgs::JointState>("angles_joint_state", 1);
+    pub_gui = n.advertise<arm_us_msg::GuiInfo>("gui_info", 1);
 
     while (ros::ok())
     {
@@ -105,12 +105,14 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
             {
                 cmd.velocity[0] = 0.0;
                 cmd.velocity[1] = 0.0;
+                joint_limits[0] = true;
                 ROS_WARN("Joint #%d at limit", (i + 1));
             }
             else 
             {
                 cmd.velocity[0] = msg->velocity[0];
                 cmd.velocity[1] = msg->velocity[1];
+                joint_limits[0] = false;
             }
         }
         else if (i > 1)
@@ -118,11 +120,13 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
             if ((msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i]) || (msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i]))
             {
                 cmd.velocity[i] = 0.0;
+                joint_limits[i] = true;
                 ROS_WARN("Joint #%d at limit", (i + 1));
             }
             else
             {
                 cmd.velocity[i] = msg->velocity[i];
+                joint_limits[i] = false;
             }
         }
     }
@@ -228,11 +232,14 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 
     angle_feedback.name = {"motor1", "motor2", "motor3", "motor4", "motor5"};
 
+    arm_us_msg::GuiInfo gui_info_msg;
+
     for (auto i = 0; i < NB_JOINT; i++)
     {
         angle_feedback.position.push_back(joint_angles[i]);
         angle_feedback.velocity.push_back(joint_velocity[i]);
         angle_feedback.effort.push_back(joint_effort[i]);
+        gui_info_msg.limit_reached.push_back(joint_limits[i]);
     }
 
     std_msgs::Header head;
@@ -280,10 +287,6 @@ void simulateStateCallback()
     pub_angles.publish(angle_feedback);
 }
 
-void angleOffsetCallback(const sensor_msgs::JointStateConstPtr &msg)
-{
-}
-
 /**
  * @brief Gets and set the needed ros::Params as global variable
  * 
@@ -320,8 +323,8 @@ void setParams()
     }
     }
 
-    joint_positions[0] = 2048.0;
-    joint_positions[1] = 2048.0;
+    joint_positions[0] = 0.0;
+    joint_positions[1] = 0.0;
     joint_positions[2] = 0.0;
     joint_positions[3] = 0.0;
     joint_positions[4] = 0.0;

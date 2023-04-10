@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1209</width>
-    <height>205</height>
+    <width>1346</width>
+    <height>252</height>
    </rect>
   </property>
   <property name="font">
@@ -176,28 +176,6 @@
          </item>
         </layout>
        </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_21">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_17">
-           <item>
-            <widget class="QPushButton" name="set_angle_b_1">
-             <property name="text">
-              <string>Set current angle</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="set_angle_1">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
       </layout>
      </item>
      <item>
@@ -336,28 +314,6 @@
              </property>
              <property name="value">
               <double>0.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_24">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_18">
-           <item>
-            <widget class="QPushButton" name="set_angle_b_2">
-             <property name="text">
-              <string>Set current angle</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="set_angle_2">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
             </widget>
            </item>
@@ -510,28 +466,6 @@
          </item>
         </layout>
        </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_25">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_19">
-           <item>
-            <widget class="QPushButton" name="set_angle_b_3">
-             <property name="text">
-              <string>Set current angle</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="set_angle_3">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
       </layout>
      </item>
      <item>
@@ -670,28 +604,6 @@
              </property>
              <property name="value">
               <double>0.000000000000000</double>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_26">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_20">
-           <item>
-            <widget class="QPushButton" name="set_angle_b_4">
-             <property name="text">
-              <string>Set current angle</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QDoubleSpinBox" name="set_angle_4">
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
              </property>
             </widget>
            </item>
@@ -844,27 +756,110 @@
          </item>
         </layout>
        </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_21">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_27">
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_21">
+          <widget class="QLabel" name="label_16">
+           <property name="text">
+            <string>Mode :</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_19">
            <item>
-            <widget class="QPushButton" name="set_angle_b_5">
+            <layout class="QVBoxLayout" name="verticalLayout_22">
+             <item>
+              <widget class="QCheckBox" name="mode_checkbox_cartesian">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="text">
+                <string>Joint</string>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="mode_checkbox_joint">
+               <property name="text">
+                <string>Cartesian</string>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_18">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_24">
+           <item>
+            <widget class="QLabel" name="label_17">
              <property name="text">
-              <string>Set current angle</string>
+              <string>Joint imts :</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QDoubleSpinBox" name="set_angle_5">
-             <property name="enabled">
-              <bool>true</bool>
+            <widget class="QCheckBox" name="join_1_checkbox">
+             <property name="text">
+              <string>Joint 1</string>
              </property>
-             <property name="acceptDrops">
+             <property name="checkable">
               <bool>false</bool>
              </property>
-             <property name="buttonSymbols">
-              <enum>QAbstractSpinBox::NoButtons</enum>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="joint_2_checkbox">
+             <property name="text">
+              <string>Joint 2</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="joint_3_checkbox">
+             <property name="text">
+              <string>Joint 3</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="joint_4_checkbox">
+             <property name="text">
+              <string>Joint 4</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="joint_5_checkbox">
+             <property name="text">
+              <string>Joint 5</string>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
              </property>
             </widget>
            </item>

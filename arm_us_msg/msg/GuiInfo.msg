@@ -3,3 +3,5 @@ float64[] velocity
 
 bool[] connected
 bool[] limit_reached
+
+int8 current_joint

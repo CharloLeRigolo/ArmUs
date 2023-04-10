@@ -23,6 +23,8 @@ import rosservice
 
 from sensor_msgs.msg import JointState
 
+from arm_us.msg import GuiInfo
+
 ROS_PARAM_HEADING: str = "/motor_translator/j"
 
 FEEDBACK_CALLBACK_FREQUENCY = 10 # Hz (Replaces Ros Rate)
@@ -47,6 +49,8 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         self.sub_gui_info = rospy.Subscriber(
             "angles_joint_state", JointState, self.update_gui
         )
+
+        self.sub_gui = rospy.Subscriber("gui_info", GuiInfo, queue_size=1)
 
         self.rate = rospy.Rate(10)  # 10Hz
 
@@ -81,14 +85,6 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.curr_angle_5,
         )
 
-        self.set_angle_objects: QDoubleSpinBox = (
-            self.set_angle_1,
-            self.set_angle_2,
-            self.set_angle_3,
-            self.set_angle_4,
-            self.set_angle_5,
-        )
-
         self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
 
         self.init_param(self.calib_min_objects, "/min_limit")
@@ -109,12 +105,6 @@ class GuiArmUsWidget(QtWidgets.QWidget):
 
         self.calib_min_b_5.released.connect(lambda: self.calib_btn_callback(5, "min"))
         self.calib_max_b_5.released.connect(lambda: self.calib_btn_callback(5, "max"))
-
-        self.set_angle_b_1.released.connect(lambda: self.set_angle_btn_callback(1))
-        self.set_angle_b_2.released.connect(lambda: self.set_angle_btn_callback(2))
-        self.set_angle_b_3.released.connect(lambda: self.set_angle_btn_callback(3))
-        self.set_angle_b_4.released.connect(lambda: self.set_angle_btn_callback(4))
-        self.set_angle_b_5.released.connect(lambda: self.set_angle_btn_callback(5))
 
         self.lastTimeFeedback = rospy.Time.now()
 
@@ -159,17 +149,6 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             )
         else:
             rospy.loginfo("Wrong limit type in calibration callback call")
-
-    def set_angle_btn_callback(self, joint_index: int):
-
-        msg = JointState()
-
-        # rospy.loginfo("Index " + str(joint_index) + " : " + str(self.set_angle_objects[joint_index - 1].value()))
-
-        msg.position = { self.curr_angle_objects[0].value(), self.curr_angle_objects[1].value(), self.curr_angle_objects[2].value(), self.curr_angle_objects[3].value(), self.curr_angle_objects[4].value(), }
-        msg.position[joint_index - 1] = self.set_angle_objects[joint_index - 1].value()
-
-        self.pub_angles.publish(msg)     
 
     def init_param(self, object_list, param_name: str):
         index = 1
