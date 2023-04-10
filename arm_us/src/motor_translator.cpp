@@ -96,16 +96,34 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
     }
 
     // Checking other motor limits
-    for (auto i = 2; i < NB_JOINT; i++)
+    for (auto i = 0; i < NB_JOINT; i++)
     {
-        if ((msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i]) || (msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i]))
+        if (i == 0)
         {
-            cmd.velocity[i] = 0.0;
-            ROS_WARN("Joint #%d at limit", (i + 1));
+            bool increase = msg->velocity[0] > msg->velocity[1];
+            if ((increase && joint_angles[i] > max_angles[i]) || (!increase && joint_angles[i] < min_angles[i]))
+            {
+                cmd.velocity[0] = 0.0;
+                cmd.velocity[1] = 0.0;
+                ROS_WARN("Joint #%d at limit", (i + 1));
+            }
+            else 
+            {
+                cmd.velocity[0] = msg->velocity[0];
+                cmd.velocity[1] = msg->velocity[1];
+            }
         }
-        else
+        else if (i > 1)
         {
-            cmd.velocity[i] = msg->velocity[i];
+            if ((msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i]) || (msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i]))
+            {
+                cmd.velocity[i] = 0.0;
+                ROS_WARN("Joint #%d at limit", (i + 1));
+            }
+            else
+            {
+                cmd.velocity[i] = msg->velocity[i];
+            }
         }
     }
 
@@ -177,29 +195,41 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
         ros::param::get("/" + NODE_NAME + "/j" + std::to_string(i + 1) + "/min_limit", min_angles[i]);
     }
 
-    for (auto i = 0, motor_index = 0; i < NB_JOINT; i++)
+    for (int i = 0; i < NB_JOINT; i++)
     {
-        motor_index = motor_map[msg->name[i]];
+        int motor_index = motor_map[msg->name[i]];
+        joint_positions[motor_index] = msg->position[i];
+        joint_velocity[i] = msg->velocity[i];
+        joint_effort[i] = msg->effort[i];
+    }
+
+    // ROS_INFO("Motor positions :");
+    // ROS_INFO("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", joint_positions[0], joint_positions[1], joint_positions[2], joint_positions[3], joint_positions[4]);
+
+    for (auto i = 0; i < NB_JOINT; i++)
+    {
         // ROS_INFO("Motor index order: %d", motor_index);
-        joint_angles[motor_index] = min_angles[motor_index] + ((msg->position[i] - pos_min_angles[motor_index]) * (max_angles[motor_index] - min_angles[motor_index]) / (pos_max_angles[motor_index] - pos_min_angles[motor_index]));
-        joint_velocity[motor_index] = msg->velocity[i];
-        joint_effort[motor_index] = msg->effort[i];
+        if (i == 0)
+        {
+            double curr_joint_diff = joint_positions[0] - joint_positions[1];
+            joint_angles[i] = min_angles[i] + ((curr_joint_diff - pos_min_angles[i]) * (max_angles[i] - min_angles[i]) / (pos_max_angles[i] - pos_min_angles[i]));
+        }
+        else if (i == 1)
+        {
+            double curr_joint_aver = (joint_positions[0] + joint_positions[1]) / 2;
+            joint_angles[i] = min_angles[i] + ((curr_joint_aver - pos_min_angles[i]) * (max_angles[i] - min_angles[i]) / (pos_max_angles[i] - pos_min_angles[i]));
+        }
+        else if (i > 1)
+        {
+            joint_angles[i] = min_angles[i] + ((joint_positions[i] - pos_min_angles[i]) * (max_angles[i] - min_angles[i]) / (pos_max_angles[i] - pos_min_angles[i]));
+        }
+        
     }
 
     angle_feedback.name = {"motor1", "motor2", "motor3", "motor4", "motor5"};
 
     for (auto i = 0; i < NB_JOINT; i++)
     {
-        // Bring back all angles between 0 and 360 degres
-        if (joint_angles[i] < 0.0)
-        {
-            joint_angles[i] += 360.0;
-        }
-        else if (joint_angles[i] >= 360.0)
-        {
-            joint_angles[i] -= 360.0;
-        }
-
         angle_feedback.position.push_back(joint_angles[i]);
         angle_feedback.velocity.push_back(joint_velocity[i]);
         angle_feedback.effort.push_back(joint_effort[i]);
@@ -252,7 +282,6 @@ void simulateStateCallback()
 
 void angleOffsetCallback(const sensor_msgs::JointStateConstPtr &msg)
 {
-
 }
 
 /**

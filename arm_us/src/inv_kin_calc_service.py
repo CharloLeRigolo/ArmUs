@@ -40,7 +40,7 @@ def handle_inv_kin_calc(req):
     J1z : float = 0
 
     J2x : float = 0
-    J2y : float = 2.25
+    J2y : float = -2.25
     J2z : float = 0
     
     J3x : float = 0
@@ -52,23 +52,18 @@ def handle_inv_kin_calc(req):
     J4z : float = 0
 
     # Initialisation de la Jacobienne
-    x = J1z*m.m.sin(q1) + m.cos(q1)*(J1x+J2x) + m.cos(q1)*(J3x+J4x) + J2y*m.sin(q1)*m.sin(q2)+ J2z*m.sin(q1)*m.cos(q2) + m.sin(q1)*(J3y+J4y)*m.sin(q2+q3) + m.sin(q1)*(J3z+J4z)*m.cos(q2+q3)
-    y = J1y + J2y*m.cos(q2) + (J3y+J4y)*m.cos(q2+q3) - J2z*m.sin(q2) - (J3z+J4z)*m.sin(q2+q3)
-    z = J1z*m.cos(q1) + J2y*m.sin(q2)*m.cos(q1) + J2z*m.cos(q1)*m.cos(q2) + m.cos(q1)*(J3y+J4y)*m.sin(q2+q3) + m.cos(q1)*(J3z+J4z)*m.cos(q2+q3) - m.sin(q1)*(J1x+J2x)- m.sin(q1)*(J3x+J4x)
-
-    x_q1 = J1z*m.cos(q1) + J2y*m.sin(q2)*m.cos(q1) + J2z*m.cos(q1)*m.cos(q2) - (J1x + J2x)*m.sin(q1) - (J3x + J4x)*m.sin(q1) + (J3y + J4y)*m.sin(q2 + q3)*m.cos(q1) + (J3z + J4z)*m.cos(q1)*m.cos(q2 + q3)
-    x_q2 = J2y*m.sin(q1)*m.cos(q2) - J2z*m.sin(q1)*m.sin(q2) + (J3y + J4y)*m.sin(q1)*m.cos(q2 + q3) - (J3z + J4z)*m.sin(q1)*m.sin(q2 + q3)
-    x_q3 = (J3y + J4y)*m.sin(q1)*m.cos(q2 + q3) - (J3z + J4z)*m.sin(q1)*m.sin(q2 + q3)
-
+    x_q1 = J1z*m.cos(q1) + J2y*m.sin(q2)*m.cos(q1) + J4z*m.cos(q1)*m.cos(q2) - (J1x + J2x)*m.sin(q1) + (J2z + J3z)*m.cos(q1)*m.cos(q2) + (J3x + J4x)*(-m.sin(q1)*m.cos(q3) + m.sin(q2)*m.sin(q3)*m.cos(q1)) - (J3y + J4y)*(-m.sin(q1)*m.sin(q3) - m.sin(q2)*m.cos(q1)*m.cos(q3))
+    x_q2 = J2y*m.sin(q1)*m.cos(q2) - J4z*m.sin(q1)*m.sin(q2) - (J2z + J3z)*m.sin(q1)*m.sin(q2) + (J3x + J4x)*m.sin(q1)*m.sin(q3)*m.cos(q2) + (J3y + J4y)*m.sin(q1)*m.cos(q2)*m.cos(q3)
+    x_q3 = (J3x + J4x)*(m.sin(q1)*m.sin(q2)*m.cos(q3) - m.sin(q3)*m.cos(q1)) - (J3y + J4y)*(m.sin(q1)*m.sin(q2)*m.sin(q3) + m.cos(q1)*m.cos(q3))
 
     y_q1 = 0
-    y_q2 = -J2y*m.sin(q2) - J2z*m.cos(q2) - (J3y + J4y)*m.sin(q2 + q3) - (J3z + J4z)*m.cos(q2 + q3)
-    y_q3 = -(J3y + J4y)*m.sin(q2 + q3) - (J3z + J4z)*m.cos(q2 + q3)
+    y_q2 = -J2y*m.sin(q2) - J4z*m.cos(q2) - (J2z + J3z)*m.cos(q2) - (J3x + J4x)*m.sin(q2)*m.sin(q3) - (J3y + J4y)*m.sin(q2)*m.cos(q3)
+    y_q3 = (J3x + J4x)*m.cos(q2)*m.cos(q3) - (J3y + J4y)*m.sin(q3)*m.cos(q2)
 
-    z_q1 = -J1z*m.sin(q1) - J2y*m.sin(q1)*m.sin(q2) - J2z*m.sin(q1)*m.cos(q2) - (J1x + J2x)*m.cos(q1) - (J3x + J4x)*m.cos(q1) - (J3y + J4y)*m.sin(q1)*m.sin(q2 + q3) - (J3z + J4z)*m.sin(q1)*m.cos(q2 + q3)
-    z_q2 = J2y*m.cos(q1)*m.cos(q2) - J2z*m.sin(q2)*m.cos(q1) + (J3y + J4y)*m.cos(q1)*m.cos(q2 + q3) - (J3z + J4z)*m.sin(q2 + q3)*m.cos(q1)
-    z_q3 = (J3y + J4y)*m.cos(q1)*m.cos(q2 + q3) - (J3z + J4z)*m.sin(q2 + q3)*m.cos(q1)
-
+    z_q1 = -J1z*m.sin(q1) - J2y*m.sin(q1)*m.sin(q2) - J4z*m.sin(q1)*m.cos(q2) - (J1x + J2x)*m.cos(q1) - (J2z + J3z)*m.sin(q1)*m.cos(q2) - (J3x + J4x)*(m.sin(q1)*m.sin(q2)*m.sin(q3) + m.cos(q1)*m.cos(q3)) + (J3y + J4y)*(-m.sin(q1)*m.sin(q2)*m.cos(q3) + m.sin(q3)*m.cos(q1))
+    z_q2 = J2y*m.cos(q1)*m.cos(q2) - J4z*m.sin(q2)*m.cos(q1) - (J2z + J3z)*m.sin(q2)*m.cos(q1) + (J3x + J4x)*m.sin(q3)*m.cos(q1)*m.cos(q2) + (J3y + J4y)*m.cos(q1)*m.cos(q2)*m.cos(q3)
+    z_q3 = -(J3x + J4x)*(-m.sin(q1)*m.sin(q3) - m.sin(q2)*m.cos(q1)*m.cos(q3)) + (J3y + J4y)*(m.sin(q1)*m.cos(q3) - m.sin(q2)*m.sin(q3)*m.cos(q1))
+    
     # Create matrix
     j = np.zeros((3, 3), dtype=float)
 
