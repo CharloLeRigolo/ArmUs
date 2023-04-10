@@ -1,0 +1,119 @@
+{
+  "keys": {},
+  "groups": {
+    "mainwindow": {
+      "keys": {
+        "geometry": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'01d9d0cb00030000000000480000001b0000077f0000043700000048000000400000077f000004370000000000000000078000000048000000400000077f00000437')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "     H     7 H @   7      H @   7"
+        },
+        "state": {
+          "repr(QByteArray.hex)": "QtCore.QByteArray(b'000000ff00000000fd000000020000000000000738000000d3fc0200000001fb0000005a006700750069005f00610072006d005f00750073005f005f00470075006900410072006d005500730050006c007500670069006e005f005f0031005f005f00470075006900410072006d005500730057006900640067006500740100000016000000d3000000d300ffffff0000000300000738000002f3fc0100000002fb0000005a006700750069005f00610072006d005f00750073005f005f00470075006900410072006d005500730050006c007500670069006e005f005f0032005f005f00470075006900410072006d005500730057006900640067006500740100000000000002950000000000000000fb00000026007200710074005f007200760069007a005f005f005200560069007a005f005f0031005f005f010000000000000738000003bc00ffffff00000000000000d300000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "type": "repr(QByteArray.hex)",
+          "pretty-print": "                 Zgui_arm_us__GuiArmUsPlugin__1__GuiArmUsWidget                   Zgui_arm_us__GuiArmUsPlugin__2__GuiArmUsWidget          &rqt_rviz__RViz__1__                            6MinimizedDockWidgetsToolbar        "
+        }
+      },
+      "groups": {
+        "toolbar_areas": {
+          "keys": {
+            "MinimizedDockWidgetsToolbar": {
+              "repr": "8",
+              "type": "repr"
+            }
+          },
+          "groups": {}
+        }
+      }
+    },
+    "pluginmanager": {
+      "keys": {
+        "running-plugins": {
+          "repr": "{'gui_arm_us/GuiArmUsPlugin': [1], 'rqt_rviz/RViz': [1]}",
+          "type": "repr"
+        }
+      },
+      "groups": {
+        "plugin__gui_arm_us__GuiArmUsPlugin__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__GuiArmUsWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Form'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__gui_arm_us__GuiArmUsPlugin__2": {
+          "keys": {},
+          "groups": {
+            "dock_widget__GuiArmUsWidget": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'Form (2)'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "'true'",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_rviz__RViz__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__": {
+              "keys": {
+                "dock_widget_title": {
+                  "repr": "'default.rviz[*] - RViz'",
+                  "type": "repr"
+                },
+                "dockable": {
+                  "repr": "True",
+                  "type": "repr"
+                },
+                "parent": {
+                  "repr": "None",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "hide_menu": {
+                  "repr": "False",
+                  "type": "repr"
+                },
+                "rviz_config_file": {
+                  "repr": "'/opt/ros/noetic/share/rviz/default.rviz'",
+                  "type": "repr"
+                }
+              },
+              "groups": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

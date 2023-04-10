@@ -10,6 +10,7 @@ const std::string NODE_NAME = "motor_translator"; // used for getting rosparam w
 void commandCallback(const sensor_msgs::JointStateConstPtr &msg);
 void stateCallback(const sensor_msgs::JointStateConstPtr &msg);
 void simulateStateCallback();
+void angleOffsetCallback(const sensor_msgs::JointStateConstPtr &msg);
 void setParams();
 
 // Global variables
@@ -20,6 +21,7 @@ double joint_angles[NB_JOINT];
 double joint_velocity[NB_JOINT];
 double joint_effort[NB_JOINT];
 double joint_positions[NB_JOINT]; // For simulation purposes only
+double joint_offset[NB_JOINT];
 bool flag_no_connection = 0;
 double max_speed;
 
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
 
     ros::Subscriber sub_command = n.subscribe("raw_desired_joint_states", 1, commandCallback);
     ros::Subscriber sub_state = n.subscribe("joint_states", 1, stateCallback);
+    ros::Subscriber sub_angle_offset = n.subscribe("gui_angles_joint_state", 1, angleOffsetCallback);
 
     pub_command = n.advertise<sensor_msgs::JointState>("desired_joint_states", 1);
     pub_angles = n.advertise<sensor_msgs::JointState>("angles_joint_state", 1);
@@ -245,6 +248,11 @@ void simulateStateCallback()
     // ROS_WARN("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", angle_feedback.position[0], angle_feedback.position[1], angle_feedback.position[2], angle_feedback.position[3], angle_feedback.position[4]);
 
     pub_angles.publish(angle_feedback);
+}
+
+void angleOffsetCallback(const sensor_msgs::JointStateConstPtr &msg)
+{
+
 }
 
 /**

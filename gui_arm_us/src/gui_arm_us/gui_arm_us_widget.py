@@ -25,36 +25,31 @@ from sensor_msgs.msg import JointState
 
 ROS_PARAM_HEADING: str = "/motor_translator/j"
 
+FEEDBACK_CALLBACK_FREQUENCY = 10 # Hz (Replaces Ros Rate)
 
 class GuiArmUsWidget(QtWidgets.QWidget):
 
-    curr_angle_1 : QDoubleSpinBox
-    curr_angle_2 : QDoubleSpinBox
-    curr_angle_3 : QDoubleSpinBox
-    curr_angle_4 : QDoubleSpinBox
-    curr_angle_5 : QDoubleSpinBox
-
-
     def __init__(self):
         super(GuiArmUsWidget, self).__init__()
+
         ui_file = os.path.join(
             rospkg.RosPack().get_path("gui_arm_us"), "resource", "gui_arm_us.ui"
         )
         loadUi(ui_file, self)
-
-        # Members
         self.setObjectName("GuiArmUsWidget")
-        self.launch: roslaunch.ROSLaunch = roslaunch.scriptapi.ROSLaunch()
-        self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
 
-        # ROS
+        self.launch: roslaunch.ROSLaunch = roslaunch.scriptapi.ROSLaunch()
         self.launch.start()
+
+        self.pub_angles = rospy.Publisher("gui_angles_joint_state", JointState, queue_size=1)
+
+        # Callbacks
         self.sub_gui_info = rospy.Subscriber(
             "angles_joint_state", JointState, self.update_gui
         )
+
         self.rate = rospy.Rate(10)  # 10Hz
 
-        # List of GUI objects
         self.calib_min_objects = (
             self.calib_min_1,
             self.calib_min_2,
@@ -69,25 +64,37 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.calib_max_4,
             self.calib_max_5,
         )
-        self.curr_vel_objects = (
+
+        self.curr_vel_objects: QDoubleSpinBox = (
             self.curr_vel_1,
             self.curr_vel_2,
             self.curr_vel_3,
             self.curr_vel_4,
             self.curr_vel_5,
         )
-        # self.curr_angle_objects = (
-        #     self.curr_angle_1,
-        #     self.curr_angle_2,
-        #     self.curr_angle_3,
-        #     self.curr_angle_4,
-        #     self.curr_angle_5,
-        # )
+
+        self.curr_angle_objects: QDoubleSpinBox = (
+            self.curr_angle_1,
+            self.curr_angle_2,
+            self.curr_angle_3,
+            self.curr_angle_4,
+            self.curr_angle_5,
+        )
+
+        self.set_angle_objects: QDoubleSpinBox = (
+            self.set_angle_1,
+            self.set_angle_2,
+            self.set_angle_3,
+            self.set_angle_4,
+            self.set_angle_5,
+        )
+
+        self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
 
         self.init_param(self.calib_min_objects, "/min_limit")
         self.init_param(self.calib_max_objects, "/max_limit")
 
-        # Button callback
+        # Button callbacks
         self.calib_min_b_1.released.connect(lambda: self.calib_btn_callback(1, "min"))
         self.calib_max_b_1.released.connect(lambda: self.calib_btn_callback(1, "max"))
 
@@ -103,39 +110,34 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         self.calib_min_b_5.released.connect(lambda: self.calib_btn_callback(5, "min"))
         self.calib_max_b_5.released.connect(lambda: self.calib_btn_callback(5, "max"))
 
+        self.set_angle_b_1.released.connect(lambda: self.set_angle_btn_callback(1))
+        self.set_angle_b_2.released.connect(lambda: self.set_angle_btn_callback(2))
+        self.set_angle_b_3.released.connect(lambda: self.set_angle_btn_callback(3))
+        self.set_angle_b_4.released.connect(lambda: self.set_angle_btn_callback(4))
+        self.set_angle_b_5.released.connect(lambda: self.set_angle_btn_callback(5))
+
+        self.lastTimeFeedback = rospy.Time.now()
+
     # Update loop for GUI, linked with motor controller's translated topic messages
     def update_gui(self, data: JointState):
-        """Update loop for GUI, linked with motor controller's translated topic messages
 
-        Args:
-            data (JointState): data from arm_us /angles_joint_state's topic messages
-        """
+        if self.lastTimeFeedback + rospy.Duration(1.0 / FEEDBACK_CALLBACK_FREQUENCY) > rospy.Time.now():
+            return
+        self.lastTimeFeedback = rospy.Time.now()
+
         index: int = 0
         for qbutton in self.curr_vel_objects:
             # rospy.loginfo("Index:" + str(index))
             qbutton.setValue(data.velocity[index])
             index += 1
 
-        # index = 0
-        # for qbutton in self.curr_angle_objects:
-        #     qbutton[index].setValue(data.position[index])
-        #     # rospy.loginfo("Index " + str(index) + " : " + str(data.position[index]))
-        #     index += 1
-
-        self.curr_angle_1.setValue(data.velocity[0])
-        self.curr_angle_2.setValue(data.velocity[1])
-        self.curr_angle_3.setValue(data.velocity[2])
-        self.curr_angle_4.setValue(data.velocity[3])
-        self.curr_angle_5.setValue(data.velocity[4])
-
+        index = 0
+        for qbutton in self.curr_angle_objects:
+            # rospy.loginfo("Index " + str(index) + " : " + str(data.position[index]))
+            qbutton.setValue(data.position[index])
+            index += 1
 
     def calib_btn_callback(self, joint_index: int, limit_type: str):
-        """Calibration called when one calib button release is triggered. Updates the angle with the real time position of arm_us
-
-        Args:
-            joint_index (int): joint number (index starts at 1...)
-            limit_type (str): 'min' or 'max'
-        """
         if limit_type == "min":
             rospy.set_param(
                 ROS_PARAM_HEADING + str(joint_index) + "/min_limit",
@@ -158,13 +160,18 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         else:
             rospy.loginfo("Wrong limit type in calibration callback call")
 
-    def init_param(self, object_list, param_name: str):
-        """Initialise calibration's QDoubleBox with param loaded in arm_us/config/joint_limits.yaml  
+    def set_angle_btn_callback(self, joint_index: int):
 
-        Args:
-            object_list (_type_): QDoubleSpinBox list
-            param_name (str): param name from yaml file
-        """
+        msg = JointState()
+
+        # rospy.loginfo("Index " + str(joint_index) + " : " + str(self.set_angle_objects[joint_index - 1].value()))
+
+        msg.position = { self.curr_angle_objects[0].value(), self.curr_angle_objects[1].value(), self.curr_angle_objects[2].value(), self.curr_angle_objects[3].value(), self.curr_angle_objects[4].value(), }
+        msg.position[joint_index - 1] = self.set_angle_objects[joint_index - 1].value()
+
+        self.pub_angles.publish(msg)     
+
+    def init_param(self, object_list, param_name: str):
         index = 1
         for qbutton in object_list:
             qbutton.setValue(

@@ -11,20 +11,20 @@ void UpdateGraph();
 void CalculatePositions();
 void sub_angle_callback(const arm_us_msg::GraphInfo::ConstPtr &msg);
 
-const float J1x = 0;
+const float J1x = 1.25;
 const float J1y = 0;
-const float J1z = 1.25;
+const float J1z = 0;
 
-const float J2x = 2.25;
-const float J2y = 0;
+const float J2x = 0;
+const float J2y = 2.25;
 const float J2z = 0;
 
-const float J3x = 2.00;
-const float J3y = 0;
+const float J3x = 0;
+const float J3y = 2.00;
 const float J3z = 0;
 
-const float J4x = 0.40;
-const float J4y = 0;
+const float J4x = 0;
+const float J4y = 0.40;
 const float J4z = 0;
 
 struct Vector3
@@ -135,34 +135,22 @@ void CalculatePositions()
   float q4 = arm.q4 * M_PI / 180;
   float q5 = arm.q5 * M_PI / 180;
 
-  arm.P1.x = arm.J1.x*cos(q1) + arm.J1.z*sin(q1);
-  arm.P1.y = arm.J1.y;
-  arm.P1.z = arm.J1.z*cos(q1) - arm.J1.x*sin(q1);
+  arm.P1.x = J1x*cos(q1) + J1z*sin(q1);
+  arm.P1.y = J1y;
+  arm.P1.z = J1z*cos(q1) - J1x*sin(q1);
 
-  arm.P2.x = arm.J1.x*cos(q1) + sin(q1)*(arm.J1.z+arm.J2.z) + arm.J2.x*cos(q1)*cos(q2) - arm.J2.y*sin(q2)*cos(q1);
-  arm.P2.y = arm.J1.y + arm.J2.x*sin(q2) + arm.J2.y*cos(q2);
-  arm.P2.z = cos(q1)*(arm.J1.z+arm.J2.z) + arm.J2.y*sin(q1)*sin(q2) - arm.J1.x*sin(q1) - arm.J2.x*sin(q1)*cos(q2);
+  arm.P2.x = J1z*sin(q1) + cos(q1)*(J1x+J2x) + J2y*sin(q1)*sin(q2) + J2z*sin(q1)*cos(q2);
+  arm.P2.y = J1y + J2y*cos(q2) - J2z*sin(q2);
+  arm.P2.z = J1z*cos(q1) + J2y*sin(q2)*cos(q1) + J2z*cos(q1)*cos(q2) - sin(q1)*(J1x+J2x);
 
-  arm.P3.x = arm.J1.x*cos(q1) + sin(q1)*(arm.J1.z+arm.J2.z) + arm.J2.x*cos(q1)*cos(q2) 
-              + arm.J3.z*(sin(q1)*cos(q3)+sin(q3)*cos(q1)*cos(q2)) - sin(q2)*cos(q1)*(arm.J2.y+arm.J3.y) 
-              - arm.J3.x*(sin(q1)*sin(q3)-cos(q1)*cos(q2)*cos(q3));
-  arm.P3.y = arm.J1.y + arm.J2.x*sin(q2) + cos(q2)*(arm.J2.y+arm.J3.y) + arm.J3.x*sin(q2)*cos(q3)+ arm.J3.z*sin(q2)*sin(q3);
-  arm.P3.z = cos(q1)*(arm.J1.z+arm.J2.z) + sin(q1)*sin(q2)*(arm.J2.y+arm.J3.y) 
-              + arm.J3.z*(cos(q1)*cos(q3)-sin(q1)*sin(q3)*cos(q2)) - arm.J1.x*sin(q1) 
-              - arm.J2.x*sin(q1)*cos(q2) - arm.J3.x*(sin(q3)*cos(q1)+sin(q1)*cos(q2)*cos(q3));
+  arm.P3.x = J1z*sin(q1) + J3x*cos(q1) + cos(q1)*(J1x+J2x) + J2y*sin(q1)*sin(q2)+ J2z*sin(q1)*cos(q2) + J3y*sin(q1)*sin(q2+q3) + J3z*sin(q1)*cos(q2+q3);
+  arm.P3.y = J1y + J2y*cos(q2) + J3y*cos(q2+q3) - J2z*sin(q2) - J3z*sin(q2+q3);
+  arm.P3.z = J1z*cos(q1) + J2y*sin(q2)*cos(q1) + J2z*cos(q1)*cos(q2) + J3y*cos(q1)*sin(q2+q3) + J3z*cos(q1)*cos(q2+q3) - J3x*sin(q1) - sin(q1)*(J1x+J2x);
 
-  arm.P4.x = arm.J1.x*cos(q1) + sin(q1)*(arm.J1.z+arm.J2.z) + arm.J2.x*cos(q1)*cos(q2) 
-              + arm.J3.z*(sin(q1)*cos(q3)+sin(q3)*cos(q1)*cos(q2)) + arm.J4.y*(sin(q1)*sin(q4)*cos(q3) - cos(q1)*(sin(q2)*cos(q4)-sin(q3)*sin(q4)*cos(q2))) 
-              - sin(q2)*cos(q1)*(arm.J2.y+arm.J3.y) - arm.J3.x*(sin(q1)*sin(q3)-cos(q1)*cos(q2)*cos(q3)) 
-              - arm.J4.x*(sin(q1)*(sin(q3)*cos(q5)+sin(q5)*cos(q3)*cos(q4))+cos(q1)*(sin(q2)*sin(q4)*sin(q5)-cos(q2)*(cos(q3)*cos(q5)-sin(q3)*sin(q5)*cos(q4)))) 
-              - arm.J4.z*(sin(q1)*(sin(q3)*sin(q5)-cos(q3)*cos(q4)*cos(q5))-cos(q1)*(sin(q2)*sin(q4)*cos(q5)+cos(q2)*(sin(q5)*cos(q3)+sin(q3)*cos(q4)*cos(q5))));
-  arm.P4.y = arm.J1.y + arm.J2.x*sin(q2) + cos(q2)*(arm.J2.y+arm.J3.y) + arm.J3.x*sin(q2)*cos(q3)+ arm.J3.z*sin(q2)*sin(q3) + arm.J4.y*(cos(q2)*cos(q4)+sin(q2)*sin(q3)*sin(q4))+ arm.J4.x*(sin(q4)*sin(q5)*cos(q2)+sin(q2)*(cos(q3)*cos(q5)-sin(q3)*sin(q5)*cos(q4))) - arm.J4.z*(sin(q4)*cos(q2)*cos(q5)-sin(q2)*(sin(q5)*cos(q3)+sin(q3)*cos(q4)*cos(q5)));
-  arm.P4.z = cos(q1)*(arm.J1.z+arm.J2.z) + sin(q1)*sin(q2)*(arm.J2.y+arm.J3.y) 
-              + arm.J3.z*(cos(q1)*cos(q3)-sin(q1)*sin(q3)*cos(q2)) + arm.J4.y*(sin(q4)*cos(q1)*cos(q3)+sin(q1)*(sin(q2)*cos(q4)-sin(q3)*sin(q4)*cos(q2))) 
-              - arm.J1.x*sin(q1) - arm.J2.x*sin(q1)*cos(q2)- arm.J3.x*(sin(q3)*cos(q1)+sin(q1)*cos(q2)*cos(q3)) 
-              - arm.J4.z*(cos(q1)*(sin(q3)*sin(q5)-cos(q3)*cos(q4)*cos(q5))+sin(q1)*(sin(q2)*sin(q4)*cos(q5)+cos(q2)*(sin(q5)*cos(q3)+sin(q3)*cos(q4)*cos(q5)))) 
-              - arm.J4.x*(cos(q1)*(sin(q3)*cos(q5)+sin(q5)*cos(q3)*cos(q4))-sin(q1)*(sin(q2)*sin(q4)*sin(q5)-cos(q2)*(cos(q3)*cos(q5)-sin(q3)*sin(q5)*cos(q4))));
-
+  arm.P4.x = J1z*sin(q1) + J3x*cos(q1) + cos(q1)*(J1x+J2x) + J2y*sin(q1)*sin(q2)+ J2z*sin(q1)*cos(q2) + J3y*sin(q1)*sin(q2+q3) + J3z*sin(q1)*cos(q2+q3)+ J4x*(cos(q1)*cos(q4)-sin(q1)*sin(q4)*cos(q2+q3)) + J4y*(sin(q4)*sin(q5)*cos(q1)+sin(q1)*(cos(q2)*(sin(q3)*cos(q5)+sin(q5)*cos(q3)*cos(q4))+sin(q2)*(cos(q3)*cos(q5)-sin(q3)*sin(q5)*cos(q4)))) + J4z*(sin(q4)*cos(q1)*cos(q5)-sin(q1)*(sin(q2)*(sin(q5)*cos(q3)+sin(q3)*cos(q4)*cos(q5))+cos(q2)*(sin(q3)*sin(q5)-cos(q3)*cos(q4)*cos(q5))));
+  arm.P4.y = J1y + J2y*cos(q2) + J3y*cos(q2+q3) + J4x*sin(q4)*sin(q2+q3)- J2z*sin(q2) - J3z*sin(q2+q3) - J4y*(sin(q2)*(sin(q3)*cos(q5)+sin(q5)*cos(q3)*cos(q4))-cos(q2)*(cos(q3)*cos(q5)-sin(q3)*sin(q5)*cos(q4)))- J4z*(cos(q2)*(sin(q5)*cos(q3)+sin(q3)*cos(q4)*cos(q5))-sin(q2)*(sin(q3)*sin(q5)-cos(q3)*cos(q4)*cos(q5)));
+  arm.P4.z = J1z*cos(q1) + J2y*sin(q2)*cos(q1) + J2z*cos(q1)*cos(q2) + J3y*cos(q1)*sin(q2+q3) + J3z*cos(q1)*cos(q2+q3) - J3x*sin(q1) - sin(q1)*(J1x+J2x) - J4x*(sin(q1)*cos(q4)+sin(q4)*cos(q1)*cos(q2+q3)) - J4z*(sin(q1)*sin(q4)*cos(q5)+cos(q1)*(sin(q2)*(sin(q5)*cos(q3)+sin(q3)*cos(q4)*cos(q5))+cos(q2)*(sin(q3)*sin(q5)-cos(q3)*cos(q4)*cos(q5)))) - J4y*(sin(q1)*sin(q4)*sin(q5)-cos(q1)*(cos(q2)*(sin(q3)*cos(q5)+sin(q5)*cos(q3)*cos(q4))+sin(q2)*(cos(q3)*cos(q5)-sin(q3)*sin(q5)*cos(q4))));
+  
   // ROS_WARN("P1 : x = %f, y = %f, z = %f", arm.P1.x, arm.P1.y, arm.P1.z);
   // ROS_WARN("P2 : x = %f, y = %f, z = %f", arm.P2.x, arm.P2.y, arm.P2.z);
   // ROS_WARN("P3 : x = %f, y = %f, z = %f", arm.P3.x, arm.P3.y, arm.P3.z);

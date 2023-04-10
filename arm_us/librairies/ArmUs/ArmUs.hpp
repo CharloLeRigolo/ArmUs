@@ -52,7 +52,7 @@ private:
     ros::Subscriber m_sub_gui; // GUI
     // ros::Subscriber m_sub_joint_states;
     ros::Subscriber m_sub_joint_angles;
-
+    
     ros::Publisher m_pub_motor_interface; // Send motor velocities
     ros::Publisher m_pub_gui; // Send info to GUI
     ros::Publisher m_pub_3d_graph; // Send joint angles for real time representation of arm
