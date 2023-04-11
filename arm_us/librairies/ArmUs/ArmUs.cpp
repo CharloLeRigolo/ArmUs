@@ -1,5 +1,8 @@
 #include "ArmUs.hpp"
 
+#include "arm_us_msg/GuiInfo.h"
+
+
 ArmUs::ArmUs()
 {
     Initalize();
@@ -83,9 +86,12 @@ void ArmUs::Initalize()
  */
 void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
 {
+    arm_us_msg::GuiInfo gui_info_msg;
+
     m_controller.JoyLeft.set(data->axes[LEFT_JOY_VERT], data->axes[LEFT_JOY_HORI]);
     m_controller.JoyRight.set(data->axes[RIGHT_JOY_VERT], data->axes[RIGHT_JOY_HORI]);
     m_controller.Bumpers.set(data->buttons[LEFT_BUMP], data->buttons[RIGHT_BUMP]);
+    m_controller.Triggers.set(data->buttons[LEFT_TRIG], data->buttons[RIGHT_TRIG]);
 
     /*
     m_controller.Pad.set(data->axes[PAD_VERT], data->axes[PAD_HORI]);
@@ -271,13 +277,19 @@ void ArmUs::send_cmd_motor_stop()
 
 void ArmUs::send_gui_info()
 {
-    arm_us_msg::GuiInfo msg;
+    arm_us_msg::GuiInfo gui_info_msg;
 
-    //msg.position = m_arm_us_info->MotorPositions.get();
-    msg.velocity = m_arm_us_info->MotorVelocities.get();
-    //msg.connected = m_arm_us_info->MotorConnections.get();
-    //msg.limit_reached = m_arm_us_info->MotorLimits.get();
-    m_pub_gui.publish(msg);
+    gui_info_msg.current_joint = m_arm_us_info->JointControlled;
+    if (m_arm_us_info->MoveMode == MovementMode::Joint)
+    {
+        gui_info_msg.current_mode = 0;
+    }
+    else if (m_arm_us_info->MoveMode == MovementMode::Cartesian)
+    {
+        gui_info_msg.current_mode = 1;
+    }
+
+    m_pub_gui.publish(gui_info_msg);
 }
 
 void ArmUs::send_3d_graph_info()

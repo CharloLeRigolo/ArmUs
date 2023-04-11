@@ -1,7 +1,2 @@
-float64[] position
-float64[] velocity
-
-bool[] connected
-bool[] limit_reached
-
 int8 current_joint
+int8 current_mode

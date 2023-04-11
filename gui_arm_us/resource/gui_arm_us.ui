@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1346</width>
-    <height>252</height>
+    <height>286</height>
    </rect>
   </property>
   <property name="font">
@@ -782,7 +782,7 @@
                 <string>Joint</string>
                </property>
                <property name="checkable">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -792,7 +792,7 @@
                 <string>Cartesian</string>
                </property>
                <property name="checkable">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -803,23 +803,44 @@
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_20">
+         <item>
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Current joint</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="curr_joint">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::NoButtons</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_18">
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_24">
            <item>
             <widget class="QLabel" name="label_17">
              <property name="text">
-              <string>Joint imts :</string>
+              <string>Joint limts :</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="join_1_checkbox">
+            <widget class="QCheckBox" name="joint_1_checkbox">
              <property name="text">
               <string>Joint 1</string>
              </property>
              <property name="checkable">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -829,7 +850,7 @@
               <string>Joint 2</string>
              </property>
              <property name="checkable">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -839,7 +860,7 @@
               <string>Joint 3</string>
              </property>
              <property name="checkable">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -849,7 +870,7 @@
               <string>Joint 4</string>
              </property>
              <property name="checkable">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -859,7 +880,7 @@
               <string>Joint 5</string>
              </property>
              <property name="checkable">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
             </widget>
            </item>

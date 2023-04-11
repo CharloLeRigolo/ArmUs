@@ -2,7 +2,8 @@
 #include "sensor_msgs/JointState.h"
 #include <unordered_map>
 #include "std_msgs/Header.h"
-#include "arm_us_msg/GuiInfo.h"
+#include "std_msgs/Bool.h"
+#include "arm_us_msg/JointLimits.h"
 
 #define NB_JOINT 5                                // numbers of Joints
 const std::string NODE_NAME = "motor_translator"; // used for getting rosparam with correct name
@@ -54,7 +55,7 @@ int main(int argc, char *argv[])
 
     pub_command = n.advertise<sensor_msgs::JointState>("desired_joint_states", 1);
     pub_angles = n.advertise<sensor_msgs::JointState>("angles_joint_state", 1);
-    pub_gui = n.advertise<arm_us_msg::GuiInfo>("gui_info", 1);
+    pub_gui = n.advertise<arm_us_msg::JointLimits>("joint_limits", 1);
 
     while (ros::ok())
     {
@@ -227,19 +228,16 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
         {
             joint_angles[i] = min_angles[i] + ((joint_positions[i] - pos_min_angles[i]) * (max_angles[i] - min_angles[i]) / (pos_max_angles[i] - pos_min_angles[i]));
         }
-        
     }
 
     angle_feedback.name = {"motor1", "motor2", "motor3", "motor4", "motor5"};
 
-    arm_us_msg::GuiInfo gui_info_msg;
 
     for (auto i = 0; i < NB_JOINT; i++)
     {
         angle_feedback.position.push_back(joint_angles[i]);
         angle_feedback.velocity.push_back(joint_velocity[i]);
         angle_feedback.effort.push_back(joint_effort[i]);
-        gui_info_msg.limit_reached.push_back(joint_limits[i]);
     }
 
     std_msgs::Header head;
@@ -250,6 +248,12 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
     // ROS_WARN("j1 = %f, j2 = %f, j3 = %f, j4 = %f, j5 = %f", angle_feedback.position[0], angle_feedback.position[1], angle_feedback.position[2], angle_feedback.position[3], angle_feedback.position[4]);
 
     pub_angles.publish(angle_feedback);
+
+    arm_us_msg::JointLimits joint_limits_msg;
+
+    joint_limits_msg.joint_limits = { joint_limits[0], joint_limits[1], joint_limits[2], joint_limits[3], joint_limits[4] };
+
+    pub_gui.publish(joint_limits_msg);
 }
 
 /**

@@ -11,6 +11,7 @@ add_message_files(
   GuiFeedback.msg
   GuiInfo.msg
   GraphInfo.msg
+  JointLimits.msg
 )
 
 add_service_files(

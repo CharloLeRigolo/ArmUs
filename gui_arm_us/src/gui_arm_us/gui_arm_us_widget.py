@@ -18,12 +18,15 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QFrame,
     QDoubleSpinBox,
+    QSpinBox,
+    QCheckBox,
 )
 import rosservice
 
 from sensor_msgs.msg import JointState
 
-from arm_us.msg import GuiInfo
+from arm_us_msg.msg import GuiInfo
+from arm_us_msg.msg import JointLimits
 
 ROS_PARAM_HEADING: str = "/motor_translator/j"
 
@@ -46,11 +49,11 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         self.pub_angles = rospy.Publisher("gui_angles_joint_state", JointState, queue_size=1)
 
         # Callbacks
-        self.sub_gui_info = rospy.Subscriber(
-            "angles_joint_state", JointState, self.update_gui
-        )
+        self.sub_gui_info = rospy.Subscriber("angles_joint_state", JointState, self.update_gui)
 
-        self.sub_gui = rospy.Subscriber("gui_info", GuiInfo, queue_size=1)
+        self.sub_gui_info_control = rospy.Subscriber("gui_info", GuiInfo, self.update_gui_info_control)
+
+        self.sub_joint_limits = rospy.Subscriber("joint_limits", JointLimits, self.update_joint_limits)
 
         self.rate = rospy.Rate(10)  # 10Hz
 
@@ -84,6 +87,19 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             self.curr_angle_4,
             self.curr_angle_5,
         )
+
+        self.joint_limits_objects: QCheckBox = (
+            self.joint_1_checkbox,
+            self.joint_2_checkbox,
+            self.joint_3_checkbox,
+            self.joint_4_checkbox,
+            self.joint_5_checkbox,
+        )
+
+        self.mode_checkbox_joint: QCheckBox
+        self.mode_checkbox_cartesian: QCheckBox
+
+        self.curr_joint: QSpinBox
 
         self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
 
@@ -125,6 +141,24 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         for qbutton in self.curr_angle_objects:
             # rospy.loginfo("Index " + str(index) + " : " + str(data.position[index]))
             qbutton.setValue(data.position[index])
+            index += 1
+
+
+    def update_gui_info_control(self, data: GuiInfo):
+        
+        self.curr_joint.setValue(data.current_joint)
+
+        if data.current_mode == 0:
+            self.mode_checkbox_joint.setChecked(True)
+            self.mode_checkbox_cartesian.setChecked(False)
+        elif data.current_mode == 1:
+            self.mode_checkbox_joint.setChecked(False)
+            self.mode_checkbox_cartesian.setChecked(True)
+
+    def update_joint_limits(self, data: JointLimits):
+        index = 0
+        for qcheckbox in self.joint_limits_objects:
+            qcheckbox.setChecked(data.joint_limits[index])
             index += 1
 
     def calib_btn_callback(self, joint_index: int, limit_type: str):
