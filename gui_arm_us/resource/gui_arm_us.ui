@@ -761,7 +761,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_21">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_17">
+        <layout class="QVBoxLayout" name="verticalLayout_22">
          <item>
           <widget class="QLabel" name="label_16">
            <property name="text">
@@ -770,35 +770,27 @@
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_19">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_22">
-             <item>
-              <widget class="QCheckBox" name="mode_checkbox_cartesian">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="text">
-                <string>Joint</string>
-               </property>
-               <property name="checkable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="mode_checkbox_joint">
-               <property name="text">
-                <string>Cartesian</string>
-               </property>
-               <property name="checkable">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
+          <widget class="QCheckBox" name="mode_checkbox_cartesian">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Joint</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="mode_checkbox_joint">
+           <property name="text">
+            <string>Cartesian</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

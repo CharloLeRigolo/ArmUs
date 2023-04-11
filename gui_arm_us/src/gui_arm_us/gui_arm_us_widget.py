@@ -145,15 +145,16 @@ class GuiArmUsWidget(QtWidgets.QWidget):
 
 
     def update_gui_info_control(self, data: GuiInfo):
-        
-        self.curr_joint.setValue(data.current_joint)
-
         if data.current_mode == 0:
-            self.mode_checkbox_joint.setChecked(True)
-            self.mode_checkbox_cartesian.setChecked(False)
-        elif data.current_mode == 1:
             self.mode_checkbox_joint.setChecked(False)
             self.mode_checkbox_cartesian.setChecked(True)
+            self.curr_joint.setDisabled(False)
+        elif data.current_mode == 1:
+            self.mode_checkbox_joint.setChecked(True)
+            self.mode_checkbox_cartesian.setChecked(False)
+            self.curr_joint.setDisabled(True)
+
+        self.curr_joint.setValue(data.current_joint)
 
     def update_joint_limits(self, data: JointLimits):
         index = 0
