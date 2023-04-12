@@ -8,10 +8,14 @@
  ARMUS-500-000 --> [Wrist assembly](#wrist-assembly)   
 
 ## Principal Assembly
-![plot](./Pictures/Full_arm.png)    
-The full assembly of the arm consist of 4 parts: the Shoulder, the Upper Arm, the Forearm and the wrist. Each of those part are assembled separately before doing the final assembly.
+![plot](./Pictures/Full_arm.png)
+The full assembly of the arm consist of 3 parts: the Shoulder, the Upper Arm and the wrist. Each of those part are assembled separately before doing the final assembly.  
+<br/>  
+[<img src="https://i.ytimg.com/vi/gpFWE8whwUc/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDSOc6LxEy6wZhBRTAceGDkP5V7dg" width="100%">](https://www.youtube.com/watch?v=gpFWE8whwUc&ab_channel=CharlesB%C3%A9langer)
 
 ## Shoulder assembly
+![plot](./Pictures/Full_arm.png)
+blablab
 ## Upper Arm assembly
 ## Elbow assembly 
 ## Forearm assembly
