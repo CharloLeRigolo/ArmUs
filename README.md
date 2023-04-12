@@ -1,5 +1,16 @@
 # ArmUs
 
+## Setting up your environement
+
+
+
+
+
+
+
+
+
+
 ## Material
 - 1 OpenCR board
 - 2 Dynamixel XL430 motors
