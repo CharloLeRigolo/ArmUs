@@ -1,3 +1,15 @@
+/**
+ * @file motor_translator.cpp
+ * @author Mikael St-Arnaud et Philippe Michaud (stam1001, micp1402)
+ * @brief This nodes act as an interface between the dynamixel motor_controller and arm_us's control nodes.
+ * It take raw_position value from the motors and converts them into real angles. It also applies real word
+ * joint limits to sent commands (from arm_us) and add a motor speed limiter in cartesian control mode.
+ * @version 0.1 
+ * @date 2023-04-12
+ *
+ * @copyright Copyright (c) 2023 - See ARM_US licence
+ */
+
 #include "ros/ros.h"
 #include "sensor_msgs/JointState.h"
 #include <unordered_map>
@@ -44,7 +56,7 @@ short motor_order[5] = {0, 1, 2, 3, 4};
 
 int main(int argc, char *argv[])
 {
-   
+
     ros::init(argc, argv, NODE_NAME);
     ros::NodeHandle n;
 
@@ -108,7 +120,7 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
                 joint_limits[0] = true;
                 ROS_WARN("Joint #%d at limit", (i + 1));
             }
-            else 
+            else
             {
                 cmd.velocity[0] = msg->velocity[0];
                 cmd.velocity[1] = msg->velocity[1];
@@ -118,17 +130,17 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         }
         else if (i > 1)
         {
-        //     if ((msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i]) || (msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i]))
-        //     {
-        //         cmd.velocity[i] = 0.0;
-        //         joint_limits[i] = true;
-        //         ROS_WARN("Joint #%d at limit", (i + 1));
-        //     }
-        //     else
-        //     {
-        //         cmd.velocity[i] = msg->velocity[i];
-        //         joint_limits[i] = false;
-        //     }
+            //     if ((msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i]) || (msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i]))
+            //     {
+            //         cmd.velocity[i] = 0.0;
+            //         joint_limits[i] = true;
+            //         ROS_WARN("Joint #%d at limit", (i + 1));
+            //     }
+            //     else
+            //     {
+            //         cmd.velocity[i] = msg->velocity[i];
+            //         joint_limits[i] = false;
+            //     }
 
             cmd.velocity[i] = msg->velocity[i];
             joint_limits[i] = false;
@@ -137,13 +149,13 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
 
     // ROS_WARN("Command with joint limits :");
     // ROS_WARN("m1 = %f, m2 = %f, m3 = %f, m4 = %f, m5 = %f", cmd.velocity[0], cmd.velocity[1], cmd.velocity[2], cmd.velocity[3], cmd.velocity[4]);
-    
+
     // Applying speed limiter
     // NEEDS to be tested
     double cmd_max_speed = *std::max_element(std::begin(cmd.velocity), std::end(cmd.velocity));
     if (cmd_max_speed > max_speed)
     {
-        double factor = max_speed/cmd_max_speed;
+        double factor = max_speed / cmd_max_speed;
         for (auto i = 0; i < NB_JOINT; i++)
         {
             cmd.velocity[i] *= factor;
@@ -171,8 +183,8 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
 /**
  * @brief Callback to translate raw position value of motor to angle
  * and reorganise msg with sorted motor order (1, 2, 3, ...)
- * 
- * @param msg 
+ *
+ * @param msg
  */
 void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 {
@@ -235,7 +247,6 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 
     angle_feedback.name = {"motor1", "motor2", "motor3", "motor4", "motor5"};
 
-
     for (auto i = 0; i < NB_JOINT; i++)
     {
         angle_feedback.position.push_back(joint_angles[i]);
@@ -254,14 +265,14 @@ void stateCallback(const sensor_msgs::JointStateConstPtr &msg)
 
     arm_us_msg::JointLimits joint_limits_msg;
 
-    joint_limits_msg.joint_limits = { joint_limits[0], joint_limits[1], joint_limits[2], joint_limits[3], joint_limits[4] };
+    joint_limits_msg.joint_limits = {joint_limits[0], joint_limits[1], joint_limits[2], joint_limits[3], joint_limits[4]};
 
     pub_gui.publish(joint_limits_msg);
 }
 
 /**
  * @brief Angle callback when in simulation mode (bypass normal callback)
- * 
+ *
  */
 void simulateStateCallback()
 {
@@ -296,7 +307,7 @@ void simulateStateCallback()
 
 /**
  * @brief Gets and set the needed ros::Params as global variable
- * 
+ *
  */
 void setParams()
 {
