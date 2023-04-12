@@ -8,11 +8,6 @@
 	<arg name="controller" default="1"/>
 
 	<!-- If mode real, start communication with dynamixels -->
-	<group if="$(eval arg('simulation') == 0)">
-		<node name="dynamixel_interface_node" pkg="dynamixel_interface" type="dynamixel_interface_controller_node" output="screen">
-			<rosparam command="load" file="$(find arm_us)/config/motor_config.yaml"/>
-		</node>
-	</group>
 	
 	<!-- Verbose mode -->
 	<group if="$(eval arg('verbose') == 0)">
@@ -24,11 +19,7 @@
 		<!-- Service node to calculate inverse kinematics of arm -->
 		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py"/>
 		<!-- Motor interface node for joint limits -->
-		<node name="motor_translator" pkg="arm_us" type="motor_translator">
-			<rosparam file="$(find arm_us)/config/joint_limit.yaml"/>
-		</node>
-		<!-- Start GUI node and RQT -->
-  		<node name = "arm_us_dashboard" pkg = "rqt_gui" type = "rqt_gui" respawn = "false"/>
+
 	</group>
 	<group if="$(eval arg('verbose') == 1)">
 		<!-- Master node -->
@@ -39,11 +30,7 @@
 		<!-- Service node to calculate inverse kinematics of arm -->
 		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py" output="screen"/>
 		<!-- Motor interface node for joint limits -->
-		<node name="motor_translator" pkg="arm_us" type="motor_translator" output="screen">
-			<rosparam file="$(find arm_us)/config/joint_limit.yaml"/>
-		</node>
-		<!-- Start GUI node and RQT -->
-  		<node name = "arm_us_dashboard" pkg = "rqt_gui" type = "rqt_gui" respawn = "false" output="screen"/>
+
 	</group>
 
 	<!-- Communication with controller -->

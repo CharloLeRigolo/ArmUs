@@ -21,6 +21,7 @@ from PyQt5.QtWidgets import (
     QSpinBox,
     QCheckBox,
 )
+from threading import Lock
 import rosservice
 
 from sensor_msgs.msg import JointState
@@ -30,11 +31,13 @@ from arm_us_msg.msg import JointLimits
 
 ROS_PARAM_HEADING: str = "/motor_translator/j"
 
-FEEDBACK_CALLBACK_FREQUENCY = 10 # Hz (Replaces Ros Rate)
+FEEDBACK_CALLBACK_FREQUENCY = 10  # Hz (Replaces Ros Rate)
+
 
 class GuiArmUsWidget(QtWidgets.QWidget):
-
     def __init__(self):
+        self.lock = Lock()
+
         super(GuiArmUsWidget, self).__init__()
 
         ui_file = os.path.join(
@@ -46,14 +49,24 @@ class GuiArmUsWidget(QtWidgets.QWidget):
         self.launch: roslaunch.ROSLaunch = roslaunch.scriptapi.ROSLaunch()
         self.launch.start()
 
-        self.pub_angles = rospy.Publisher("gui_angles_joint_state", JointState, queue_size=1)
+        self.pub_angles = rospy.Publisher(
+            "gui_angles_joint_state", JointState, queue_size=1
+        )
 
         # Callbacks
-        self.sub_gui_info = rospy.Subscriber("angles_joint_state", JointState, self.update_gui)
+        self.sub_gui_info = rospy.Subscriber(
+            "angles_joint_state", JointState, self.update_gui
+        )
 
-        self.sub_gui_info_control = rospy.Subscriber("gui_info", GuiInfo, self.update_gui_info_control)
+        self.sub_joint_state = rospy.Subscriber("joint_states", JointState, self.getRawAngle)
 
-        self.sub_joint_limits = rospy.Subscriber("joint_limits", JointLimits, self.update_joint_limits)
+        self.sub_gui_info_control = rospy.Subscriber(
+            "gui_info", GuiInfo, self.update_gui_info_control
+        )
+
+        self.sub_joint_limits = rospy.Subscriber(
+            "joint_limits", JointLimits, self.update_joint_limits
+        )
 
         self.rate = rospy.Rate(10)  # 10Hz
 
@@ -101,7 +114,7 @@ class GuiArmUsWidget(QtWidgets.QWidget):
 
         self.curr_joint: QSpinBox
 
-        self.raw_angles: float = (0.0, 0.0, 0.0, 0.0, 0.0)
+        self.raw_angles: float = [0.0, 0.0, 0.0, 0.0, 0.0]
 
         self.init_param(self.calib_min_objects, "/min_limit")
         self.init_param(self.calib_max_objects, "/max_limit")
@@ -126,23 +139,25 @@ class GuiArmUsWidget(QtWidgets.QWidget):
 
     # Update loop for GUI, linked with motor controller's translated topic messages
     def update_gui(self, data: JointState):
+            if (
+                self.lastTimeFeedback + rospy.Duration(10 / FEEDBACK_CALLBACK_FREQUENCY)
+                > rospy.Time.now()
+            ):
+                return
 
-        if self.lastTimeFeedback + rospy.Duration(1.0 / FEEDBACK_CALLBACK_FREQUENCY) > rospy.Time.now():
-            return
-        self.lastTimeFeedback = rospy.Time.now()
+            self.lsastTimeFeedback = rospy.Time.now()
 
-        index: int = 0
-        for qbutton in self.curr_vel_objects:
-            # rospy.loginfo("Index:" + str(index))
-            qbutton.setValue(data.velocity[index])
-            index += 1
+            index: int = 0
+            for qbutton in self.curr_vel_objects:
+                # rospy.loginfo("Index:" + str(index))
+                qbutton.setValue(data.velocity[index])
+                index += 1
 
-        index = 0
-        for qbutton in self.curr_angle_objects:
-            # rospy.loginfo("Index " + str(index) + " : " + str(data.position[index]))
-            qbutton.setValue(data.position[index])
-            index += 1
-
+            index = 0
+            for qbutton in self.curr_angle_objects:
+                # rospy.loginfo("Index " + str(index) + " : " + str(data.position[index]))
+                qbutton.setValue(data.position[index])
+                index += 1
 
     def update_gui_info_control(self, data: GuiInfo):
         if data.current_mode == 0:
@@ -163,6 +178,14 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             index += 1
 
     def calib_btn_callback(self, joint_index: int, limit_type: str):
+        raw_angle: float = 0.0
+        if joint_index == 1:
+            raw_angle = self.raw_angles[0] - self.raw_angles[1];
+        elif joint_index == 2:
+            raw_angle = (self.raw_angles[0] + self.raw_angles[1]) / 2;
+        else:
+            raw_angle = self.raw_angles[joint_index - 1];
+    
         if limit_type == "min":
             rospy.set_param(
                 ROS_PARAM_HEADING + str(joint_index) + "/min_limit",
@@ -170,9 +193,8 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             )
             rospy.set_param(
                 ROS_PARAM_HEADING + str(joint_index) + "/pos_min_angle",
-                self.raw_angles[joint_index - 1],
+                raw_angle,
             )
-
         elif limit_type == "max":
             rospy.set_param(
                 ROS_PARAM_HEADING + str(joint_index) + "/max_limit",
@@ -180,10 +202,29 @@ class GuiArmUsWidget(QtWidgets.QWidget):
             )
             rospy.set_param(
                 ROS_PARAM_HEADING + str(joint_index) + "/pos_max_angle",
-                self.raw_angles[joint_index - 1],
+                raw_angle,
             )
         else:
             rospy.loginfo("Wrong limit type in calibration callback call")
+
+    def getRawAngle(self, data: JointState):
+        if (
+            self.lastTimeFeedback + rospy.Duration(10 / FEEDBACK_CALLBACK_FREQUENCY)
+            > rospy.Time.now()
+        ):
+            return
+        self.lastTimeFeedback = rospy.Time.now()
+
+        #Reordering positions array
+        motor_dict = {
+                    'motor1': 0,
+                    'motor2': 1,
+                    'motor3': 2,
+                    'motor4': 3,
+                    'motor5': 4}
+        
+        for i in range(len(data.name)-1):
+            self.raw_angles[motor_dict[data.name[i]]] = data.position[i]
 
     def init_param(self, object_list, param_name: str):
         index = 1
@@ -192,5 +233,3 @@ class GuiArmUsWidget(QtWidgets.QWidget):
                 rospy.get_param(ROS_PARAM_HEADING + str(index) + param_name)
             )
             index += 1
-
-    # TODO add topic for angle and current velocity from angle_joint_state and link raw motor pos

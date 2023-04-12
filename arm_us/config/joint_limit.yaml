@@ -1,34 +1,25 @@
-j1:
-  max_limit: 90.0
-  min_limit: -90.0
-
-  pos_max_angle: -2.46
-  pos_min_angle: -15.16
-
-j2:
-  max_limit: 360.0
-  min_limit: -360.0
-
-  pos_max_angle: 28.77
-  pos_min_angle: -11.42
-
-j3:
-  max_limit: 180.0
-  min_limit: 90.0
-
-  pos_max_angle: -1.92 
-  pos_min_angle: -3.75
-
-j4:
-  max_limit: 720.0
-  min_limit: -720.0
-
-  pos_max_angle: 7.06
-  pos_min_angle: -18.08
-
-j5:
-  max_limit: 90.0
-  min_limit: -90.0
-
-  pos_max_angle: 2.1353
-  pos_min_angle: -0.9280
+  j1:
+    max_limit: 90.0
+    min_limit: -90.0
+    pos_max_angle: 9.943263467074727
+    pos_min_angle: -3.3118645210451003
+  j2:
+    max_limit: -180.0
+    min_limit: 0.0
+    pos_max_angle: -12.439817199358608
+    pos_min_angle: -2.205097382585609
+  j3:
+    max_limit: 180.0
+    min_limit: 90.0
+    pos_max_angle: 1.188835110611372
+    pos_min_angle: -0.8559612796401878
+  j4:
+    max_limit: 720.0
+    min_limit: -720.0
+    pos_max_angle: 7.06
+    pos_min_angle: -18.08
+  j5:
+    max_limit: 90.0
+    min_limit: -90.0
+    pos_max_angle: 2.1353
+    pos_min_angle: -0.928

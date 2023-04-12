@@ -90,7 +90,6 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         cmd.velocity[i] = 0.0;
     }
 
-    // No limit set for differential
     for (auto i = 0; i < 2; i++)
     {
         cmd.velocity[i] = msg->velocity[i];
@@ -114,21 +113,25 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
                 cmd.velocity[0] = msg->velocity[0];
                 cmd.velocity[1] = msg->velocity[1];
                 joint_limits[0] = false;
+                ROS_WARN("Joint #%d at limit", (i + 1));
             }
         }
         else if (i > 1)
         {
-            if ((msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i]) || (msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i]))
-            {
-                cmd.velocity[i] = 0.0;
-                joint_limits[i] = true;
-                ROS_WARN("Joint #%d at limit", (i + 1));
-            }
-            else
-            {
-                cmd.velocity[i] = msg->velocity[i];
-                joint_limits[i] = false;
-            }
+        //     if ((msg->velocity[i] > 0.0 && joint_angles[i] >= max_angles[i]) || (msg->velocity[i] < 0.0 && joint_angles[i] <= min_angles[i]))
+        //     {
+        //         cmd.velocity[i] = 0.0;
+        //         joint_limits[i] = true;
+        //         ROS_WARN("Joint #%d at limit", (i + 1));
+        //     }
+        //     else
+        //     {
+        //         cmd.velocity[i] = msg->velocity[i];
+        //         joint_limits[i] = false;
+        //     }
+
+            cmd.velocity[i] = msg->velocity[i];
+            joint_limits[i] = false;
         }
     }
 
