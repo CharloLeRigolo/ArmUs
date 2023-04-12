@@ -1,15 +1,56 @@
 # ArmUs
 
-## Setting up your environement
+## Setting up your environement (software)
+1.  Start by installing [ubuntu 20.04 desktop Focal Fossa](https://releases.ubuntu.com/focal/) on your machine (VM or dualboot), dualboot is highly recomended.
+2.  Install ROS-Noetic by following [this tutorial](http://wiki.ros.org/noetic/Installation/Ubuntu)
+3.  Edit your bashrc
+    - Open your .bashrc (if you're using bash) 
+      ```
+      sudo nano ~/.bashrc
+      ```
+    - Then add these lines at the end
+      ```
+      source /opt/ros/noetic/setup.bash
+      source ~/catkin_ws/devel/setup.bash
+      ```
+    - Save and exit
+      ```
+      ctrl+s
+      ctrl+x
+      ```
+4.  Setup your catkin_ws by following [this tutorial](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment)
+5.  Clone all the arm_us packages from this git repo to your catkin_ws/src folder
+    - arm_us
+    - arm_us_graph
+    - gui_arm_us
+    - arm_us_msg
 
+6.  Install all the dependencies:
+    - Dependencies
+      - joy
+      - dynamixel_sdk
+      - dynamixel_interface
 
+    - Run these commands to install packages available in rosdep:
+      ```
+      sudo apt install ros-noetic-joy
+      ```
 
-
-
-
-
-
-
+    - Some packages need to be cloned directly from GitHub as they aren't maintained in rosdep, to clone them,
+      - first make */catkin_ws/src/* your working directory:
+        ```
+        cd ~/catkin_ws/src
+        ```
+      - Then, enter these commands to clone the packages:
+        ```
+        git clone https://github.com/csiro-robotics/dynamixel_interface.git
+        git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git
+        ```
+    - Once all dependencies are installed, don't forget to compile your workspace
+      ```
+      cd ~/catkin_ws/
+      catkin_make
+      ```
 
 ## Material
 - 1 OpenCR board
@@ -17,31 +58,7 @@
 - 3 Dynamixel XM430 motors
 - 1 XBOX controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using an XBOX controller)
 
-## Dependencies
-- joy
-- dynamixel_sdk
-- dynamixel_interface
-
-Run these commands to install packages available in rosdep:
-```
-sudo apt install ros-noetic-joy
-```
-
-Some packages need to be cloned directly from Github as they aren't maintained in rosdep,
-To clone them, first make */catkin_ws/src/* your working directory:
-```
-cd ~/catkin_ws/src
-```
-Then, enter these commands to clone the packages:
-```
-git clone https://github.com/csiro-robotics/dynamixel_interface.git
-git clone https://github.com/ROBOTIS-GIT/DynamixelSDK.git
-```
-Once all dependencies are installed, don't forget to compile your workspace
-```
-cd ~/catkin_ws/
-catkin_make
-```
+## 
 
 ## Running the pkg
 Open a terminal and run:
