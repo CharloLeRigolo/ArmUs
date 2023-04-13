@@ -1,0 +1,5 @@
+<map id="ArmUsInfo" name="ArmUsInfo">
+<area shape="rect" id="node1" title="Class that holds information about the arm : velocities, angles, positions, etc." alt="" coords="93,5,184,32"/>
+<area shape="rect" id="node2" href="$classArmUsInfoReal.html" title=" " alt="" coords="5,80,125,107"/>
+<area shape="rect" id="node3" href="$classArmUsInfoSimul.html" title=" " alt="" coords="149,80,277,107"/>
+</map>
