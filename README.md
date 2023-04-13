@@ -1,15 +1,38 @@
-# ArmUs
-## Project description
+# Table of content
+- [ArmUs](#armus)
+- [Accessing documentation](#accessing-documentation)
+- [Setup](#setup)
+  * [Setting up your environement (software)](#setting-up-your-environement-software)
+  * [Material (Software side)](#material-software-side)
+  * [Material and assembly](https://github.com/CharloLeRigolo/arm_us/tree/main/Mechanics)
+- [Running the robot](#running-the-robot)
+- [ROS information](#ros-information)
+  * [General picture](#general-picture)
+  * [Packages](#packages)
+  * [Launch files](#launch-files)
+  * [Config files](#config-files)
+  * [Msg, srv and action files](#msg-srv-and-action-files)
+- [License](#license)
 
-## Accessing documentation
+# ArmUs
+ArmUs is a 5 axis robot made to reprocuce movement and goemetry of a real humain arm. It's made by a team of 6 sherbrooke university undergraduate. The goal is to eventually add a robotic hand at the end and be able to control the whole arm-hand assembly by moving your arm. 
+
+![ARM US](PHOTO D'ARMUS)
+
+At this stage, the arm can be control either in joint or in cartisian mode and can be visualized and calibrated in real time, it also support software protection, torque limiters to reduce risks and a simulation mode for test purposes.
+
+Control interface (HMI)
+![HMI](https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/HMI%20ScreenShot.png)
+
+# Accessing documentation
 To open a package's documentation, open the index.html file found in it's "/doc" folder in your browser.
 Ex:
 ```
 firefox ~/catkin_ws/src/arm_us/arm_us/doc/html/index.html
 ```
 
-## Setup
-### Setting up your environement (software)
+# Setup
+## Setting up your environement (software)
 1.  Start by installing [ubuntu 20.04 desktop Focal Fossa](https://releases.ubuntu.com/focal/) on your machine (VM or dualboot), dualboot is highly recomended.
 2.  Install ROS-Noetic by following [this tutorial](http://wiki.ros.org/noetic/Installation/Ubuntu)
 3.  Edit your bashrc
@@ -71,7 +94,7 @@ firefox ~/catkin_ws/src/arm_us/arm_us/doc/html/index.html
 		```
 	The OpenCR board is now in bridge mode. We will be able to control it directly from the Serial Port
 
-### Material (Software side)
+## Material (Software side)
 For the robot assembly follow the [README.md](https://github.com/CharloLeRigolo/arm_us/blob/main/Mechanics/README.md) in [/Mechanics](https://github.com/CharloLeRigolo/arm_us/tree/main/Mechanics).
 
 - 1 OpenCR board
@@ -81,7 +104,7 @@ For the robot assembly follow the [README.md](https://github.com/CharloLeRigolo/
 - 1 USB micro B to USB A
 - 1 Generic controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using a logitech controller)
 
-## Running the robot
+# Running the robot
 Open a terminal and launch the first launchfile:
 ```
 roslaunch arm_us 1_interface.launch
@@ -97,19 +120,21 @@ This will enable the torque on the motors and enable the control with the contro
 
 Before killing your node, if you want to keep your calibration values, run this command
 ```
-rosparam dump **yourpath/calib.yaml**
+rosparam dump **yourpath**/calib.yaml
 ```
 and copy the lines under "motor_translator:" in the config file arm_us/config/joint_limit.yaml.
 
-## ROS information
-### Packages
+# ROS information
+## General picture
+![rqt_graph](https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/RQT_ScreenShot.png)
+## Packages
 There are 4 packages in ArmUs:
- - arm_us
- - arm_us_graph
- - gui_arm_us
- - arm_us_msg
+ - [arm_us](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us/doc/manifest.yaml)
+ - [arm_us_graph](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us_graph/doc/manifest.yaml)
+ - [gui_arm_us](https://github.com/CharloLeRigolo/arm_us/blob/main/gui_arm_us/doc/manifest.yaml)
+ - [arm_us_msg](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us_msg/doc/manifest.yaml)
 
-### Launch files
+## Launch files
 - 1_interface.launch
 	- Nodes:
 		- motor_controller
@@ -130,7 +155,7 @@ There are 4 packages in ArmUs:
 	- Service:
 		- inv_kin_calc_service
 
-### Config files
+## Config files
 - controller_config.yaml
 	- Keybindings for joy
 - joint_limit.yaml
@@ -138,5 +163,8 @@ There are 4 packages in ArmUs:
 - motor_config.yaml
 	- Dynamixel configuration; torque limit, speed limit, motor id, etc
 
-### Msg, srv and action files
+## Msg, srv and action files
 Information for msg, srv and action files can be found directly in the [arm_us_msg](https://github.com/CharloLeRigolo/arm_us/tree/main/arm_us_msg) package 
+
+# License
+MIT [Licence](https://github.com/CharloLeRigolo/arm_us/blob/main/LICENSE)
