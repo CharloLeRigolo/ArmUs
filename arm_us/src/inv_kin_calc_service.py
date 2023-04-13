@@ -89,9 +89,6 @@ def handle_inv_kin_calc(req):
     try:
         if det(j) != 0:
             resp.velocities = np.matmul(inv(j), command)
-            resp.velocities[0] *= 45/14
-            resp.velocities[1] *= 45/14
-            resp.velocities[2] *= 32/24
             resp.singularMatrix = 0
         else:
             rospy.logerr("Can't create inverse matrix, jacobian determinant is %f", det(j))

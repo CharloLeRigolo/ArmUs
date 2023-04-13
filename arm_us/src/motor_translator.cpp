@@ -90,10 +90,10 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         cmd.velocity[i] = 0.0;
     }
 
-    for (auto i = 0; i < 2; i++)
-    {
-        cmd.velocity[i] = msg->velocity[i];
-    }
+    // for (auto i = 0; i < 2; i++)
+    // {
+    //     cmd.velocity[i] = msg->velocity[i];
+    // }
 
     // Checking other motor limits
     for (auto i = 0; i < NB_JOINT; i++)

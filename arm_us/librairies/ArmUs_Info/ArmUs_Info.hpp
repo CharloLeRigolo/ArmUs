@@ -7,9 +7,13 @@
 
 // #include "arm_us_msg/InverseKinematicCalc.h"
 
-const float MAX_VEL = 1;
+const float MAX_VEL = 1; // TODO Instead of using this local constant, get max velocity from rosparams
 
-enum class MovementMode { Joint = 0, Cartesian = 1 };
+enum class MovementMode 
+{ 
+    Joint = 0, 
+    Cartesian = 1 
+};
 
 /**
  * @brief Data structure that holds 5 floats : m1, m2, m3, m4, m5
