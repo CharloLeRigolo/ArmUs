@@ -19,7 +19,7 @@ ArmUs is a 5 axis robot made to reprocuce movement and goemetry of a real humain
 
 ![ARM US](PHOTO D'ARMUS)
 
-At this stage, the arm can be control either in joint or in cartisian mode and can be visualized and calibrated in real time, it also support software protection, torque limiters to reduce risks and a simulation mode for test purposes.
+At this stage, the arm can be controled either in joint or in cartisian mode and can be visualized and calibrated in real time, it also support software protection, torque limiters to reduce risks and a simulation mode for test purposes.
 
 Control interface (HMI)
 ![HMI](https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/HMI%20ScreenShot.png)
