@@ -321,7 +321,7 @@ void ArmUsInfoReal::calculate_motor_velocities()
         // ROS_INFO("--------------------------------------------------");
 
         MotorVelocities.m1 = (velocities.x + velocities.y) / 2;
-        MotorVelocities.m2 = (velocities.x - velocities.y) / 2;
+        MotorVelocities.m2 = (-velocities.x + velocities.y) / 2;
         MotorVelocities.m3 = velocities.z;
     }
 };

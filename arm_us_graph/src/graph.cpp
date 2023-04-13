@@ -11,7 +11,7 @@ void UpdateGraph();
 void CalculatePositions();
 void sub_angle_callback(const arm_us_msg::GraphInfo::ConstPtr &msg);
 
-const float J1x = 1.25;
+const float J1x = 2.0548;
 const float J1y = 0;
 const float J1z = 0;
 
@@ -20,7 +20,7 @@ const float J2y = -2.25;
 const float J2z = 0;
 
 const float J3x = 0;
-const float J3y = 2.00;
+const float J3y = 1.73;
 const float J3z = 0;
 
 const float J4x = 0;

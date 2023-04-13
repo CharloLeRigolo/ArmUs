@@ -35,7 +35,7 @@ def handle_inv_kin_calc(req):
     rospy.loginfo("Commandes: {}".format(command))
 
     # Grandeurs physiques
-    J1x : float = 1.25
+    J1x : float = 2.0548
     J1y : float = 0
     J1z : float = 0
 
@@ -44,7 +44,7 @@ def handle_inv_kin_calc(req):
     J2z : float = 0
     
     J3x : float = 0
-    J3y : float = 2.00
+    J3y : float = 1.73
     J3z : float = 0
     
     J4x : float = 0
@@ -89,8 +89,8 @@ def handle_inv_kin_calc(req):
     try:
         if det(j) != 0:
             resp.velocities = np.matmul(inv(j), command)
-            resp.velocities[0] *= 45/14
-            resp.velocities[1] *= 45/14
+            resp.velocities[0] *= (45/14)
+            resp.velocities[1] *= (30/14)/2
             resp.velocities[2] *= 32/24
             resp.singularMatrix = 0
         else:
