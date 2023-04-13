@@ -1,0 +1,44 @@
+<launch>
+
+	<!-- Mode verbose off by default -->
+	<arg name="verbose" default="0"/>
+	<!-- Mode simulation off by default -->
+	<arg name="simulation" default="0"/>
+	<!-- Controller connected, on by default -->
+	<arg name="controller" default="1"/>
+
+	<!-- If mode real, start communication with dynamixels -->
+	
+	<!-- Verbose mode -->
+	<group if="$(eval arg('verbose') == 0)">
+		<!-- Master node -->
+		<node name="master_node" pkg="arm_us" type="arm_us_node">
+			<param name="control_mode" value="$(arg simulation)"/>
+			<rosparam file="$(find arm_us)/config/controller_config.yaml"/>
+		</node>
+		<!-- Service node to calculate inverse kinematics of arm -->
+		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py"/>
+		<!-- Motor interface node for joint limits -->
+
+	</group>
+	<group if="$(eval arg('verbose') == 1)">
+		<!-- Master node -->
+		<node name="master_node" pkg="arm_us" type="arm_us_node" output="screen">
+			<param name="control_mode" value="$(arg simulation)"/>
+			<rosparam file="$(find arm_us)/config/controller_config.yaml"/>
+		</node>
+		<!-- Service node to calculate inverse kinematics of arm -->
+		<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py" output="screen"/>
+		<!-- Motor interface node for joint limits -->
+
+	</group>
+
+	<!-- Communication with controller -->
+	<group if="$(eval arg('controller') == 1)">
+		<node name="joy" pkg="joy" type="joy_node"/>
+	</group>
+
+	<!-- Real time position of arm in Rviz -->
+	<node name="arm_us_graphic" pkg="arm_us_graph" type="graph"/>	
+  	
+</launch>

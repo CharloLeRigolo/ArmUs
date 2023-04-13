@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<launch>
+
+<node pkg="gui_arm_us" name="gui_arm_us" type="gui_arm_us" respawn="false" output="screen">
+	</node>
+
+</launch>

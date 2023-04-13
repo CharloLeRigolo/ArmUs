@@ -1,0 +1,7 @@
+<launch>
+
+  <node name="dynamixel_interface_node" pkg="dynamixel_interface" type="dynamixel_interface_controller_node" output="screen">
+    <rosparam command="load" file="$(find arm_us)/config/motor_config.yaml" />
+  </node>
+  
+</launch>

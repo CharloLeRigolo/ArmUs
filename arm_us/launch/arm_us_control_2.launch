@@ -1,0 +1,12 @@
+<launch>ss
+    <node name="dynamixel_interface_node" pkg="dynamixel_interface" type="dynamixel_interface_controller_node" output="screen">
+        <rosparam command="load" file="$(find arm_us)/config/motor_config.yaml" />
+    </node>
+
+    <node name="motor_translator" pkg="arm_us" type="motor_translator" output="screen">
+        <rosparam file="$(find arm_us)/config/joint_limit.yaml"/>
+    </node>
+
+    <!-- Start GUI node and RQT -->
+    <node name = "arm_us_dashboard" pkg = "rqt_gui" type = "rqt_gui" respawn = "false"/>
+</launch>

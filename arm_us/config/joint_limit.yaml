@@ -1,0 +1,25 @@
+  j1:
+    max_limit: 90.0
+    min_limit: -90.0
+    pos_max_angle: 3.273515001347957
+    pos_min_angle: -9.806739176952904
+  j2:
+    max_limit: 180.0
+    min_limit: 0.0
+    pos_max_angle: 7.007991229455552
+    pos_min_angle: -3.044184873559055
+  j3:
+    max_limit: 180.0
+    min_limit: 90.0
+    pos_max_angle: -0.5537670644267164
+    pos_min_angle: -2.382272163586401
+  j4:
+    max_limit: 720.0
+    min_limit: -720.0
+    pos_max_angle: 7.06
+    pos_min_angle: -18.08
+  j5:
+    max_limit: 90.0
+    min_limit: -90.0
+    pos_max_angle: 2.1353
+    pos_min_angle: -0.928
