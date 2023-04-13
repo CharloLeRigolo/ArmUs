@@ -1,4 +1,5 @@
 .vscode
+arm_us/.vscode
 .pio
 doc
 ~$ARMUS-REV2-000.SLDASM
