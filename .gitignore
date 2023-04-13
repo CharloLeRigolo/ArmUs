@@ -1,6 +1,7 @@
 .vscode
+arm_us/.vscode
 .pio
-Mechanics/REV2/~$ARMUS-REV2-000.SLDASM
-Mechanics/REV2/~$*.SLDASM
-Mechanics/REV2/~$*.SLDPRT
-Mechanics/REV2/console.log
+~$ARMUS-REV2-000.SLDASM
+~$*.SLDASM
+~$*.SLDPRT
+*.log

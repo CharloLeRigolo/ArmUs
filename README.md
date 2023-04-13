@@ -1,6 +1,15 @@
 # ArmUs
+## Project description
 
-## Setting up your environement (software)
+## Accessing documentation
+To open a package's documentation, open the index.html file found in it's "/doc" folder in your browser.
+Ex:
+```
+firefox ~/catkin_ws/src/arm_us/arm_us/doc/html/index.html
+```
+
+## Setup
+### Setting up your environement (software)
 1.  Start by installing [ubuntu 20.04 desktop Focal Fossa](https://releases.ubuntu.com/focal/) on your machine (VM or dualboot), dualboot is highly recomended.
 2.  Install ROS-Noetic by following [this tutorial](http://wiki.ros.org/noetic/Installation/Ubuntu)
 3.  Edit your bashrc
@@ -51,51 +60,83 @@
       cd ~/catkin_ws/
       catkin_make
       ```
+7. Setup your OpenCR in bridge mode
+	1. Install [ArduinoIDE](https://www.arduino.cc/en/software) on a computer
+	2. Follow the steps in section 4.X (depending on your operating system) of the [ROBOTIS e-Manual for OpenCR](https://emanual.robotis.com/docs/en/parts/controller/opencr10/)
+	3. Select the OpenCR board in ArduinoIDE
+	4. Select "usb_to_dxl" In *File -> Examples -> OpenCR -> 10. Etc -> usb_to_dxl*
+	5. Upload the example to the OpenCr board, make sure your on the correct port and the device in /dev/ttyXXX has read/write access
+		```
+		sudo chmod a+rw /dev/ttyACM0
+		```
+	The OpenCR board is now in bridge mode. We will be able to control it directly from the Serial Port
 
-## Material
+### Material (Software side)
+For the robot assembly follow the [README.md](https://github.com/CharloLeRigolo/arm_us/blob/main/Mechanics/README.md) in [/Mechanics](https://github.com/CharloLeRigolo/arm_us/tree/main/Mechanics).
+
 - 1 OpenCR board
+- 1 OpenCR 120VAC to 12VDC powersupply
 - 2 Dynamixel XL430 motors
 - 3 Dynamixel XM430 motors
-- 1 XBOX controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using an XBOX controller)
+- 1 USB micro B to USB A
+- 1 Generic controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using a logitech controller)
 
-## 
+## Running the robot
+Open a terminal and launch the first launchfile:
+```
+roslaunch arm_us 1_interface.launch
+```
+This will start the HMI and the communication with the motors.
+Calibrate the robot by following this [guide](notdone.sorry).
 
-## Running the pkg
-Open a terminal and run:
+Once ArmUs is calibrated, launch the 2nd launchfile
 ```
-roslaunch arm_us master_control.launch
+roslaunch arm_us 2_control.launch
 ```
-This will start the communication between the controller and the motor controller.
+This will enable the torque on the motors and enable the control with the controller, you should now be able to control the motors with your controller in joint or cartesian as you wish (see [keybinding](notdone.sorry))
 
-In another terminal, run:
+Before killing your node, if you want to keep your calibration values, run this command
 ```
-roslaunch arm_us motor_controller.launch
+rosparam dump **yourpath/calib.yaml**
 ```
-This will start the motor controller which communicates thru the OpenCR in bridge mode to the Dynamixel motors.
+and copy the lines under "motor_translator:" in the config file arm_us/config/joint_limit.yaml.
 
-You should now be able to control the motors with your controller
+## ROS information
+### Packages
+There are 4 packages in ArmUs:
+ - arm_us
+ - arm_us_graph
+ - gui_arm_us
+ - arm_us_msg
 
-# Setup
-## OpenCR setup
-1. Install [ArduinoIDE](https://www.arduino.cc/en/software) on a computer
-2. Follow the steps in section 4.X (depending on your operating system) of the [ROBOTIS e-Manual for OpenCR](https://emanual.robotis.com/docs/en/parts/controller/opencr10/)
-3. Select the OpenCR board in ArduinoIDE
-4. Select "usb_to_dxl" In *File -> Examples -> OpenCR -> 10. Etc -> usb_to_dxl*
-5. Upload the example to the OpenCr board, make sure your on the correct port and the device in /dev/ttyXXX as read/write access
-```
-sudo chmod a+rw /dev/ttyACM0
-```
-The OpenCR board is now in bridge mode. We will be able to control directly from the Serial Port
+### Launch files
+- 1_interface.launch
+	- Nodes:
+		- motor_controller
+		- motor_translator
+		- rqt
+		
+- 2_control.launch
+	- Param:
+		- Verbose
+		- Simulation
+		- Controller
+		
+	- Nodes:
+		- master_node
+		- joy_node
+		- arm_us_graphic
+		
+	- Service:
+		- inv_kin_calc_service
 
-## ROS Setup
-This project is developped for ROS noetic, this means you'll need to install ROS on a machine running Ubuntu 20
-1. Install [Ubuntu 20.04](https://releases.ubuntu.com/focal/) on a machine
-2. Install ROS by following the [ROS website](https://www.ros.org/blog/getting-started/) instructions
-3. Install [dependencies](##Dependencies)
-4. Install the arm_us package
-In your ROS's workspace "src" folder:
-``` 
-git clone https://github.com/CharloLeRigolo/arm_us.git
-cd ..
-catkin_make
-```
+### Config files
+- controller_config.yaml
+	- Keybindings for joy
+- joint_limit.yaml
+	- Used for angle calibration and joint limit angles
+- motor_config.yaml
+	- Dynamixel configuration; torque limit, speed limit, motor id, etc
+
+### Msg, srv and action files
+Information for msg, srv and action files can be found directly in the [arm_us_msg](https://github.com/CharloLeRigolo/arm_us/tree/main/arm_us_msg) package 
