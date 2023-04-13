@@ -2,7 +2,7 @@
 <package format="2">
   <name>arm_us</name>
   <version>0.0.0</version>
-  <description>The arm_us package, utilize all other arm_us packages to control and interface a 5 joints robotic arm </description>
+  <description>The arm_us package utilize all other arm_us packages to control and interface a 5 joints robotic arm </description>
 
   <maintainer email="micp1402@usherbrooke.ca">Philippe </maintainer>
   <maintainer email="stam1001@usherbrooke.ca">Mikael </maintainer>
