@@ -4,12 +4,12 @@ brief: ''
 bugtracker: ''
 depends:
 - rospy
-- message_generation
 - message_runtime
 - catkin
+- std_msgs
+- message_generation
 - roscpp
 - arm_us_msg
-- std_msgs
 description: The arm_us package
 license: TODO
 maintainers: mikael <mikael@todo.todo>

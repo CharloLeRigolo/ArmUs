@@ -18,6 +18,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
@@ -27,7 +29,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Class that holds information about the arm : velocities, angles, positions, etc.  
+<p>Class that controls the arm. Contains a virtual void function, cannot be instantiated. Instead, instantiate either Arm Us Info Real or Arm Us Info Simul depending on the control mode. The two derived classes exist because the implementation of the controls are different in each one.  
  <a href="classArmUsInfo.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>&gt;</code></p>
@@ -36,44 +38,97 @@ Inheritance diagram for ArmUsInfo:</div>
 <div class="dyncontent">
 <div class="center"><img src="classArmUsInfo__inherit__graph.png" border="0" usemap="#ArmUsInfo_inherit__map" alt="Inheritance graph"/></div>
 <map name="ArmUsInfo_inherit__map" id="ArmUsInfo_inherit__map">
-<area shape="rect" title="Class that holds information about the arm : velocities, angles, positions, etc." alt="" coords="93,5,184,32"/>
-<area shape="rect" href="classArmUsInfoReal.html" title=" " alt="" coords="5,80,125,107"/>
-<area shape="rect" href="classArmUsInfoSimul.html" title=" " alt="" coords="149,80,277,107"/>
+<area shape="rect" title="Class that controls the arm. Contains a virtual void function, cannot be instantiated...." alt="" coords="93,5,184,32"/>
+<area shape="rect" href="classArmUsInfoReal.html" title="Derived class from Arm Us Info Used to control the arm in real time with Dynamixels connected." alt="" coords="5,80,125,107"/>
+<area shape="rect" href="classArmUsInfoSimul.html" title="Derived class from Arm Us Info Used to simulate the motors to debug." alt="" coords="149,80,277,107"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 3 floats : x, y, z Used for the cartesian velocity commands sent and the joint velocities returned.  <a href="structArmUsInfo_1_1Vector3f.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArmUsInfo_1_1Vector5b.html">Vector5b</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 5 booleans : m1, m2, m3, m4, m5 Used for joint limits of the arm.  <a href="structArmUsInfo_1_1Vector5b.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArmUsInfo_1_1Vector5f.html">Vector5f</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 5 floats : m1, m2, m3, m4, m5 Used for motor positions, angles, velocities.  <a href="structArmUsInfo_1_1Vector5f.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a7951cf4204ae87e3feba6b29a2457959"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959">MovementMode</a> { <a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a> = 0, 
+<a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959ac62cd6a7dfc8d04ae078b2b3d6293b9c">MovementMode::Cartesian</a> = 1
+ }</td></tr>
+<tr class="memdesc:a7951cf4204ae87e3feba6b29a2457959"><td class="mdescLeft">&#160;</td><td class="mdescRight">Movement mode of the arm.  <a href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959">More...</a><br /></td></tr>
+<tr class="separator:a7951cf4204ae87e3feba6b29a2457959"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a07d9f56b8f19daecd35bb5c162efb00f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a07d9f56b8f19daecd35bb5c162efb00f">ArmUsInfo</a> (std::function&lt; bool(<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt; call_inv_kin_calc_service)</td></tr>
+<tr class="memitem:a07d9f56b8f19daecd35bb5c162efb00f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a07d9f56b8f19daecd35bb5c162efb00f">ArmUsInfo</a> (std::function&lt; bool(<a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt; call_inv_kin_calc_service)</td></tr>
+<tr class="memdesc:a07d9f56b8f19daecd35bb5c162efb00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Arm Us Info object.  <a href="classArmUsInfo.html#a07d9f56b8f19daecd35bb5c162efb00f">More...</a><br /></td></tr>
 <tr class="separator:a07d9f56b8f19daecd35bb5c162efb00f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2658e479fc56920329444d81af4043c3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a2658e479fc56920329444d81af4043c3">calculate_motor_velocities</a> ()=0</td></tr>
+<tr class="memdesc:a2658e479fc56920329444d81af4043c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual void function that calculates the motor commands that are sent to the motor translator The implementation is different in each derived class, depending on the control mode chosen when launching the node.  <a href="classArmUsInfo.html#a2658e479fc56920329444d81af4043c3">More...</a><br /></td></tr>
 <tr class="separator:a2658e479fc56920329444d81af4043c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a27a1385eb2fc383dda21d40b30713b08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structVector3f.html">Vector3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a27a1385eb2fc383dda21d40b30713b08">CartesianCommand</a></td></tr>
+<tr class="memitem:a27a1385eb2fc383dda21d40b30713b08"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a27a1385eb2fc383dda21d40b30713b08">CartesianCommand</a></td></tr>
 <tr class="separator:a27a1385eb2fc383dda21d40b30713b08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec0c7cb448eea796642808a5dbceeebd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structVector5f.html">Vector5f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#aec0c7cb448eea796642808a5dbceeebd">JointAngles</a></td></tr>
+<tr class="memitem:aec0c7cb448eea796642808a5dbceeebd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArmUsInfo_1_1Vector5f.html">Vector5f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#aec0c7cb448eea796642808a5dbceeebd">JointAngles</a></td></tr>
 <tr class="separator:aec0c7cb448eea796642808a5dbceeebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a0769912b78e37b3068196897f19001"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a5a0769912b78e37b3068196897f19001">JointCommand</a></td></tr>
 <tr class="separator:a5a0769912b78e37b3068196897f19001"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5121fb39d8d7e4c2516a9d9162022117"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a5121fb39d8d7e4c2516a9d9162022117">JointControlled</a> = 1</td></tr>
 <tr class="separator:a5121fb39d8d7e4c2516a9d9162022117"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2222d96e85185c79b4aef56618a05b77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structVector5f.html">Vector5f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a2222d96e85185c79b4aef56618a05b77">MotorVelocities</a></td></tr>
+<tr class="memitem:a2222d96e85185c79b4aef56618a05b77"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArmUsInfo_1_1Vector5f.html">Vector5f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a2222d96e85185c79b4aef56618a05b77">MotorVelocities</a></td></tr>
 <tr class="separator:a2222d96e85185c79b4aef56618a05b77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94923184bec0f3d2b1aedb7178e9b7f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582">MovementMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a94923184bec0f3d2b1aedb7178e9b7f9">MoveMode</a> = <a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a></td></tr>
+<tr class="memitem:a94923184bec0f3d2b1aedb7178e9b7f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959">MovementMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a94923184bec0f3d2b1aedb7178e9b7f9">MoveMode</a> = <a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a></td></tr>
 <tr class="separator:a94923184bec0f3d2b1aedb7178e9b7f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a6c917b158673c180eb529a89d385a54b"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a6c917b158673c180eb529a89d385a54b">mf_call_inv_kin_calc_service</a></td></tr>
+<tr class="memitem:a6c917b158673c180eb529a89d385a54b"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(<a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a6c917b158673c180eb529a89d385a54b">mf_call_inv_kin_calc_service</a></td></tr>
 <tr class="separator:a6c917b158673c180eb529a89d385a54b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Class that holds information about the arm : velocities, angles, positions, etc. </p>
+<div class="textblock"><p>Class that controls the arm. Contains a virtual void function, cannot be instantiated. Instead, instantiate either Arm Us Info Real or Arm Us Info Simul depending on the control mode. The two derived classes exist because the implementation of the controls are different in each one. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00060">60</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00029">29</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a7951cf4204ae87e3feba6b29a2457959"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7951cf4204ae87e3feba6b29a2457959">&#9670;&nbsp;</a></span>MovementMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959">ArmUsInfo::MovementMode</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Movement mode of the arm. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7951cf4204ae87e3feba6b29a2457959ab14c4e12de0d9e54e7b57d5d9a39cb99"></a>Joint&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7951cf4204ae87e3feba6b29a2457959ac62cd6a7dfc8d04ae078b2b3d6293b9c"></a>Cartesian&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00036">36</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a07d9f56b8f19daecd35bb5c162efb00f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a07d9f56b8f19daecd35bb5c162efb00f">&#9670;&nbsp;</a></span>ArmUsInfo()</h2>
 
@@ -83,14 +138,22 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="memname">ArmUsInfo::ArmUsInfo </td>
           <td>(</td>
-          <td class="paramtype">std::function&lt; bool(<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt;&#160;</td>
+          <td class="paramtype">std::function&lt; bool(<a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt;&#160;</td>
           <td class="paramname"><em>call_inv_kin_calc_service</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8cpp_source.html#l00206">206</a> of file <a class="el" href="ArmUs__Info_8cpp_source.html">ArmUs_Info.cpp</a>.</p>
+<p>Construct a new Arm Us Info object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">call_inv_kin_calc_service</td><td>Function pointer that points to the function that calls the service in Arm Us::call_inv_kin_calc_service() </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8cpp_source.html#l00126">126</a> of file <a class="el" href="ArmUs__Info_8cpp_source.html">ArmUs_Info.cpp</a>.</p>
 
 </div>
 </div>
@@ -118,6 +181,8 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Virtual void function that calculates the motor commands that are sent to the motor translator The implementation is different in each derived class, depending on the control mode chosen when launching the node. </p>
+
 <p>Implemented in <a class="el" href="classArmUsInfoReal.html#a42df79a337770ebc982c3e4aceaeb34d">ArmUsInfoReal</a>, and <a class="el" href="classArmUsInfoSimul.html#aa1245c6b1bd04a3c032af7840377ca2d">ArmUsInfoSimul</a>.</p>
 
 </div>
@@ -130,12 +195,12 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structVector3f.html">Vector3f</a> ArmUsInfo::CartesianCommand</td>
+          <td class="memname"><a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> ArmUsInfo::CartesianCommand</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00075">75</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00181">181</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 
 </div>
 </div>
@@ -146,12 +211,12 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structVector5f.html">Vector5f</a> ArmUsInfo::JointAngles</td>
+          <td class="memname"><a class="el" href="structArmUsInfo_1_1Vector5f.html">Vector5f</a> ArmUsInfo::JointAngles</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00079">79</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00185">185</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 
 </div>
 </div>
@@ -167,7 +232,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00073">73</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00179">179</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 
 </div>
 </div>
@@ -183,7 +248,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00086">86</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00189">189</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 
 </div>
 </div>
@@ -197,7 +262,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt;bool(<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt; ArmUsInfo::mf_call_inv_kin_calc_service</td>
+          <td class="memname">std::function&lt;bool(<a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt; ArmUsInfo::mf_call_inv_kin_calc_service</td>
         </tr>
       </table>
   </td>
@@ -207,7 +272,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00092">92</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00193">193</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 
 </div>
 </div>
@@ -218,12 +283,12 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structVector5f.html">Vector5f</a> ArmUsInfo::MotorVelocities</td>
+          <td class="memname"><a class="el" href="structArmUsInfo_1_1Vector5f.html">Vector5f</a> ArmUsInfo::MotorVelocities</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00078">78</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00183">183</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 
 </div>
 </div>
@@ -234,12 +299,12 @@ Protected Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582">MovementMode</a> ArmUsInfo::MoveMode = <a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a></td>
+          <td class="memname"><a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959">MovementMode</a> ArmUsInfo::MoveMode = <a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00084">84</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00187">187</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 
 </div>
 </div>
@@ -253,7 +318,7 @@ Protected Attributes</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): </br />
-<small>autogenerated on Wed Apr 12 2023 13:41:47</small>
+<small>autogenerated on Thu Apr 13 2023 21:28:56</small>
 </div>
 </body>
 </html>

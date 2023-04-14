@@ -23,7 +23,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">ArmUs_Info.hpp File Reference</div>  </div>
@@ -49,7 +48,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="center"><img src="ArmUs__Info_8hpp__dep__incl.png" border="0" usemap="#ArmUs__Info_8hppdep" alt=""/></div>
 <map name="ArmUs__Info_8hppdep" id="ArmUs__Info_8hppdep">
 <area shape="rect" title=" " alt="" coords="125,5,251,32"/>
-<area shape="rect" href="ArmUs_8hpp.html" title=" " alt="" coords="74,80,169,107"/>
+<area shape="rect" href="ArmUs_8hpp.html" title="This class controls the arm. It contains a ArmUs Info object that sends commands to the motor transla..." alt="" coords="74,80,169,107"/>
 <area shape="rect" href="ArmUs__Info_8cpp.html" title=" " alt="" coords="193,80,319,107"/>
 <area shape="rect" href="ArmUs_8cpp.html" title=" " alt="" coords="5,155,99,181"/>
 <area shape="rect" href="master__node_8cpp.html" title=" " alt="" coords="123,155,258,181"/>
@@ -61,63 +60,29 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html">ArmUsInfo</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that holds information about the arm : velocities, angles, positions, etc.  <a href="classArmUsInfo.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class that controls the arm. Contains a virtual void function, cannot be instantiated. Instead, instantiate either Arm Us Info Real or Arm Us Info Simul depending on the control mode. The two derived classes exist because the implementation of the controls are different in each one.  <a href="classArmUsInfo.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfoReal.html">ArmUsInfoReal</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Derived class from Arm Us Info Used to control the arm in real time with Dynamixels connected.  <a href="classArmUsInfoReal.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfoSimul.html">ArmUsInfoSimul</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Derived class from Arm Us Info Used to simulate the motors to debug.  <a href="classArmUsInfoSimul.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVector3f.html">Vector3f</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 3 floats : x, y, z.  <a href="structVector3f.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArmUsInfo_1_1Vector3f.html">ArmUsInfo::Vector3f</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 3 floats : x, y, z Used for the cartesian velocity commands sent and the joint velocities returned.  <a href="structArmUsInfo_1_1Vector3f.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVector5b.html">Vector5b</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 5 booleans : m1, m2, m3, m4, m5.  <a href="structVector5b.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArmUsInfo_1_1Vector5b.html">ArmUsInfo::Vector5b</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 5 booleans : m1, m2, m3, m4, m5 Used for joint limits of the arm.  <a href="structArmUsInfo_1_1Vector5b.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVector5f.html">Vector5f</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 5 floats : m1, m2, m3, m4, m5.  <a href="structVector5f.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structArmUsInfo_1_1Vector5f.html">ArmUsInfo::Vector5f</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds 5 floats : m1, m2, m3, m4, m5 Used for motor positions, angles, velocities.  <a href="structArmUsInfo_1_1Vector5f.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a113fdfe7c1366bf2e28dc5025cc37582"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582">MovementMode</a> { <a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a> = 0, 
-<a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582ac62cd6a7dfc8d04ae078b2b3d6293b9c">MovementMode::Cartesian</a> = 1
- }</td></tr>
-<tr class="separator:a113fdfe7c1366bf2e28dc5025cc37582"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a98684e2fc83a4232d1045df94c098858"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ArmUs__Info_8hpp.html#a98684e2fc83a4232d1045df94c098858">MAX_VEL</a> = 1</td></tr>
 <tr class="separator:a98684e2fc83a4232d1045df94c098858"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a113fdfe7c1366bf2e28dc5025cc37582"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a113fdfe7c1366bf2e28dc5025cc37582">&#9670;&nbsp;</a></span>MovementMode</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582">MovementMode</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a113fdfe7c1366bf2e28dc5025cc37582ab14c4e12de0d9e54e7b57d5d9a39cb99"></a>Joint&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a113fdfe7c1366bf2e28dc5025cc37582ac62cd6a7dfc8d04ae078b2b3d6293b9c"></a>Cartesian&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00012">12</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Variable Documentation</h2>
 <a id="a98684e2fc83a4232d1045df94c098858"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98684e2fc83a4232d1045df94c098858">&#9670;&nbsp;</a></span>MAX_VEL</h2>
@@ -131,7 +96,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00010">10</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00019">19</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 
 </div>
 </div>
@@ -141,7 +106,7 @@ Variables</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): </br />
-<small>autogenerated on Wed Apr 12 2023 13:41:47</small>
+<small>autogenerated on Thu Apr 13 2023 21:28:56</small>
 </div>
 </body>
 </html>

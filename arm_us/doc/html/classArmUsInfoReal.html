@@ -25,49 +25,62 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Derived class from Arm Us Info Used to control the arm in real time with Dynamixels connected.  
+ <a href="classArmUsInfoReal.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ArmUsInfoReal:</div>
 <div class="dyncontent">
 <div class="center"><img src="classArmUsInfoReal__inherit__graph.png" border="0" usemap="#ArmUsInfoReal_inherit__map" alt="Inheritance graph"/></div>
 <map name="ArmUsInfoReal_inherit__map" id="ArmUsInfoReal_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,80,125,107"/>
-<area shape="rect" href="classArmUsInfo.html" title="Class that holds information about the arm : velocities, angles, positions, etc." alt="" coords="20,5,111,32"/>
+<area shape="rect" title="Derived class from Arm Us Info Used to control the arm in real time with Dynamixels connected." alt="" coords="5,80,125,107"/>
+<area shape="rect" href="classArmUsInfo.html" title="Class that controls the arm. Contains a virtual void function, cannot be instantiated...." alt="" coords="20,5,111,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a13006b7ccaf67243ec4b3240698f8871"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfoReal.html#a13006b7ccaf67243ec4b3240698f8871">ArmUsInfoReal</a> (std::function&lt; bool(<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt; call_inv_kin_calc_service)</td></tr>
+<tr class="memitem:a13006b7ccaf67243ec4b3240698f8871"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfoReal.html#a13006b7ccaf67243ec4b3240698f8871">ArmUsInfoReal</a> (std::function&lt; bool(<a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt; call_inv_kin_calc_service)</td></tr>
+<tr class="memdesc:a13006b7ccaf67243ec4b3240698f8871"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Arm Us Info Real object.  <a href="classArmUsInfoReal.html#a13006b7ccaf67243ec4b3240698f8871">More...</a><br /></td></tr>
 <tr class="separator:a13006b7ccaf67243ec4b3240698f8871"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42df79a337770ebc982c3e4aceaeb34d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfoReal.html#a42df79a337770ebc982c3e4aceaeb34d">calculate_motor_velocities</a> ()</td></tr>
+<tr class="memdesc:a42df79a337770ebc982c3e4aceaeb34d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the motor commands to send to the motor translator Implementation to work when Dynamixels are connected.  <a href="classArmUsInfoReal.html#a42df79a337770ebc982c3e4aceaeb34d">More...</a><br /></td></tr>
 <tr class="separator:a42df79a337770ebc982c3e4aceaeb34d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classArmUsInfo"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classArmUsInfo')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classArmUsInfo.html">ArmUsInfo</a></td></tr>
-<tr class="memitem:a07d9f56b8f19daecd35bb5c162efb00f inherit pub_methods_classArmUsInfo"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a07d9f56b8f19daecd35bb5c162efb00f">ArmUsInfo</a> (std::function&lt; bool(<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt; call_inv_kin_calc_service)</td></tr>
+<tr class="memitem:a07d9f56b8f19daecd35bb5c162efb00f inherit pub_methods_classArmUsInfo"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a07d9f56b8f19daecd35bb5c162efb00f">ArmUsInfo</a> (std::function&lt; bool(<a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt; call_inv_kin_calc_service)</td></tr>
+<tr class="memdesc:a07d9f56b8f19daecd35bb5c162efb00f inherit pub_methods_classArmUsInfo"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Arm Us Info object.  <a href="classArmUsInfo.html#a07d9f56b8f19daecd35bb5c162efb00f">More...</a><br /></td></tr>
 <tr class="separator:a07d9f56b8f19daecd35bb5c162efb00f inherit pub_methods_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classArmUsInfo"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classArmUsInfo')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classArmUsInfo.html">ArmUsInfo</a></td></tr>
+<tr class="memitem:a7951cf4204ae87e3feba6b29a2457959 inherit pub_types_classArmUsInfo"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959">MovementMode</a> { <a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a> = 0, 
+<a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959ac62cd6a7dfc8d04ae078b2b3d6293b9c">MovementMode::Cartesian</a> = 1
+ }</td></tr>
+<tr class="memdesc:a7951cf4204ae87e3feba6b29a2457959"><td class="mdescLeft">&#160;</td><td class="mdescRight">Movement mode of the arm.  <a href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959">More...</a><br /></td></tr>
+<tr class="separator:a7951cf4204ae87e3feba6b29a2457959 inherit pub_types_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classArmUsInfo"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classArmUsInfo')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classArmUsInfo.html">ArmUsInfo</a></td></tr>
-<tr class="memitem:a27a1385eb2fc383dda21d40b30713b08 inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structVector3f.html">Vector3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a27a1385eb2fc383dda21d40b30713b08">CartesianCommand</a></td></tr>
+<tr class="memitem:a27a1385eb2fc383dda21d40b30713b08 inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a27a1385eb2fc383dda21d40b30713b08">CartesianCommand</a></td></tr>
 <tr class="separator:a27a1385eb2fc383dda21d40b30713b08 inherit pub_attribs_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec0c7cb448eea796642808a5dbceeebd inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structVector5f.html">Vector5f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#aec0c7cb448eea796642808a5dbceeebd">JointAngles</a></td></tr>
+<tr class="memitem:aec0c7cb448eea796642808a5dbceeebd inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArmUsInfo_1_1Vector5f.html">Vector5f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#aec0c7cb448eea796642808a5dbceeebd">JointAngles</a></td></tr>
 <tr class="separator:aec0c7cb448eea796642808a5dbceeebd inherit pub_attribs_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a0769912b78e37b3068196897f19001 inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a5a0769912b78e37b3068196897f19001">JointCommand</a></td></tr>
 <tr class="separator:a5a0769912b78e37b3068196897f19001 inherit pub_attribs_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5121fb39d8d7e4c2516a9d9162022117 inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a5121fb39d8d7e4c2516a9d9162022117">JointControlled</a> = 1</td></tr>
 <tr class="separator:a5121fb39d8d7e4c2516a9d9162022117 inherit pub_attribs_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2222d96e85185c79b4aef56618a05b77 inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structVector5f.html">Vector5f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a2222d96e85185c79b4aef56618a05b77">MotorVelocities</a></td></tr>
+<tr class="memitem:a2222d96e85185c79b4aef56618a05b77 inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArmUsInfo_1_1Vector5f.html">Vector5f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a2222d96e85185c79b4aef56618a05b77">MotorVelocities</a></td></tr>
 <tr class="separator:a2222d96e85185c79b4aef56618a05b77 inherit pub_attribs_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94923184bec0f3d2b1aedb7178e9b7f9 inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582">MovementMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a94923184bec0f3d2b1aedb7178e9b7f9">MoveMode</a> = <a class="el" href="ArmUs__Info_8hpp.html#a113fdfe7c1366bf2e28dc5025cc37582ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a></td></tr>
+<tr class="memitem:a94923184bec0f3d2b1aedb7178e9b7f9 inherit pub_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959">MovementMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a94923184bec0f3d2b1aedb7178e9b7f9">MoveMode</a> = <a class="el" href="classArmUsInfo.html#a7951cf4204ae87e3feba6b29a2457959ab14c4e12de0d9e54e7b57d5d9a39cb99">MovementMode::Joint</a></td></tr>
 <tr class="separator:a94923184bec0f3d2b1aedb7178e9b7f9 inherit pub_attribs_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classArmUsInfo"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classArmUsInfo')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classArmUsInfo.html">ArmUsInfo</a></td></tr>
-<tr class="memitem:a6c917b158673c180eb529a89d385a54b inherit pro_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a6c917b158673c180eb529a89d385a54b">mf_call_inv_kin_calc_service</a></td></tr>
+<tr class="memitem:a6c917b158673c180eb529a89d385a54b inherit pro_attribs_classArmUsInfo"><td class="memItemLeft" align="right" valign="top">std::function&lt; bool(<a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUsInfo.html#a6c917b158673c180eb529a89d385a54b">mf_call_inv_kin_calc_service</a></td></tr>
 <tr class="separator:a6c917b158673c180eb529a89d385a54b inherit pro_attribs_classArmUsInfo"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00103">103</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
+<div class="textblock"><p>Derived class from Arm Us Info Used to control the arm in real time with Dynamixels connected. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8hpp_source.html#l00221">221</a> of file <a class="el" href="ArmUs__Info_8hpp_source.html">ArmUs_Info.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a13006b7ccaf67243ec4b3240698f8871"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a13006b7ccaf67243ec4b3240698f8871">&#9670;&nbsp;</a></span>ArmUsInfoReal()</h2>
@@ -78,14 +91,23 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">ArmUsInfoReal::ArmUsInfoReal </td>
           <td>(</td>
-          <td class="paramtype">std::function&lt; bool(<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt;&#160;</td>
+          <td class="paramtype">std::function&lt; bool(<a class="el" href="structArmUsInfo_1_1Vector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)&gt;&#160;</td>
           <td class="paramname"><em>call_inv_kin_calc_service</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8cpp_source.html#l00272">272</a> of file <a class="el" href="ArmUs__Info_8cpp_source.html">ArmUs_Info.cpp</a>.</p>
+<p>Construct a new Arm Us Info Real object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">call_inv_kin_calc_service</td><td>Function pointer that points to the function that calls the service in Arm Us::call_inv_kin_calc_service()</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Calls the default Arm Us Info constructor with the parameter </p>
+
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8cpp_source.html#l00178">178</a> of file <a class="el" href="ArmUs__Info_8cpp_source.html">ArmUs_Info.cpp</a>.</p>
 
 </div>
 </div>
@@ -113,9 +135,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Calculate the motor commands to send to the motor translator Implementation to work when Dynamixels are connected. </p>
+<p>Real mode implementation </p>
+
 <p>Implements <a class="el" href="classArmUsInfo.html#a2658e479fc56920329444d81af4043c3">ArmUsInfo</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8cpp_source.html#l00278">278</a> of file <a class="el" href="ArmUs__Info_8cpp_source.html">ArmUs_Info.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Info_8cpp_source.html#l00187">187</a> of file <a class="el" href="ArmUs__Info_8cpp_source.html">ArmUs_Info.cpp</a>.</p>
 
 </div>
 </div>
@@ -129,7 +154,7 @@ Additional Inherited Members</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): </br />
-<small>autogenerated on Wed Apr 12 2023 13:41:47</small>
+<small>autogenerated on Thu Apr 13 2023 21:28:56</small>
 </div>
 </body>
 </html>

@@ -1,4 +1,4 @@
 <map id="ArmUsInfoSimul" name="ArmUsInfoSimul">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,133,107"/>
-<area shape="rect" id="node2" href="$classArmUsInfo.html" title="Class that holds information about the arm : velocities, angles, positions, etc." alt="" coords="24,5,115,32"/>
+<area shape="rect" id="node1" title="Derived class from Arm Us Info Used to simulate the motors to debug." alt="" coords="5,80,133,107"/>
+<area shape="rect" id="node2" href="$classArmUsInfo.html" title="Class that controls the arm. Contains a virtual void function, cannot be instantiated...." alt="" coords="24,5,115,32"/>
 </map>

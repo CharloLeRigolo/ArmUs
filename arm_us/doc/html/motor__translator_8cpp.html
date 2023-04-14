@@ -30,6 +30,9 @@ $(function() {
 <div class="title">motor_translator.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This nodes act as an interface between the dynamixel motor_controller and arm_us's control nodes. It take raw_position value from the motors and converts them into real angles. It also applies real word joint limits to sent commands (from arm_us) and add a motor speed limiter in cartesian control mode.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;ros/ros.h&quot;</code><br />
 <code>#include &quot;sensor_msgs/JointState.h&quot;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
@@ -41,7 +44,7 @@ Include dependency graph for motor_translator.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="motor__translator_8cpp__incl.png" border="0" usemap="#motor__translator_8cpp" alt=""/></div>
 <map name="motor__translator_8cpp" id="motor__translator_8cpp">
-<area shape="rect" title=" " alt="" coords="383,5,541,32"/>
+<area shape="rect" title="This nodes act as an interface between the dynamixel motor_controller and arm_us&#39;s control nodes...." alt="" coords="383,5,541,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,84,107"/>
 <area shape="rect" title=" " alt="" coords="109,80,295,107"/>
 <area shape="rect" title=" " alt="" coords="320,80,444,107"/>
@@ -61,8 +64,6 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:aee3ea37f4f505980157cf93a84687bcb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a> { <a class="el" href="motor__translator_8cpp.html#aee3ea37f4f505980157cf93a84687bcba7f80fcc452c2f1ed2bb51b39d0864df1">ControlMode::Real</a> = 0, 
-<a class="el" href="motor__translator_8cpp.html#aee3ea37f4f505980157cf93a84687bcba4f502b57d2835715eaa382c7d4c32e94">ControlMode::Simulation</a> = 1, 
-<a class="el" href="motor__translator_8cpp.html#aee3ea37f4f505980157cf93a84687bcba7f80fcc452c2f1ed2bb51b39d0864df1">ControlMode::Real</a> = 0, 
 <a class="el" href="motor__translator_8cpp.html#aee3ea37f4f505980157cf93a84687bcba4f502b57d2835715eaa382c7d4c32e94">ControlMode::Simulation</a> = 1
  }</td></tr>
 <tr class="separator:aee3ea37f4f505980157cf93a84687bcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -86,21 +87,9 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ac98fe7bdc292d4946655b640e6663c29"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#ac98fe7bdc292d4946655b640e6663c29">DEMULTIPLICATION_FACTOR</a> [<a class="el" href="motor__translator_8cpp.html#ac6c791590bb30ea2bdcdcfee0b7f67db">NB_JOINT</a>]</td></tr>
-<tr class="separator:ac98fe7bdc292d4946655b640e6663c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6be7ed6a8172a82bfdfb9493505d70ed"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#a6be7ed6a8172a82bfdfb9493505d70ed">DEMULTIPLICATION_FACTOR_J1</a> = 14/45</td></tr>
-<tr class="separator:a6be7ed6a8172a82bfdfb9493505d70ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb86bc620f4786d4704d15143be8212f"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#aeb86bc620f4786d4704d15143be8212f">DEMULTIPLICATION_FACTOR_J2</a> = 14/45</td></tr>
-<tr class="separator:aeb86bc620f4786d4704d15143be8212f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05bcf38adf93e43a861d11c32597ee69"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#a05bcf38adf93e43a861d11c32597ee69">DEMULTIPLICATION_FACTOR_J3</a> = 24/32</td></tr>
-<tr class="separator:a05bcf38adf93e43a861d11c32597ee69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad79550c38a778d4e88213ce1f144434d"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#ad79550c38a778d4e88213ce1f144434d">DEMULTIPLICATION_FACTOR_J4</a> = 1</td></tr>
-<tr class="separator:ad79550c38a778d4e88213ce1f144434d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc36ad53a97634f670d4099ba95a1311"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#adc36ad53a97634f670d4099ba95a1311">DEMULTIPLICATION_FACTOR_J5</a> = 1</td></tr>
-<tr class="separator:adc36ad53a97634f670d4099ba95a1311"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aceed1fa11c7437406489b3e726ee17ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#aceed1fa11c7437406489b3e726ee17ca">flag_no_connection</a> = 0</td></tr>
 <tr class="separator:aceed1fa11c7437406489b3e726ee17ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8fc891fb6d412be8f6f41f63b9206c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ArmUs_8hpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#af8fc891fb6d412be8f6f41f63b9206c8">g_control_mode</a></td></tr>
+<tr class="memitem:af8fc891fb6d412be8f6f41f63b9206c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="motor__translator_8cpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#af8fc891fb6d412be8f6f41f63b9206c8">g_control_mode</a></td></tr>
 <tr class="separator:af8fc891fb6d412be8f6f41f63b9206c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2177fdec7a923625b98ddc5b6834e3c5"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#a2177fdec7a923625b98ddc5b6834e3c5">joint_angles</a> [<a class="el" href="motor__translator_8cpp.html#ac6c791590bb30ea2bdcdcfee0b7f67db">NB_JOINT</a>]</td></tr>
 <tr class="separator:a2177fdec7a923625b98ddc5b6834e3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,7 +116,15 @@ Variables</h2></td></tr>
 <tr class="memitem:a7cdcf29cd2390fc034436938c9d0d341"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="motor__translator_8cpp.html#a7cdcf29cd2390fc034436938c9d0d341">pub_gui</a></td></tr>
 <tr class="separator:a7cdcf29cd2390fc034436938c9d0d341"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This nodes act as an interface between the dynamixel motor_controller and arm_us's control nodes. It take raw_position value from the motors and converts them into real angles. It also applies real word joint limits to sent commands (from arm_us) and add a motor speed limiter in cartesian control mode. </p>
+<dl class="section author"><dt>Author</dt><dd>Mikael St-Arnaud et Philippe Michaud (stam1001, micp1402) </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023-04-12</dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2023 - See ARM_US licence </dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ac6c791590bb30ea2bdcdcfee0b7f67db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac6c791590bb30ea2bdcdcfee0b7f67db">&#9670;&nbsp;</a></span>NB_JOINT</h2>
 
@@ -140,7 +137,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00008">8</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00020">20</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -155,7 +152,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="ArmUs_8hpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a></td>
+          <td class="memname">enum <a class="el" href="motor__translator_8cpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a></td>
         </tr>
       </table>
   </td>
@@ -167,11 +164,9 @@ Variables</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aee3ea37f4f505980157cf93a84687bcba7f80fcc452c2f1ed2bb51b39d0864df1"></a>Real&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aee3ea37f4f505980157cf93a84687bcba4f502b57d2835715eaa382c7d4c32e94"></a>Simulation&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aee3ea37f4f505980157cf93a84687bcba7f80fcc452c2f1ed2bb51b39d0864df1"></a>Real&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aee3ea37f4f505980157cf93a84687bcba4f502b57d2835715eaa382c7d4c32e94"></a>Simulation&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00043">43</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00041">41</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -200,7 +195,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00092">92</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00090">90</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -230,7 +225,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00059">59</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00057">57</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -251,7 +246,7 @@ Variables</h2></td></tr>
 
 <p>Gets and set the needed ros::Params as global variable. </p>
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00320">320</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00312">312</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -272,7 +267,7 @@ Variables</h2></td></tr>
 
 <p>Angle callback when in simulation mode (bypass normal callback) </p>
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00285">285</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00277">277</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -300,114 +295,11 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00196">196</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00189">189</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ac98fe7bdc292d4946655b640e6663c29"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac98fe7bdc292d4946655b640e6663c29">&#9670;&nbsp;</a></span>DEMULTIPLICATION_FACTOR</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const float DEMULTIPLICATION_FACTOR[<a class="el" href="motor__translator_8cpp.html#ac6c791590bb30ea2bdcdcfee0b7f67db">NB_JOINT</a>]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
-<div class="line">    <a class="code" href="motor__translator_8cpp.html#a6be7ed6a8172a82bfdfb9493505d70ed">DEMULTIPLICATION_FACTOR_J1</a>,</div>
-<div class="line">    <a class="code" href="motor__translator_8cpp.html#aeb86bc620f4786d4704d15143be8212f">DEMULTIPLICATION_FACTOR_J2</a>,</div>
-<div class="line">    <a class="code" href="motor__translator_8cpp.html#a05bcf38adf93e43a861d11c32597ee69">DEMULTIPLICATION_FACTOR_J3</a>,</div>
-<div class="line">    <a class="code" href="motor__translator_8cpp.html#ad79550c38a778d4e88213ce1f144434d">DEMULTIPLICATION_FACTOR_J4</a>,</div>
-<div class="line">    <a class="code" href="motor__translator_8cpp.html#adc36ad53a97634f670d4099ba95a1311">DEMULTIPLICATION_FACTOR_J5</a></div>
-<div class="line">}</div>
-</div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00017">17</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a6be7ed6a8172a82bfdfb9493505d70ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6be7ed6a8172a82bfdfb9493505d70ed">&#9670;&nbsp;</a></span>DEMULTIPLICATION_FACTOR_J1</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const float DEMULTIPLICATION_FACTOR_J1 = 14/45</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00011">11</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
-
-</div>
-</div>
-<a id="aeb86bc620f4786d4704d15143be8212f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb86bc620f4786d4704d15143be8212f">&#9670;&nbsp;</a></span>DEMULTIPLICATION_FACTOR_J2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const float DEMULTIPLICATION_FACTOR_J2 = 14/45</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00012">12</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a05bcf38adf93e43a861d11c32597ee69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05bcf38adf93e43a861d11c32597ee69">&#9670;&nbsp;</a></span>DEMULTIPLICATION_FACTOR_J3</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const float DEMULTIPLICATION_FACTOR_J3 = 24/32</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00013">13</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
-
-</div>
-</div>
-<a id="ad79550c38a778d4e88213ce1f144434d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad79550c38a778d4e88213ce1f144434d">&#9670;&nbsp;</a></span>DEMULTIPLICATION_FACTOR_J4</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const float DEMULTIPLICATION_FACTOR_J4 = 1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00014">14</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
-
-</div>
-</div>
-<a id="adc36ad53a97634f670d4099ba95a1311"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc36ad53a97634f670d4099ba95a1311">&#9670;&nbsp;</a></span>DEMULTIPLICATION_FACTOR_J5</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const float DEMULTIPLICATION_FACTOR_J5 = 1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00015">15</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
-
-</div>
-</div>
 <a id="aceed1fa11c7437406489b3e726ee17ca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aceed1fa11c7437406489b3e726ee17ca">&#9670;&nbsp;</a></span>flag_no_connection</h2>
 
@@ -420,7 +312,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00040">40</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00038">38</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -431,12 +323,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ArmUs_8hpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a> g_control_mode</td>
+          <td class="memname"><a class="el" href="motor__translator_8cpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a> g_control_mode</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00048">48</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00046">46</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -452,7 +344,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00035">35</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00033">33</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +360,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00037">37</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00035">35</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -484,7 +376,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00039">39</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00037">37</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -500,7 +392,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00038">38</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00036">36</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -516,7 +408,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00036">36</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00034">34</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -532,7 +424,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00041">41</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00039">39</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -554,7 +446,7 @@ Variables</h2></td></tr>
 <div class="line">    {<span class="stringliteral">&quot;motor4&quot;</span>, 3},</div>
 <div class="line">    {<span class="stringliteral">&quot;motor5&quot;</span>, 4}}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00050">50</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00048">48</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -570,7 +462,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00057">57</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00055">55</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -586,7 +478,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00009">9</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00021">21</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -602,7 +494,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00032">32</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00030">30</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -618,7 +510,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00031">31</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00029">29</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
@@ -634,22 +526,17 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00033">33</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="motor__translator_8cpp_source.html#l00031">31</a> of file <a class="el" href="motor__translator_8cpp_source.html">motor_translator.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="amotor__translator_8cpp_html_a05bcf38adf93e43a861d11c32597ee69"><div class="ttname"><a href="motor__translator_8cpp.html#a05bcf38adf93e43a861d11c32597ee69">DEMULTIPLICATION_FACTOR_J3</a></div><div class="ttdeci">const float DEMULTIPLICATION_FACTOR_J3</div><div class="ttdef"><b>Definition:</b> <a href="motor__translator_8cpp_source.html#l00013">motor_translator.cpp:13</a></div></div>
-<div class="ttc" id="amotor__translator_8cpp_html_aeb86bc620f4786d4704d15143be8212f"><div class="ttname"><a href="motor__translator_8cpp.html#aeb86bc620f4786d4704d15143be8212f">DEMULTIPLICATION_FACTOR_J2</a></div><div class="ttdeci">const float DEMULTIPLICATION_FACTOR_J2</div><div class="ttdef"><b>Definition:</b> <a href="motor__translator_8cpp_source.html#l00012">motor_translator.cpp:12</a></div></div>
-<div class="ttc" id="amotor__translator_8cpp_html_adc36ad53a97634f670d4099ba95a1311"><div class="ttname"><a href="motor__translator_8cpp.html#adc36ad53a97634f670d4099ba95a1311">DEMULTIPLICATION_FACTOR_J5</a></div><div class="ttdeci">const float DEMULTIPLICATION_FACTOR_J5</div><div class="ttdef"><b>Definition:</b> <a href="motor__translator_8cpp_source.html#l00015">motor_translator.cpp:15</a></div></div>
-<div class="ttc" id="amotor__translator_8cpp_html_a6be7ed6a8172a82bfdfb9493505d70ed"><div class="ttname"><a href="motor__translator_8cpp.html#a6be7ed6a8172a82bfdfb9493505d70ed">DEMULTIPLICATION_FACTOR_J1</a></div><div class="ttdeci">const float DEMULTIPLICATION_FACTOR_J1</div><div class="ttdef"><b>Definition:</b> <a href="motor__translator_8cpp_source.html#l00011">motor_translator.cpp:11</a></div></div>
-<div class="ttc" id="amotor__translator_8cpp_html_ad79550c38a778d4e88213ce1f144434d"><div class="ttname"><a href="motor__translator_8cpp.html#ad79550c38a778d4e88213ce1f144434d">DEMULTIPLICATION_FACTOR_J4</a></div><div class="ttdeci">const float DEMULTIPLICATION_FACTOR_J4</div><div class="ttdef"><b>Definition:</b> <a href="motor__translator_8cpp_source.html#l00014">motor_translator.cpp:14</a></div></div>
 
 <br clear="all" />
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): </br />
-<small>autogenerated on Wed Apr 12 2023 13:41:47</small>
+<small>autogenerated on Thu Apr 13 2023 21:28:56</small>
 </div>
 </body>
 </html>

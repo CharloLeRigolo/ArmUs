@@ -134,19 +134,19 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
     if (data->buttons[BUTTON_3] == 1 && m_controller.Buttons.Button3 == 0)
     {
         // If was to cartesian, switch to joint
-        if (m_arm_us_info->MoveMode == MovementMode::Cartesian)
+        if (m_arm_us_info->MoveMode == ArmUsInfo::MovementMode::Cartesian)
         {
-            m_arm_us_info->MoveMode = MovementMode::Joint;
+            m_arm_us_info->MoveMode = ArmUsInfo::MovementMode::Joint;
         }
         else
         {
             // If was to joint, switch to cartesian
-            m_arm_us_info->MoveMode = MovementMode::Cartesian;
+            m_arm_us_info->MoveMode = ArmUsInfo::MovementMode::Cartesian;
         }
     }
     
     // If the current movement mode is in joint
-    if (m_arm_us_info->MoveMode == MovementMode::Joint)
+    if (m_arm_us_info->MoveMode == ArmUsInfo::MovementMode::Joint)
     {
         // Change joint controlled with controller
         // Go up one joint if button 4 is pressed (Button up)
@@ -174,7 +174,7 @@ void ArmUs::subControllerCallback(const sensor_msgs::Joy::ConstPtr &data)
     }
 
     // If the current movement mode is in joint
-    else if (m_arm_us_info->MoveMode == MovementMode::Cartesian)
+    else if (m_arm_us_info->MoveMode == ArmUsInfo::MovementMode::Cartesian)
     {
         // Get cartesian command (Velocity wanted in X, Y and Z, to send to motor translator)
         // X axis is vertical axis of the left joystick
@@ -294,11 +294,11 @@ void ArmUs::send_gui_info()
     gui_info_msg.current_joint = m_arm_us_info->JointControlled;
 
     // Current movement mode
-    if (m_arm_us_info->MoveMode == MovementMode::Joint)
+    if (m_arm_us_info->MoveMode == ArmUsInfo::MovementMode::Joint)
     {
         gui_info_msg.current_mode = 0;
     }
-    else if (m_arm_us_info->MoveMode == MovementMode::Cartesian)
+    else if (m_arm_us_info->MoveMode == ArmUsInfo::MovementMode::Cartesian)
     {
         gui_info_msg.current_mode = 1;
     }
@@ -339,14 +339,14 @@ void ArmUs::send_3d_graph_info()
  * This function is situated in ArmUs and not in ArmUsInfo because a ros::NodeHandle is necessary to call a service
  * This function is used by Arm Us Info Real and Arm Us Info Simul by being passed as a std::function when the object is created
  */
-bool ArmUs::call_inv_kin_calc_service(Vector3f &velocities, int &singularMatrix)
+bool ArmUs::call_inv_kin_calc_service(ArmUsInfo::Vector3f &velocities, int &singularMatrix)
 {
     arm_us_msg::InverseKinematicCalc srv;
 
     // Send current angles of first 3 joints to service
-    Vector5f angles = m_arm_us_info->JointAngles;
+    ArmUsInfo::Vector5f angles = m_arm_us_info->JointAngles;
     // Send cartesian command to service (Desired velocities in x, y, z)
-    Vector3f commands = m_arm_us_info->CartesianCommand;
+    ArmUsInfo::Vector3f commands = m_arm_us_info->CartesianCommand;
 
     // Create service request
     srv.request.angles = { angles.m1, angles.m2, angles.m3 };

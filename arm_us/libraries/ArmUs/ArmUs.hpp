@@ -1,3 +1,15 @@
+/**
+ * @file ArmUs.hpp
+ * @author Mikael St-Arnaud et Philippe Michaud (stam1001, micp1402)
+ * @brief This class controls the arm.
+ * It contains a ArmUs Info object that sends commands to the motor translator to make the arm move
+ * and a Controller object that contains information about the controller used to control the arm.
+ * @version 0.1 
+ * @date 2023-04-13
+ *
+ * @copyright Copyright (c) 2023 - See ARM_US licence
+ */
+
 #pragma once
 
 #include "sensor_msgs/Joy.h"
@@ -92,7 +104,7 @@ private:
      * @param singularMatrix 1 if singular matrix detected, 0 otherwise
      * @return true if call to service was successful and false if call to service was unsuccessful
      */
-    bool call_inv_kin_calc_service(Vector3f &velocities, int &singularMatrix);
+    bool call_inv_kin_calc_service(ArmUsInfo::Vector3f &velocities, int &singularMatrix);
 
     ros::NodeHandle m_nh; // Node handle
 

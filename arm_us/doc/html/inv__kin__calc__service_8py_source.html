@@ -62,7 +62,7 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Commandes: {}&quot;</span>.format(command))</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment"># Grandeurs physiques</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    J1x : float = 1.25</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    J1x : float = 2.0548</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    J1y : float = 0</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    J1z : float = 0</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
@@ -71,7 +71,7 @@ $(function() {
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    J2z : float = 0</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    </div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    J3x : float = 0</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    J3y : float = 2.00</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    J3y : float = 1.73</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    J3z : float = 0</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    J4x : float = 0</div>
@@ -116,46 +116,49 @@ $(function() {
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">try</span>:</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">if</span> det(j) != 0:</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            resp.velocities = np.matmul(inv(j), command)</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            resp.singularMatrix = 0</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            rospy.logerr(<span class="stringliteral">&quot;Can&#39;t create inverse matrix, jacobian determinant is %f&quot;</span>, det(j))</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="comment"># rospy.logerr(&quot;Jog in joint to a less critical position&quot;)</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            resp.velocities = [0.0, 0.0, 0.0]</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            resp.singularMatrix = 1</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordflow">except</span>:</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        rospy.logerr(<span class="stringliteral">&quot;Singular matrix : encountered a column of 0 (can&#39;t divide by 0)&quot;</span>)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="comment"># rospy.logerr(&quot;Jog in joint to a less critical position&quot;)</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        resp.velocities = [0.0, 0.0, 0.0]</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        resp.singularMatrix = 1</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;-------------------------&quot;</span>)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Velocities: {}&quot;</span>.format(resp.velocities))</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Singular Matrix: {}&quot;</span>.format(resp.singularMatrix))</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;--------------------------------------------------&quot;</span>)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">return</span> resp</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="namespaceinv__kin__calc__service.html#a6da431a5bc22b954f2fa5bce2edc5646">  112</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceinv__kin__calc__service.html#a6da431a5bc22b954f2fa5bce2edc5646">inv_kin_calc_service</a>():</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    rospy.init_node(<span class="stringliteral">&quot;inv_kin_calc_service&quot;</span>, anonymous=<span class="keyword">True</span>, log_level=rospy.INFO)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    s = rospy.Service(<span class="stringliteral">&#39;inverse_kinematic_calc_service&#39;</span>, InverseKinematicCalc, handle_inv_kin_calc)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Service initialized&quot;</span>)</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    rospy.spin()</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keywordflow">if</span> __name__==<span class="stringliteral">&#39;__main__&#39;</span>:</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <a class="code" href="namespaceinv__kin__calc__service.html">inv_kin_calc_service</a>()</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            resp.velocities[0] *= (45/14)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            resp.velocities[1] *= (30/14)/2</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            resp.velocities[2] *= 32/24</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            resp.singularMatrix = 0</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            rospy.logerr(<span class="stringliteral">&quot;Can&#39;t create inverse matrix, jacobian determinant is %f&quot;</span>, det(j))</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="comment"># rospy.logerr(&quot;Jog in joint to a less critical position&quot;)</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            resp.velocities = [0.0, 0.0, 0.0]</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            resp.singularMatrix = 1</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">except</span>:</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        rospy.logerr(<span class="stringliteral">&quot;Singular matrix : encountered a column of 0 (can&#39;t divide by 0)&quot;</span>)</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="comment"># rospy.logerr(&quot;Jog in joint to a less critical position&quot;)</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        resp.velocities = [0.0, 0.0, 0.0]</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        resp.singularMatrix = 1</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;-------------------------&quot;</span>)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Velocities: {}&quot;</span>.format(resp.velocities))</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Singular Matrix: {}&quot;</span>.format(resp.singularMatrix))</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;--------------------------------------------------&quot;</span>)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">return</span> resp</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="namespaceinv__kin__calc__service.html#a6da431a5bc22b954f2fa5bce2edc5646">  115</a></span>&#160;<span class="keyword">def </span><a class="code" href="namespaceinv__kin__calc__service.html#a6da431a5bc22b954f2fa5bce2edc5646">inv_kin_calc_service</a>():</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    rospy.init_node(<span class="stringliteral">&quot;inv_kin_calc_service&quot;</span>, anonymous=<span class="keyword">True</span>, log_level=rospy.INFO)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    s = rospy.Service(<span class="stringliteral">&#39;inverse_kinematic_calc_service&#39;</span>, InverseKinematicCalc, handle_inv_kin_calc)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    rospy.loginfo(<span class="stringliteral">&quot;Service initialized&quot;</span>)</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    rospy.spin()</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keywordflow">if</span> __name__==<span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="namespaceinv__kin__calc__service.html">inv_kin_calc_service</a>()</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="anamespaceinv__kin__calc__service_html_a7d9f39316225150f30119245246aee74"><div class="ttname"><a href="namespaceinv__kin__calc__service.html#a7d9f39316225150f30119245246aee74">inv_kin_calc_service.handle_inv_kin_calc</a></div><div class="ttdeci">def handle_inv_kin_calc(req)</div><div class="ttdef"><b>Definition:</b> <a href="inv__kin__calc__service_8py_source.html#l00016">inv_kin_calc_service.py:16</a></div></div>
 <div class="ttc" id="anamespaceinv__kin__calc__service_html"><div class="ttname"><a href="namespaceinv__kin__calc__service.html">inv_kin_calc_service</a></div><div class="ttdef"><b>Definition:</b> <a href="inv__kin__calc__service_8py_source.html#l00001">inv_kin_calc_service.py:1</a></div></div>
 <div class="ttc" id="anamespaceinv__kin__calc__service_html_a7ac1f4391363784789322af546ccec31"><div class="ttname"><a href="namespaceinv__kin__calc__service.html#a7ac1f4391363784789322af546ccec31">inv_kin_calc_service.angle_deg</a></div><div class="ttdeci">def angle_deg(float angle)</div><div class="ttdef"><b>Definition:</b> <a href="inv__kin__calc__service_8py_source.html#l00010">inv_kin_calc_service.py:10</a></div></div>
-<div class="ttc" id="anamespaceinv__kin__calc__service_html_a6da431a5bc22b954f2fa5bce2edc5646"><div class="ttname"><a href="namespaceinv__kin__calc__service.html#a6da431a5bc22b954f2fa5bce2edc5646">inv_kin_calc_service.inv_kin_calc_service</a></div><div class="ttdeci">def inv_kin_calc_service()</div><div class="ttdef"><b>Definition:</b> <a href="inv__kin__calc__service_8py_source.html#l00112">inv_kin_calc_service.py:112</a></div></div>
+<div class="ttc" id="anamespaceinv__kin__calc__service_html_a6da431a5bc22b954f2fa5bce2edc5646"><div class="ttname"><a href="namespaceinv__kin__calc__service.html#a6da431a5bc22b954f2fa5bce2edc5646">inv_kin_calc_service.inv_kin_calc_service</a></div><div class="ttdeci">def inv_kin_calc_service()</div><div class="ttdef"><b>Definition:</b> <a href="inv__kin__calc__service_8py_source.html#l00115">inv_kin_calc_service.py:115</a></div></div>
 <div class="ttc" id="anamespaceinv__kin__calc__service_html_a104a1f31918d3a8365782d4bab7bfb7d"><div class="ttname"><a href="namespaceinv__kin__calc__service.html#a104a1f31918d3a8365782d4bab7bfb7d">inv_kin_calc_service.angle_rad</a></div><div class="ttdeci">def angle_rad(float angle)</div><div class="ttdef"><b>Definition:</b> <a href="inv__kin__calc__service_8py_source.html#l00013">inv_kin_calc_service.py:13</a></div></div>
 
 <br clear="all" />
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): </br />
-<small>autogenerated on Wed Apr 12 2023 13:41:47</small>
+<small>autogenerated on Thu Apr 13 2023 21:28:56</small>
 </div>
 </body>
 </html>

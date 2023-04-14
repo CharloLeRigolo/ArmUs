@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classArmUsInfo.html" title="Class that holds information about the arm : velocities, angles, positions, etc." alt="" coords="5,31,96,57"/>
-<area shape="rect" id="node2" href="$classArmUsInfoReal.html" title=" " alt="" coords="148,5,268,32"/>
-<area shape="rect" id="node3" href="$classArmUsInfoSimul.html" title=" " alt="" coords="144,56,272,83"/>
+<area shape="rect" id="node1" href="$classArmUsInfo.html" title="Class that controls the arm. Contains a virtual void function, cannot be instantiated...." alt="" coords="5,31,96,57"/>
+<area shape="rect" id="node2" href="$classArmUsInfoReal.html" title="Derived class from Arm Us Info Used to control the arm in real time with Dynamixels connected." alt="" coords="148,5,268,32"/>
+<area shape="rect" id="node3" href="$classArmUsInfoSimul.html" title="Derived class from Arm Us Info Used to simulate the motors to debug." alt="" coords="144,56,272,83"/>
 </map>

@@ -1,3 +1,13 @@
+/**
+ * @file ArmUs_Controller.hpp
+ * @author Mikael St-Arnaud et Philippe Michaud (stam1001, micp1402)
+ * @brief This class holds information about the state of the controller used to control the arm
+ * @version 0.1 
+ * @date 2023-04-13
+ *
+ * @copyright Copyright (c) 2023 - See ARM_US licence
+ */
+
 #pragma once
 
 /**

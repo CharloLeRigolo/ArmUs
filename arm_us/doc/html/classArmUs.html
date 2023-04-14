@@ -19,6 +19,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classArmUs-members.html">List of all members</a>  </div>
@@ -32,29 +33,38 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aeb20f8ebb66bf4efdaf844564441a31a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#aeb20f8ebb66bf4efdaf844564441a31a">ArmUs</a> ()</td></tr>
-<tr class="memdesc:aeb20f8ebb66bf4efdaf844564441a31a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Arm Us object. Contains <a class="el" href="structController.html">Controller</a> object and Arm Us Info object.  <a href="classArmUs.html#aeb20f8ebb66bf4efdaf844564441a31a">More...</a><br /></td></tr>
+<tr class="memdesc:aeb20f8ebb66bf4efdaf844564441a31a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Arm Us object. Contains <a class="el" href="structController.html" title="Data structure that holds information about the state of a controller. Is used of ease of use when re...">Controller</a> object and Arm Us Info object.  <a href="classArmUs.html#aeb20f8ebb66bf4efdaf844564441a31a">More...</a><br /></td></tr>
 <tr class="separator:aeb20f8ebb66bf4efdaf844564441a31a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5dfeb55ecc41855105dc96118de46008"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#a5dfeb55ecc41855105dc96118de46008">Run</a> ()</td></tr>
 <tr class="memdesc:a5dfeb55ecc41855105dc96118de46008"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main loop.  <a href="classArmUs.html#a5dfeb55ecc41855105dc96118de46008">More...</a><br /></td></tr>
 <tr class="separator:a5dfeb55ecc41855105dc96118de46008"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
+Private Types</h2></td></tr>
+<tr class="memitem:ab05f91ef8cfa6b8af3c0bb31fd24c060"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#ab05f91ef8cfa6b8af3c0bb31fd24c060">ControlMode</a> { <a class="el" href="classArmUs.html#ab05f91ef8cfa6b8af3c0bb31fd24c060a7f80fcc452c2f1ed2bb51b39d0864df1">ControlMode::Real</a> = 0, 
+<a class="el" href="classArmUs.html#ab05f91ef8cfa6b8af3c0bb31fd24c060a4f502b57d2835715eaa382c7d4c32e94">ControlMode::Simulation</a> = 1
+ }</td></tr>
+<tr class="separator:ab05f91ef8cfa6b8af3c0bb31fd24c060"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a83aad6489c228c3ed323fcf32423ba2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#a83aad6489c228c3ed323fcf32423ba2a">call_inv_kin_calc_service</a> (<a class="el" href="structVector3f.html">Vector3f</a> &amp;velocities, int &amp;singularMatrix)</td></tr>
-<tr class="memdesc:a83aad6489c228c3ed323fcf32423ba2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call inverse kinematic calculation service to calculate velocities of first 3 motors to move in cartesian mode.  <a href="classArmUs.html#a83aad6489c228c3ed323fcf32423ba2a">More...</a><br /></td></tr>
-<tr class="separator:a83aad6489c228c3ed323fcf32423ba2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3155226570aec4c3da006f2c65b15d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#af3155226570aec4c3da006f2c65b15d1">call_inv_kin_calc_service</a> (<a class="el" href="structArmUsInfo_1_1Vector3f.html">ArmUsInfo::Vector3f</a> &amp;velocities, int &amp;singularMatrix)</td></tr>
+<tr class="memdesc:af3155226570aec4c3da006f2c65b15d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call inverse kinematic calculation service to calculate velocities of first 3 motors to move in cartesian mode.  <a href="classArmUs.html#af3155226570aec4c3da006f2c65b15d1">More...</a><br /></td></tr>
+<tr class="separator:af3155226570aec4c3da006f2c65b15d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec7d293bede5819d95a72da8cd0a5e83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#aec7d293bede5819d95a72da8cd0a5e83">Initalize</a> ()</td></tr>
 <tr class="memdesc:aec7d293bede5819d95a72da8cd0a5e83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize publishers, subscribers and service. Get Rosparams to initialize internal constants.  <a href="classArmUs.html#aec7d293bede5819d95a72da8cd0a5e83">More...</a><br /></td></tr>
 <tr class="separator:aec7d293bede5819d95a72da8cd0a5e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35235111ecf767e067550c334c0616bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#a35235111ecf767e067550c334c0616bc">send_3d_graph_info</a> ()</td></tr>
+<tr class="memdesc:a35235111ecf767e067550c334c0616bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send information to the 3d graph node that visualizes the position of the arm in real time in Rviz Publishes a message of type ArmUsMsg::GraphInfo which contains the angles of each joints.  <a href="classArmUs.html#a35235111ecf767e067550c334c0616bc">More...</a><br /></td></tr>
 <tr class="separator:a35235111ecf767e067550c334c0616bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac41ce6d363db49dbfc5ad7653c086f7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#ac41ce6d363db49dbfc5ad7653c086f7b">send_cmd_motor</a> ()</td></tr>
-<tr class="memdesc:ac41ce6d363db49dbfc5ad7653c086f7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send motor velocities calculated to interface that checks joint limits.  <a href="classArmUs.html#ac41ce6d363db49dbfc5ad7653c086f7b">More...</a><br /></td></tr>
+<tr class="memdesc:ac41ce6d363db49dbfc5ad7653c086f7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send the motor commands to the motor translator by publishing a message of type sensor_msgs::JointState in which the name and velocity attributes are set.  <a href="classArmUs.html#ac41ce6d363db49dbfc5ad7653c086f7b">More...</a><br /></td></tr>
 <tr class="separator:ac41ce6d363db49dbfc5ad7653c086f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad27a6c5e25d94b2ad9aa830e920806a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#ad27a6c5e25d94b2ad9aa830e920806a3">send_cmd_motor_stop</a> ()</td></tr>
-<tr class="memdesc:ad27a6c5e25d94b2ad9aa830e920806a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set all motor velocities to 0.  <a href="classArmUs.html#ad27a6c5e25d94b2ad9aa830e920806a3">More...</a><br /></td></tr>
+<tr class="memdesc:ad27a6c5e25d94b2ad9aa830e920806a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send a command of 0 for all motors to the motor translator. Called before the node is shutdown because the dynamixel motors keep executing the last command received.  <a href="classArmUs.html#ad27a6c5e25d94b2ad9aa830e920806a3">More...</a><br /></td></tr>
 <tr class="separator:ad27a6c5e25d94b2ad9aa830e920806a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6677fe24f7d983f83040207fd5b57f76"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#a6677fe24f7d983f83040207fd5b57f76">send_gui_info</a> ()</td></tr>
+<tr class="memdesc:a6677fe24f7d983f83040207fd5b57f76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send information to the dashboard by publishing a message of type ArmUsMsg::GuiInfo that contains the current control mode and the current joint controlled.  <a href="classArmUs.html#a6677fe24f7d983f83040207fd5b57f76">More...</a><br /></td></tr>
 <tr class="separator:a6677fe24f7d983f83040207fd5b57f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1a25d072f5d79442eb603fa7dccce24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#ac1a25d072f5d79442eb603fa7dccce24">setParams</a> ()</td></tr>
 <tr class="memdesc:ac1a25d072f5d79442eb603fa7dccce24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the Rosparams and set them in the corresponding variables and constants for later use.  <a href="classArmUs.html#ac1a25d072f5d79442eb603fa7dccce24">More...</a><br /></td></tr>
@@ -90,7 +100,7 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a2ebc99969602798db4101a0ebe6ea5ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ae65dca25f5b0a8b4ace39f817046a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structController.html">Controller</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#a0ae65dca25f5b0a8b4ace39f817046a9">m_controller</a></td></tr>
 <tr class="separator:a0ae65dca25f5b0a8b4ace39f817046a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7423977ac4dabae450564efba5f27e84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="ArmUs_8hpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#a7423977ac4dabae450564efba5f27e84">m_controlMode</a></td></tr>
+<tr class="memitem:a7423977ac4dabae450564efba5f27e84"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classArmUs.html#ab05f91ef8cfa6b8af3c0bb31fd24c060">ControlMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#a7423977ac4dabae450564efba5f27e84">m_controlMode</a></td></tr>
 <tr class="separator:a7423977ac4dabae450564efba5f27e84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae476ebe2a63cbed9535ad57087ca3fc2"><td class="memItemLeft" align="right" valign="top">ros::NodeHandle&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classArmUs.html#ae476ebe2a63cbed9535ad57087ca3fc2">m_nh</a></td></tr>
 <tr class="separator:ae476ebe2a63cbed9535ad57087ca3fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,8 +129,37 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00019">19</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00028">28</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="ab05f91ef8cfa6b8af3c0bb31fd24c060"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab05f91ef8cfa6b8af3c0bb31fd24c060">&#9670;&nbsp;</a></span>ControlMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classArmUs.html#ab05f91ef8cfa6b8af3c0bb31fd24c060">ArmUs::ControlMode</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab05f91ef8cfa6b8af3c0bb31fd24c060a7f80fcc452c2f1ed2bb51b39d0864df1"></a>Real&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ab05f91ef8cfa6b8af3c0bb31fd24c060a4f502b57d2835715eaa382c7d4c32e94"></a>Simulation&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00031">31</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aeb20f8ebb66bf4efdaf844564441a31a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeb20f8ebb66bf4efdaf844564441a31a">&#9670;&nbsp;</a></span>ArmUs()</h2>
 
@@ -136,17 +175,17 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Construct a new Arm Us object. Contains <a class="el" href="structController.html">Controller</a> object and Arm Us Info object. </p>
+<p>Construct a new Arm Us object. Contains <a class="el" href="structController.html" title="Data structure that holds information about the state of a controller. Is used of ease of use when re...">Controller</a> object and Arm Us Info object. </p>
 <p>Arm Us Info object is pointer of virtual base class Arm Us Info that is created as either derived class Arm Us Info Real or Arm Us Info Simul depending on a Rosparam named "/master_node/control_mode" that is passed by command line with launch file.</p>
 <p>Initialize() is needed before the instantiation of m_arm_us_info, because it reads the Rosparam that indicates which control mode is wanted. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00012">12</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00011">11</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a83aad6489c228c3ed323fcf32423ba2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83aad6489c228c3ed323fcf32423ba2a">&#9670;&nbsp;</a></span>call_inv_kin_calc_service()</h2>
+<a id="af3155226570aec4c3da006f2c65b15d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3155226570aec4c3da006f2c65b15d1">&#9670;&nbsp;</a></span>call_inv_kin_calc_service()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -157,7 +196,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool ArmUs::call_inv_kin_calc_service </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structVector3f.html">Vector3f</a> &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structArmUsInfo_1_1Vector3f.html">ArmUsInfo::Vector3f</a> &amp;&#160;</td>
           <td class="paramname"><em>velocities</em>, </td>
         </tr>
         <tr>
@@ -182,16 +221,27 @@ Private Attributes</h2></td></tr>
 <p>Call inverse kinematic calculation service to calculate velocities of first 3 motors to move in cartesian mode. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">velocities</td><td>Motor velocities calculated by service, returns [0, 0, 0] if service call failed or singular matrix detected </td></tr>
-    <tr><td class="paramname">singularMatrix</td><td>1 of singular matrix detected, 0 otherwise </td></tr>
+    <tr><td class="paramname">velocities</td><td>Motor velocities calculated for each joint by the service, is [0, 0, 0] if service call failed or singular matrix detected </td></tr>
+    <tr><td class="paramname">singularMatrix</td><td>1 if singular matrix detected, 0 otherwise </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if call to service was successful </dd>
-<dd>
-false if call to service was unsuccessful </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if call to service was successful and false if call to service was unsuccessful</dd></dl>
+<p>This function calls the service that calculates the motor commands needed for each joint [J1, J2, J3] to move in cartesian axis [X, Y, Z].</p>
+<p>The service message used is ArmUsMsg::InverseKinematicCalc</p>
+<p>The service is called with two arguments :</p><ul>
+<li>The cartesian movement wanted in X, Y, Z (float64[3] -&gt; [X, Y, Z])</li>
+<li>The current angles of the first 3 joints in degrees (float64[3] -&gt; [q1, q2, q3])</li>
+</ul>
+<p>The service returns two arguments :</p><ul>
+<li>The motor velocities of each joints needed to satisfy the cartesian commands sent (float64[3] -&gt; [J1, J2, J3])</li>
+<li>A boolean that expresses if a singular matrix was encountered when calculating the inverse kinematics of the arm</li>
+</ul>
+<p>The arguments are used only to propagate the result of the service, they are meant to be called with a Vector3f filled with zeros ([0, 0, 0]) and a false boolean</p>
+<p>If a singular matrix is encountered, or the service could not be called, the Vector3f velocities paramter is filled with zeros. Otherwise, it gives the velocities of each joints calculated by the service.</p>
+<p>This function is situated in <a class="el" href="classArmUs.html">ArmUs</a> and not in <a class="el" href="classArmUsInfo.html" title="Class that controls the arm. Contains a virtual void function, cannot be instantiated....">ArmUsInfo</a> because a ros::NodeHandle is necessary to call a service This function is used by Arm Us Info Real and Arm Us Info Simul by being passed as a std::function when the object is created </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00314">314</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00342">342</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -219,12 +269,12 @@ false if call to service was unsuccessful </dd></dl>
 </div><div class="memdoc">
 
 <p>Initialize publishers, subscribers and service. Get Rosparams to initialize internal constants. </p>
-<p>m_sub_input subscribes to the controller messages and updates the <a class="el" href="structController.html">Controller</a> object. m_sub_joint_angles subscribes to the motor translator and receives the angles of each joint based on their current positions.</p>
+<p>m_sub_input subscribes to the controller messages and updates the <a class="el" href="structController.html" title="Data structure that holds information about the state of a controller. Is used of ease of use when re...">Controller</a> object. m_sub_joint_angles subscribes to the motor translator and receives the angles of each joint based on their current positions.</p>
 <p>m_pub_motor_interface publishes motor commands to translator. m_pub_gui publishes current movement mode and current joint controlled to dashboard. m_pub_3d_graph publishes angles received from motor translator to a 3d graph in Rviz to visualize in real time the position of the arm.</p>
 <p>m_client_inv_kin_calc calls a service to find the motor commands needed to move in cartesian. The service receives the current angles of the first 3 joints and the velocity wanted in x, y and z. It sends back the velocities of each of the first 3 joints needed to achieve the cartesian movement, and a boolean that expresses if a singular matrix was encountered.</p>
 <p>Calls setParam() that gets all the Rosparams </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00091">91</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00090">90</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -248,7 +298,7 @@ false if call to service was unsuccessful </dd></dl>
 <p>Sends messages to dashboard and 3d graph</p>
 <p>Checks callbacks to receive new messages and update information </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00036">36</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00035">35</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -275,7 +325,10 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00299">299</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p>Send information to the 3d graph node that visualizes the position of the arm in real time in Rviz Publishes a message of type ArmUsMsg::GraphInfo which contains the angles of each joints. </p>
+<p>Get the angles of each joints calculated by the motor translator </p>
+
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00312">312</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -302,9 +355,10 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Send motor velocities calculated to interface that checks joint limits. </p>
+<p>Send the motor commands to the motor translator by publishing a message of type sensor_msgs::JointState in which the name and velocity attributes are set. </p>
+<p>Send the motor commands to the motor translator by publishing a message of type sensor_msgs::JointState in which the name and velocity attributes are set. </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00254">254</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00262">262</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -331,9 +385,10 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Set all motor velocities to 0. </p>
+<p>Send a command of 0 for all motors to the motor translator. Called before the node is shutdown because the dynamixel motors keep executing the last command received. </p>
+<p>Same as <a class="el" href="classArmUs.html#ac41ce6d363db49dbfc5ad7653c086f7b" title="Send the motor commands to the motor translator by publishing a message of type sensor_msgs::JointSta...">send_cmd_motor()</a>, but instead of sending the motor commands calculated in m_arm_us_info-&gt;calculate_motor_velocities(), send zeros to all motors </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00273">273</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00274">274</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -360,7 +415,11 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00282">282</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p>Send information to the dashboard by publishing a message of type ArmUsMsg::GuiInfo that contains the current control mode and the current joint controlled. </p>
+<p>The current control mode msg.current_mode is a int8 with a value of 0 if in joint mode and a value of 1 if in cartesian mode.</p>
+<p>The current joint controlled msg.current_joint is a int8 with a value between 1 and 5 representing the joints 1 to 5. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00289">289</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -388,8 +447,10 @@ false if call to service was unsuccessful </dd></dl>
 </div><div class="memdoc">
 
 <p>Get all the Rosparams and set them in the corresponding variables and constants for later use. </p>
+<p>Get Rosparams for the control mode. The control mode is Real mode by default but can be changed by adding the argument "simulation" to the command line when launching with roslaunch to set control mode to simulation ("simulation:=0" is real mode, "simulation:=1" is simulation mode)</p>
+<p>Get Rosparams from config/controller_config.yaml for the mapping of the indexes of the controller's joysticks and buttons </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00198">198</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00213">213</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -426,7 +487,7 @@ false if call to service was unsuccessful </dd></dl>
 </dl>
 <p>Receives the angles of the joints from the motor translator and saves them in m_arm_us_info-&gt;JointAngles </p>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00193">193</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00200">200</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -457,13 +518,28 @@ false if call to service was unsuccessful </dd></dl>
 <p>Callback that receives information about the controller. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">data</td><td>Receives messages of type sensor_msgs::Joy that contains the axes measurements and the buttons measurements from a controller</td></tr>
+    <tr><td class="paramname">data</td><td>Receives messages of type sensor_msgs::Joy that contains the axes measurements and the buttons measurements from a controller.</td></tr>
   </table>
   </dd>
 </dl>
-<p>Constants are used to indicate which index is which part of the controller Varies depending on the controller The mapping is made in /config/controller_config.yaml The information in the configuration file is loaded in the launchfile as Rosparams thats are attributed to the constants used as indexes in the code in the initialization </p>
+<p>Constants are used to indicate which index is which part of the controller Varies depending on the controller The mapping is made in /config/controller_config.yaml</p>
+<p>The information in the configuration file is loaded in the launchfile as Rosparams thats are attributed to the constants used as indexes in the code in the initialization.</p>
+<p>Change control mode with Button 3 (right button)</p>
+<p>Change current joint controlled with Buttons 2 and 4 (down and up buttons respectively)</p>
+<p>Get joystick position for motor velocity :</p><ul>
+<li>Joint mode :<ul>
+<li>Current joint velocity is vertical axis of left joystick</li>
+</ul>
+</li>
+<li>Cartesian mode :<ul>
+<li>X velocity is vertical axis of left joystick</li>
+<li>Y velocity is horizontal axis of left joystick</li>
+<li>Z velocity is vertical axis of right joystick </li>
+</ul>
+</li>
+</ul>
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00112">112</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8cpp_source.html#l00124">124</a> of file <a class="el" href="ArmUs_8cpp_source.html">ArmUs.cpp</a>.</p>
 
 </div>
 </div>
@@ -488,7 +564,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00098">98</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00136">136</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -512,7 +588,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00099">99</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00137">137</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -536,7 +612,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00100">100</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00138">138</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -560,7 +636,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00101">101</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00139">139</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -584,7 +660,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00102">102</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00140">140</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -608,7 +684,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00089">89</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00127">127</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -632,7 +708,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00090">90</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00128">128</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -656,7 +732,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00091">91</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00129">129</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -680,7 +756,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00083">83</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00122">122</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -704,7 +780,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00079">79</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00118">118</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -728,7 +804,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00081">81</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00120">120</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -742,7 +818,7 @@ false if call to service was unsuccessful </dd></dl>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="ArmUs_8hpp.html#aee3ea37f4f505980157cf93a84687bcb">ControlMode</a> ArmUs::m_controlMode</td>
+          <td class="memname"><a class="el" href="classArmUs.html#ab05f91ef8cfa6b8af3c0bb31fd24c060">ControlMode</a> ArmUs::m_controlMode</td>
         </tr>
       </table>
   </td>
@@ -752,7 +828,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00085">85</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00124">124</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -776,7 +852,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00070">70</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00109">109</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -800,7 +876,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00077">77</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00116">116</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -824,7 +900,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00076">76</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00115">115</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -848,7 +924,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00075">75</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00114">114</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -872,7 +948,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00072">72</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00111">111</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -896,7 +972,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00073">73</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00112">112</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -920,7 +996,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00095">95</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00133">133</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -944,7 +1020,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00096">96</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00134">134</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -968,7 +1044,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00103">103</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00141">141</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -992,7 +1068,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00092">92</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00130">130</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -1016,7 +1092,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00093">93</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00131">131</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -1040,7 +1116,7 @@ false if call to service was unsuccessful </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00094">94</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs_8hpp_source.html#l00132">132</a> of file <a class="el" href="ArmUs_8hpp_source.html">ArmUs.hpp</a>.</p>
 
 </div>
 </div>
@@ -1054,7 +1130,7 @@ false if call to service was unsuccessful </dd></dl>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): </br />
-<small>autogenerated on Wed Apr 12 2023 13:41:47</small>
+<small>autogenerated on Thu Apr 13 2023 21:28:56</small>
 </div>
 </body>
 </html>
