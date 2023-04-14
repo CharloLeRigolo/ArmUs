@@ -1,25 +1,25 @@
 #include "ros/ros.h"
 #include "ArmUs_Controller.hpp"
 
-void Joystick::set(float v, float h)
+void Controller::Joystick::set(float v, float h)
 {
     Vertical = v;
     Horizontal = h;
 }
 
-void DirectionPad::set(int v, int h)
+void Controller::DirectionPad::set(int v, int h)
 {
     Vertical = v;
     Horizontal = h;
 }
 
-void Trigger::set(int l, int r)
+void Controller::Trigger::set(int l, int r)
 {
     Left = l;
     Right = r;
 }
 
-void Button::set(int b1, int b2, int b3, int b4)
+void Controller::Button::set(int b1, int b2, int b3, int b4)
 {
     Button1 = b1;
     Button2 = b2;
