@@ -116,7 +116,11 @@ Once ArmUs is calibrated, launch the 2nd launchfile
 ```
 roslaunch arm_us 2_control.launch
 ```
-This will enable the torque on the motors and enable the control with the controller, you should now be able to control the motors with your controller in joint or cartesian as you wish (see [keybinding](notdone.sorry))
+This will enable the torque on the motors and enable the control with the controller, you should now be able to control the motors with your controller in joint or cartesian as you wish
+
+https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/Keybindings%20Cartesian%20(En).PNG)
+
+https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/Keybindings%20Joint%20(En).PNG
 
 Before killing your node, if you want to keep your calibration values, run this command
 ```
