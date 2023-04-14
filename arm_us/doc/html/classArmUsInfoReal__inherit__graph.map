@@ -1,4 +1,4 @@
 <map id="ArmUsInfoReal" name="ArmUsInfoReal">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,125,107"/>
-<area shape="rect" id="node2" href="$classArmUsInfo.html" title="Class that holds information about the arm : velocities, angles, positions, etc." alt="" coords="20,5,111,32"/>
+<area shape="rect" id="node1" title="Derived class from Arm Us Info Used to control the arm in real time with Dynamixels connected." alt="" coords="5,80,125,107"/>
+<area shape="rect" id="node2" href="$classArmUsInfo.html" title="Class that controls the arm. Contains a virtual void function, cannot be instantiated...." alt="" coords="20,5,111,32"/>
 </map>

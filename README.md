@@ -15,11 +15,11 @@
 - [License](#license)
 
 # ArmUs
-ArmUs is a 5 axis robot made to reprocuce movement and goemetry of a real humain arm. It's made by a team of 6 sherbrooke university undergraduate. The goal is to eventually add a robotic hand at the end and be able to control the whole arm-hand assembly by moving your arm. 
+ArmUs is a 5 axis robot made to reproduce movement and goemetry of a real human arm. It's made by a team of 6 sherbrooke university undergraduates. The goal is to eventually add a robotic hand at the end and be able to control the whole arm-hand assembly by moving your arm. 
 
 ![ARM US](PHOTO D'ARMUS)
 
-At this stage, the arm can be controled either in joint or in cartisian mode and can be visualized and calibrated in real time, it also support software protection, torque limiters to reduce risks and a simulation mode for test purposes.
+At this stage, the arm can be controled either in joint or in cartisian mode and can be visualized and calibrated in real time, it also supports software protection, torque limiters to reduce risks and a simulation mode for test purposes.
 
 Control interface (HMI)
 ![HMI](https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/HMI%20ScreenShot.png)
@@ -88,21 +88,21 @@ firefox ~/catkin_ws/src/arm_us/arm_us/doc/html/index.html
 	2. Follow the steps in section 4.X (depending on your operating system) of the [ROBOTIS e-Manual for OpenCR](https://emanual.robotis.com/docs/en/parts/controller/opencr10/)
 	3. Select the OpenCR board in ArduinoIDE
 	4. Select "usb_to_dxl" In *File -> Examples -> OpenCR -> 10. Etc -> usb_to_dxl*
-	5. Upload the example to the OpenCr board, make sure your on the correct port and the device in /dev/ttyXXX has read/write access
+	5. Upload the example to the OpenCr board, make sure you're on the correct port and the device in /dev/ttyXXX has read/write access
 		```
 		sudo chmod a+rw /dev/ttyACM0
 		```
 	The OpenCR board is now in bridge mode. We will be able to control it directly from the Serial Port
 
 ## Material (Software side)
-For the robot assembly follow the [README.md](https://github.com/CharloLeRigolo/arm_us/blob/main/Mechanics/README.md) in [/Mechanics](https://github.com/CharloLeRigolo/arm_us/tree/main/Mechanics).
+For the robot's assembly, follow the [README.md](https://github.com/CharloLeRigolo/arm_us/blob/main/Mechanics/README.md) in [/Mechanics](https://github.com/CharloLeRigolo/arm_us/tree/main/Mechanics).
 
 - 1 OpenCR board
 - 1 OpenCR 120VAC to 12VDC powersupply
 - 2 Dynamixel XL430 motors
 - 3 Dynamixel XM430 motors
 - 1 USB micro B to USB A
-- 1 Generic controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using a logitech controller)
+- 1 Generic controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using a logitech controller, in [/ArmUs/arm_us/config/controller_config.yaml])
 
 # Running the robot
 Open a terminal and launch the first launchfile:
@@ -165,6 +165,30 @@ There are 4 packages in ArmUs:
 
 ## Msg, srv and action files
 Information for msg, srv and action files can be found directly in the [arm_us_msg](https://github.com/CharloLeRigolo/arm_us/tree/main/arm_us_msg) package 
+
+- Messages
+  - GraphInfo.msg
+    - Consists of an array of float64s of length 5 named angle that represents the angles of the joints in degrees
+    - It is used to send the joint angles in degrees from the motor translator to the master node, where it is then sent back to the inverse kinematic service node to control the arm in cartesian mode, and to the graph node to visualize the position of the arm in real time in Rviz.
+
+  - GuiInfo.msg
+    - Consists of an int8 named current_joint that represents the current joint controlled, and another int8 named current_mode, which represents the current movement mode.
+    - It is used to send the current joint controlled and the current movement mode to the Gui node so that the user can see in real time the information.
+
+  - JointLimits.msg
+    - Consists of an array of booleans of length 5 named joint_limits that indicates if any of the joints reached their limits.
+    - It is used by the motor translator to send information to the Gui to indicate if any joint limits are reached.
+
+- Services
+  - InverseKinematicCalc.srv
+    - Request : 
+      - angles : An array of float64s of length 3 named angles that represents the current angles of the first 3 joints used in the inverse kinematic equations.
+      - commands : An array of float64s of length 4 named commands that represents the velocities of the end effector of the arm in the X, Y and Z axis.
+    - Response :
+      - velocities : An array of float64s of length 3 that represents the velocities of the first 3 joints needed to do the cartesian movement requested.
+      - singularMatrix : A boolean name singularMatrix which indicates if a singularMatrix was encountered when calculating the joint velocities.
+
+
 
 # License
 MIT [Licence](https://github.com/CharloLeRigolo/arm_us/blob/main/LICENSE)

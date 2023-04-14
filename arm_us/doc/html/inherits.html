@@ -31,49 +31,49 @@ $(function() {
 </td></tr>
 <tr><td><img src="inherit_graph_1.png" border="0" usemap="#ArmUsInfo" alt=""/>
 <map name="ArmUsInfo" id="ArmUsInfo">
-<area shape="rect" href="classArmUsInfo.html" title="Class that holds information about the arm : velocities, angles, positions, etc." alt="" coords="5,31,96,57"/>
-<area shape="rect" href="classArmUsInfoReal.html" title=" " alt="" coords="148,5,268,32"/>
-<area shape="rect" href="classArmUsInfoSimul.html" title=" " alt="" coords="144,56,272,83"/>
+<area shape="rect" href="classArmUsInfo.html" title="Class that controls the arm. Contains a virtual void function, cannot be instantiated...." alt="" coords="5,31,96,57"/>
+<area shape="rect" href="classArmUsInfoReal.html" title="Derived class from Arm Us Info Used to control the arm in real time with Dynamixels connected." alt="" coords="148,5,268,32"/>
+<area shape="rect" href="classArmUsInfoSimul.html" title="Derived class from Arm Us Info Used to simulate the motors to debug." alt="" coords="144,56,272,83"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_2.png" border="0" usemap="#Button" alt=""/>
-<map name="Button" id="Button">
-<area shape="rect" href="structButton.html" title=" " alt="" coords="5,5,71,32"/>
+<tr><td><img src="inherit_graph_2.png" border="0" usemap="#ArmUsInfo_1_1Vector3f" alt=""/>
+<map name="ArmUsInfo_1_1Vector3f" id="ArmUsInfo_1_1Vector3f">
+<area shape="rect" href="structArmUsInfo_1_1Vector3f.html" title="Data structure that holds 3 floats : x, y, z Used for the cartesian velocity commands sent and the jo..." alt="" coords="5,5,160,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_3.png" border="0" usemap="#Controller" alt=""/>
+<tr><td><img src="inherit_graph_3.png" border="0" usemap="#ArmUsInfo_1_1Vector5b" alt=""/>
+<map name="ArmUsInfo_1_1Vector5b" id="ArmUsInfo_1_1Vector5b">
+<area shape="rect" href="structArmUsInfo_1_1Vector5b.html" title="Data structure that holds 5 booleans : m1, m2, m3, m4, m5 Used for joint limits of the arm." alt="" coords="5,5,163,32"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_4.png" border="0" usemap="#ArmUsInfo_1_1Vector5f" alt=""/>
+<map name="ArmUsInfo_1_1Vector5f" id="ArmUsInfo_1_1Vector5f">
+<area shape="rect" href="structArmUsInfo_1_1Vector5f.html" title="Data structure that holds 5 floats : m1, m2, m3, m4, m5 Used for motor positions, angles,..." alt="" coords="5,5,160,32"/>
+</map>
+</td></tr>
+<tr><td><img src="inherit_graph_5.png" border="0" usemap="#Controller" alt=""/>
 <map name="Controller" id="Controller">
-<area shape="rect" href="structController.html" title=" " alt="" coords="5,5,92,32"/>
+<area shape="rect" href="structController.html" title="Data structure that holds information about the state of a controller. Is used of ease of use when re..." alt="" coords="5,5,92,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_4.png" border="0" usemap="#DirectionPad" alt=""/>
-<map name="DirectionPad" id="DirectionPad">
-<area shape="rect" href="structDirectionPad.html" title=" " alt="" coords="5,5,111,32"/>
+<tr><td><img src="inherit_graph_6.png" border="0" usemap="#Controller_1_1Button" alt=""/>
+<map name="Controller_1_1Button" id="Controller_1_1Button">
+<area shape="rect" href="structController_1_1Button.html" title="Data structure that holds information about 4 buttons. Buttons have an int value of 0 or 1." alt="" coords="5,5,143,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_5.png" border="0" usemap="#Joystick" alt=""/>
-<map name="Joystick" id="Joystick">
-<area shape="rect" href="structJoystick.html" title=" " alt="" coords="5,5,79,32"/>
+<tr><td><img src="inherit_graph_7.png" border="0" usemap="#Controller_1_1DirectionPad" alt=""/>
+<map name="Controller_1_1DirectionPad" id="Controller_1_1DirectionPad">
+<area shape="rect" href="structController_1_1DirectionPad.html" title="Data structure that holds information about a direction pad. Vertical axis is an int value of &#45;1,..." alt="" coords="5,5,183,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_6.png" border="0" usemap="#Trigger" alt=""/>
-<map name="Trigger" id="Trigger">
-<area shape="rect" href="structTrigger.html" title=" " alt="" coords="5,5,72,32"/>
+<tr><td><img src="inherit_graph_8.png" border="0" usemap="#Controller_1_1Joystick" alt=""/>
+<map name="Controller_1_1Joystick" id="Controller_1_1Joystick">
+<area shape="rect" href="structController_1_1Joystick.html" title="Data structure that holds information about a joystick. Vertical axis is a float value between &#45;1...." alt="" coords="5,5,151,32"/>
 </map>
 </td></tr>
-<tr><td><img src="inherit_graph_7.png" border="0" usemap="#Vector3f" alt=""/>
-<map name="Vector3f" id="Vector3f">
-<area shape="rect" href="structVector3f.html" title="Data structure that holds 3 floats : x, y, z." alt="" coords="5,5,83,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_8.png" border="0" usemap="#Vector5b" alt=""/>
-<map name="Vector5b" id="Vector5b">
-<area shape="rect" href="structVector5b.html" title="Data structure that holds 5 booleans : m1, m2, m3, m4, m5." alt="" coords="5,5,85,32"/>
-</map>
-</td></tr>
-<tr><td><img src="inherit_graph_9.png" border="0" usemap="#Vector5f" alt=""/>
-<map name="Vector5f" id="Vector5f">
-<area shape="rect" href="structVector5f.html" title="Data structure that holds 5 floats : m1, m2, m3, m4, m5." alt="" coords="5,5,83,32"/>
+<tr><td><img src="inherit_graph_9.png" border="0" usemap="#Controller_1_1Trigger" alt=""/>
+<map name="Controller_1_1Trigger" id="Controller_1_1Trigger">
+<area shape="rect" href="structController_1_1Trigger.html" title="Data structure that holds information about a trigger. Vertical axis is an int value of 0 or 1 Horizo..." alt="" coords="5,5,144,32"/>
 </map>
 </td></tr>
 </table>
@@ -83,7 +83,7 @@ $(function() {
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): Philippe <micp1402@usherbrooke.ca>, Mikael <stam1001@usherbrooke.ca></br />
-<small>autogenerated on Wed Apr 12 2023 23:41:24</small>
+<small>autogenerated on Thu Apr 13 2023 23:04:55</small>
 </div>
 </body>
 </html>

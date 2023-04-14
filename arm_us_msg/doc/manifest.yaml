@@ -1,0 +1,22 @@
+actions: []
+authors: Philippe <micp1402@usherbrooke.ca>, Mikael <stam1001@usherbrooke.ca>
+brief: ''
+bugtracker: ''
+depends:
+- message_runtime
+- std_msgs
+- message_generation
+- catkin
+description: "The arm_us_msg package contain all the msgs, srv and action files used\
+  \ by arm_us's\n  packages. They are precompiled in another package as per ROS guidlines"
+license: MIT
+maintainers: Philippe <micp1402@usherbrooke.ca>, Mikael <stam1001@usherbrooke.ca>
+msgs:
+- GraphInfo
+- GuiInfo
+- JointLimits
+package_type: package
+repo_url: ''
+srvs:
+- InverseKinematicCalc
+url: ''

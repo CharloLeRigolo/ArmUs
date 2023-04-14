@@ -1,0 +1,8 @@
+<map id="graph.cpp" name="graph.cpp">
+<area shape="rect" id="node1" title="This node is used to visualize the position of the arm in real time in Rviz by sending markers...." alt="" coords="271,5,357,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,87,84,114"/>
+<area shape="rect" id="node3" title=" " alt="" coords="109,80,255,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="280,87,348,114"/>
+<area shape="rect" id="node5" title=" " alt="" coords="373,87,578,114"/>
+<area shape="rect" id="node6" title=" " alt="" coords="603,87,788,114"/>
+</map>

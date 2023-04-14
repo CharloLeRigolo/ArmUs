@@ -1,6 +1,6 @@
 <map id="ArmUs_Info.cpp" name="ArmUs_Info.cpp">
 <area shape="rect" id="node1" title=" " alt="" coords="77,5,202,32"/>
-<area shape="rect" id="node2" href="$ArmUs__Info_8hpp.html" title=" " alt="" coords="76,80,203,107"/>
+<area shape="rect" id="node2" href="$ArmUs__Info_8hpp.html" title="This class is used to calculate the commands sent to the motor translator to make the arm move." alt="" coords="76,80,203,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,155,84,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="108,155,171,181"/>
 <area shape="rect" id="node5" title=" " alt="" coords="195,155,281,181"/>

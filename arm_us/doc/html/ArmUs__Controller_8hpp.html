@@ -17,7 +17,7 @@ $(function() {
 <div id="main-nav"></div>
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_cf1d1852c5ff64d40219516d2558427e.html">librairies</a></li><li class="navelem"><a class="el" href="dir_8ba1e4a76b4b1f5c4ac3e1b68e83c5fa.html">ArmUs_Controller</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_bc0718b08fb2015b8e59c47b2805f60c.html">libraries</a></li><li class="navelem"><a class="el" href="dir_cd79b9ac55bbb57cdc8bc43756d8ebb5.html">ArmUs_Controller</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -27,16 +27,19 @@ $(function() {
 <div class="title">ArmUs_Controller.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This class holds information about the state of the controller used to control the arm.  
+<a href="#details">More...</a></p>
 <div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="ArmUs__Controller_8hpp__dep__incl.png" border="0" usemap="#ArmUs__Controller_8hppdep" alt=""/></div>
 <map name="ArmUs__Controller_8hppdep" id="ArmUs__Controller_8hppdep">
-<area shape="rect" title=" " alt="" coords="115,5,280,32"/>
-<area shape="rect" href="ArmUs_8hpp.html" title=" " alt="" coords="74,80,169,107"/>
+<area shape="rect" title="This class holds information about the state of the controller used to control the arm." alt="" coords="115,5,280,32"/>
+<area shape="rect" href="ArmUs_8hpp.html" title="This class controls the arm. It contains a ArmUs Info object that sends commands to the motor transla..." alt="" coords="74,80,169,107"/>
 <area shape="rect" href="ArmUs__Controller_8cpp.html" title=" " alt="" coords="193,80,357,107"/>
 <area shape="rect" href="ArmUs_8cpp.html" title=" " alt="" coords="5,155,99,181"/>
-<area shape="rect" href="master__node_8cpp.html" title=" " alt="" coords="123,155,258,181"/>
+<area shape="rect" href="master__node_8cpp.html" title="This is the master_node and runs the main loop." alt="" coords="123,155,258,181"/>
 </map>
 </div>
 </div>
@@ -44,24 +47,37 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structButton.html">Button</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController_1_1Button.html">Controller::Button</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about 4 buttons. Buttons have an int value of 0 or 1.  <a href="structController_1_1Button.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html">Controller</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about the state of a controller. Is used of ease of use when receiving messages of type sensor_msgs::Joy so that the information is accessible with more intuitive names.  <a href="structController.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structDirectionPad.html">DirectionPad</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController_1_1DirectionPad.html">Controller::DirectionPad</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about a direction pad. Vertical axis is an int value of -1, 0 or 1 Horizontal axis is an int value of -1, 0 or 1.  <a href="structController_1_1DirectionPad.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structJoystick.html">Joystick</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController_1_1Joystick.html">Controller::Joystick</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about a joystick. Vertical axis is a float value between -1.0 and 1.0 Horizontal axis is a float value between -1.0 and 1.0.  <a href="structController_1_1Joystick.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTrigger.html">Trigger</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController_1_1Trigger.html">Controller::Trigger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about a trigger. Vertical axis is an int value of 0 or 1 Horizontal axis is an int value of 0 or 1.  <a href="structController_1_1Trigger.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- contents -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This class holds information about the state of the controller used to control the arm. </p>
+<dl class="section author"><dt>Author</dt><dd>Mikael St-Arnaud et Philippe Michaud (stam1001, micp1402) </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>0.1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023-04-13</dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2023 - See ARM_US licence </dd></dl>
+
+<p class="definition">Definition in file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
+</div></div><!-- contents -->
 
 <br clear="all" />
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): Philippe <micp1402@usherbrooke.ca>, Mikael <stam1001@usherbrooke.ca></br />
-<small>autogenerated on Wed Apr 12 2023 23:41:24</small>
+<small>autogenerated on Thu Apr 13 2023 23:04:55</small>
 </div>
 </body>
 </html>

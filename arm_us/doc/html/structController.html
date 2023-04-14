@@ -18,6 +18,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structController-members.html">List of all members</a>  </div>
@@ -26,31 +27,51 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Data structure that holds information about the state of a controller. Is used of ease of use when receiving messages of type sensor_msgs::Joy so that the information is accessible with more intuitive names.  
+ <a href="structController.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController_1_1Button.html">Button</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about 4 buttons. Buttons have an int value of 0 or 1.  <a href="structController_1_1Button.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController_1_1DirectionPad.html">DirectionPad</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about a direction pad. Vertical axis is an int value of -1, 0 or 1 Horizontal axis is an int value of -1, 0 or 1.  <a href="structController_1_1DirectionPad.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController_1_1Joystick.html">Joystick</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about a joystick. Vertical axis is a float value between -1.0 and 1.0 Horizontal axis is a float value between -1.0 and 1.0.  <a href="structController_1_1Joystick.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController_1_1Trigger.html">Trigger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure that holds information about a trigger. Vertical axis is an int value of 0 or 1 Horizontal axis is an int value of 0 or 1.  <a href="structController_1_1Trigger.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac198d8a760e965352f87487a21aab7a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#ac198d8a760e965352f87487a21aab7a5">DisplayControllerInputs</a> ()</td></tr>
+<tr class="memdesc:ac198d8a760e965352f87487a21aab7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays the current state of the controller.  <a href="structController.html#ac198d8a760e965352f87487a21aab7a5">More...</a><br /></td></tr>
 <tr class="separator:ac198d8a760e965352f87487a21aab7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a1529a434b5c3748c95db7ae4dfc176dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structTrigger.html">Trigger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a1529a434b5c3748c95db7ae4dfc176dd">Bumpers</a></td></tr>
+<tr class="memitem:a1529a434b5c3748c95db7ae4dfc176dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structController_1_1Trigger.html">Trigger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a1529a434b5c3748c95db7ae4dfc176dd">Bumpers</a></td></tr>
 <tr class="separator:a1529a434b5c3748c95db7ae4dfc176dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06e270baaadbdd6c9b304f0a84157547"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structButton.html">Button</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a06e270baaadbdd6c9b304f0a84157547">Buttons</a></td></tr>
+<tr class="memitem:a06e270baaadbdd6c9b304f0a84157547"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structController_1_1Button.html">Button</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a06e270baaadbdd6c9b304f0a84157547">Buttons</a></td></tr>
 <tr class="separator:a06e270baaadbdd6c9b304f0a84157547"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0b7bd5c8f5bdfbfcd07dea3b0c90b80"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structJoystick.html">Joystick</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#ab0b7bd5c8f5bdfbfcd07dea3b0c90b80">JoyLeft</a></td></tr>
+<tr class="memitem:ab0b7bd5c8f5bdfbfcd07dea3b0c90b80"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structController_1_1Joystick.html">Joystick</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#ab0b7bd5c8f5bdfbfcd07dea3b0c90b80">JoyLeft</a></td></tr>
 <tr class="separator:ab0b7bd5c8f5bdfbfcd07dea3b0c90b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a981981a5ef0ed1a723fc9078042892b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structJoystick.html">Joystick</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a981981a5ef0ed1a723fc9078042892b8">JoyRight</a></td></tr>
+<tr class="memitem:a981981a5ef0ed1a723fc9078042892b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structController_1_1Joystick.html">Joystick</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a981981a5ef0ed1a723fc9078042892b8">JoyRight</a></td></tr>
 <tr class="separator:a981981a5ef0ed1a723fc9078042892b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1217e7a415cafc6a7770441c2e23905e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structDirectionPad.html">DirectionPad</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a1217e7a415cafc6a7770441c2e23905e">Pad</a></td></tr>
+<tr class="memitem:a1217e7a415cafc6a7770441c2e23905e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structController_1_1DirectionPad.html">DirectionPad</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a1217e7a415cafc6a7770441c2e23905e">Pad</a></td></tr>
 <tr class="separator:a1217e7a415cafc6a7770441c2e23905e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07687a071329636ff7664ea111d3bb27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structTrigger.html">Trigger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a07687a071329636ff7664ea111d3bb27">Triggers</a></td></tr>
+<tr class="memitem:a07687a071329636ff7664ea111d3bb27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structController_1_1Trigger.html">Trigger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structController.html#a07687a071329636ff7664ea111d3bb27">Triggers</a></td></tr>
 <tr class="separator:a07687a071329636ff7664ea111d3bb27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00037">37</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
+<div class="textblock"><p>Data structure that holds information about the state of a controller. Is used of ease of use when receiving messages of type sensor_msgs::Joy so that the information is accessible with more intuitive names. </p>
+
+<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00018">18</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ac198d8a760e965352f87487a21aab7a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac198d8a760e965352f87487a21aab7a5">&#9670;&nbsp;</a></span>DisplayControllerInputs()</h2>
@@ -67,6 +88,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Displays the current state of the controller. </p>
+
 <p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8cpp_source.html#l00030">30</a> of file <a class="el" href="ArmUs__Controller_8cpp_source.html">ArmUs_Controller.cpp</a>.</p>
 
 </div>
@@ -79,12 +102,12 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structTrigger.html">Trigger</a> Controller::Bumpers</td>
+          <td class="memname"><a class="el" href="structController_1_1Trigger.html">Trigger</a> Controller::Bumpers</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00045">45</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00108">108</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
 
 </div>
 </div>
@@ -95,12 +118,12 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structButton.html">Button</a> Controller::Buttons</td>
+          <td class="memname"><a class="el" href="structController_1_1Button.html">Button</a> Controller::Buttons</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00044">44</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00107">107</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
 
 </div>
 </div>
@@ -111,12 +134,12 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structJoystick.html">Joystick</a> Controller::JoyLeft</td>
+          <td class="memname"><a class="el" href="structController_1_1Joystick.html">Joystick</a> Controller::JoyLeft</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00041">41</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00104">104</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
 
 </div>
 </div>
@@ -127,12 +150,12 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structJoystick.html">Joystick</a> Controller::JoyRight</td>
+          <td class="memname"><a class="el" href="structController_1_1Joystick.html">Joystick</a> Controller::JoyRight</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00042">42</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00105">105</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
 
 </div>
 </div>
@@ -143,12 +166,12 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structDirectionPad.html">DirectionPad</a> Controller::Pad</td>
+          <td class="memname"><a class="el" href="structController_1_1DirectionPad.html">DirectionPad</a> Controller::Pad</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00043">43</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00106">106</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
 
 </div>
 </div>
@@ -159,12 +182,12 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structTrigger.html">Trigger</a> Controller::Triggers</td>
+          <td class="memname"><a class="el" href="structController_1_1Trigger.html">Trigger</a> Controller::Triggers</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00046">46</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ArmUs__Controller_8hpp_source.html#l00109">109</a> of file <a class="el" href="ArmUs__Controller_8hpp_source.html">ArmUs_Controller.hpp</a>.</p>
 
 </div>
 </div>
@@ -178,7 +201,7 @@ Public Attributes</h2></td></tr>
 <hr size="1"><div style="align: right;">
 <a href="http://wiki.ros.org/arm_us">arm_us</a><br />
 Author(s): Philippe <micp1402@usherbrooke.ca>, Mikael <stam1001@usherbrooke.ca></br />
-<small>autogenerated on Wed Apr 12 2023 23:41:24</small>
+<small>autogenerated on Thu Apr 13 2023 23:04:55</small>
 </div>
 </body>
 </html>
