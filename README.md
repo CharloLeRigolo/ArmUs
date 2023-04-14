@@ -1,7 +1,7 @@
 # ArmUs
 
 ## Setting up your environement (software)
-1.  Start by installing [ubuntu 20.04 desktop Focal Fossa](https://releases.ubuntu.com/focal/) on your machine (VM or dualboot), dualboot is highly recomended.
+1.  Start by installing [ubuntu 20.04 desktop Focal Fossa](https://releases.ubuntu.com/focal/) on your machine (VM or dualboot), dualboot is highly recommended.
 2.  Install ROS-Noetic by following [this tutorial](http://wiki.ros.org/noetic/Installation/Ubuntu)
 3.  Edit your bashrc
     - Open your .bashrc (if you're using bash) 
@@ -56,7 +56,7 @@
 - 1 OpenCR board
 - 2 Dynamixel XL430 motors
 - 3 Dynamixel XM430 motors
-- 1 XBOX controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using an XBOX controller)
+- 1 XBOX controller (any controller compatible with [joy](http://wiki.ros.org/joy) will work, you'll probably need to remap the keybindings if you're not using an XBOX controller, remap in /ArmUs/config/controller_config.yaml)
 
 ## 
 

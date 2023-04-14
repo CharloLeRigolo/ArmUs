@@ -3,20 +3,17 @@ authors: ''
 brief: ''
 bugtracker: ''
 depends:
-- rospy
 - message_runtime
-- catkin
-- std_msgs
-- message_generation
-- roscpp
 - arm_us_msg
+- catkin
+- message_generation
+- std_msgs
+- roscpp
+- rospy
 description: The arm_us package
 license: TODO
 maintainers: mikael <mikael@todo.todo>
-msgs:
-- GraphInfo
-- GuiInfo
-- GuiFeedback
+msgs: []
 package_type: package
 repo_url: ''
 srvs: []
