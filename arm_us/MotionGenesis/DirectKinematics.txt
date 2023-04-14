@@ -1,0 +1,81 @@
+%--------------------------------------------------------------------
+%   Physical objects.
+
+NewtonianFrame  	N
+
+RigidBody J1, J2, J3, J4
+
+Particle P
+
+RigidFrame F
+
+%--------------------------------------------------------------------
+%   Mathematical declarations.
+
+Constant J1x, J1y, J1z
+Constant J2x, J2y, J2z
+Constant J3x, J3y, J3z
+Constant J4x, J4y, J4z
+
+Constant q1, q2, q3, q4, q5
+
+%--------------------------------------------------------------------
+%   Translational kinematics.
+
+J1o.SetPosition(No, 0>)
+J2o.SetPosition(J1o, J1x*J1x> + J1y*J1y> + J1z*J1z>)
+J3o.SetPosition(J2o, J2x*J2x> + J2y*J2y> + J2z*J2z>)
+J4o.SetPosition(J3o, J3x*J3x> + J3y*J3y> + J3z*J3z>)
+P.SetPosition(J4o, J4x*J4x> + J4y*J4y> + J4z*J4z>)
+
+%--------------------------------------------------------------------
+%   Rotational kinematics.
+
+J1.RotateY(N, q1)
+J2.RotateX(J1, q2)
+J3.RotateZ(J2, q3)
+F.RotateY(J3, q4)
+J4.RotateX(F, q5)
+
+%--------------------------------------------------------------------
+% 	Equations
+
+P1x = dot(J2o.GetPosition(No), Nx>)
+P1y = dot(J2o.GetPosition(No), Ny>)
+P1z = dot(J2o.GetPosition(No), Nz>)
+
+P2x = dot(J3o.GetPosition(No), Nx>)
+P2y = dot(J3o.GetPosition(No), Ny>)
+P2z = dot(J3o.GetPosition(No), Nz>)
+
+P3x = dot(J4o.GetPosition(No), Nx>)
+P3y = dot(J4o.GetPosition(No), Ny>)
+P3z = dot(J4o.GetPosition(No), Nz>)
+
+P4x = dot(P.GetPosition(No), Nx>)
+P4y = dot(P.GetPosition(No), Ny>)
+P4z = dot(P.GetPosition(No), Nz>)
+
+% P1x = J1x*cos(q1) + J1z*sin(q1)
+
+% P1y = J1y
+
+% P1z = J1z*cos(q1) - J1x*sin(q1)
+
+% P2x = J1z*sin(q1) + cos(q1)*(J1x+J2x) + J2y*sin(q1)*sin(q2) + J2z*sin(q1)*cos(q2)
+
+% P2y = J1y + J2y*cos(q2) - J2z*sin(q2)
+
+% P2z = J1z*cos(q1) + J2y*sin(q2)*cos(q1) + J2z*cos(q1)*cos(q2) - sin(q1)*(J1x+J2x)
+
+% P3x = J1z*sin(q1) + cos(q1)*(J1x+J2x) + J2y*sin(q1)*sin(q2) + sin(q1)*cos(q2)*(J2z+J3z) + J3x*(cos(q1)*cos(q3)+sin(q1)*sin(q2)*sin(q3))- J3y*(sin(q3)*cos(q1)-sin(q1)*sin(q2)*cos(q3))
+
+% P3y = J1y + J2y*cos(q2) + J3x*sin(q3)*cos(q2) + J3y*cos(q2)*cos(q3)- sin(q2)*(J2z+J3z)
+
+% P3z = J1z*cos(q1) + J2y*sin(q2)*cos(q1) + cos(q1)*cos(q2)*(J2z+J3z)+ J3y*(sin(q1)*sin(q3)+sin(q2)*cos(q1)*cos(q3)) - sin(q1)*(J1x+J2x)- J3x*(sin(q1)*cos(q3)-sin(q2)*sin(q3)*cos(q1))
+
+% P4x = J1z*sin(q1) + cos(q1)*(J1x+J2x) + J2y*sin(q1)*sin(q2) + sin(q1)*cos(q2)*(J2z+J3z) + J3x*(cos(q1)*cos(q3)+sin(q1)*sin(q2)*sin(q3))+ J4x*(cos(q1)*cos(q3)*cos(q4)-sin(q1)*(sin(q4)*cos(q2)-sin(q2)*sin(q3)*cos(q4))) + J4z*(cos(q1)*(sin(q3)*sin(q5)+sin(q4)*cos(q3)*cos(q5))+sin(q1)*(cos(q2)*cos(q4)*cos(q5)-sin(q2)*(sin(q5)*cos(q3)-sin(q3)*sin(q4)*cos(q5)))) - J3y*(sin(q3)*cos(q1)-sin(q1)*sin(q2)*cos(q3)) - J4y*(cos(q1)*(sin(q3)*cos(q5)-sin(q4)*sin(q5)*cos(q3))-sin(q1)*(sin(q5)*cos(q2)*cos(q4)+sin(q2)*(cos(q3)*cos(q5)+sin(q3)*sin(q4)*sin(q5))))
+
+% P4y = J1y + J2y*cos(q2) + J3x*sin(q3)*cos(q2) + J3y*cos(q2)*cos(q3)+ J4x*(sin(q2)*sin(q4)+sin(q3)*cos(q2)*cos(q4)) - sin(q2)*(J2z+J3z)- J4y*(sin(q2)*sin(q5)*cos(q4)-cos(q2)*(cos(q3)*cos(q5)+sin(q3)*sin(q4)*sin(q5))) - J4z*(sin(q2)*cos(q4)*cos(q5)+cos(q2)*(sin(q5)*cos(q3)-sin(q3)*sin(q4)*cos(q5)))
+
+% P4z = J1z*cos(q1) + J2y*sin(q2)*cos(q1) + cos(q1)*cos(q2)*(J2z+J3z)+ J3y*(sin(q1)*sin(q3)+sin(q2)*cos(q1)*cos(q3)) + J4y*(sin(q1)*(sin(q3)*cos(q5)-sin(q4)*sin(q5)*cos(q3))+cos(q1)*(sin(q5)*cos(q2)*cos(q4)+sin(q2)*(cos(q3)*cos(q5)+sin(q3)*sin(q4)*sin(q5)))) - sin(q1)*(J1x+J2x)- J3x*(sin(q1)*cos(q3)-sin(q2)*sin(q3)*cos(q1)) - J4x*(sin(q1)*cos(q3)*cos(q4)+cos(q1)*(sin(q4)*cos(q2)-sin(q2)*sin(q3)*cos(q4))) - J4z*(sin(q1)*(sin(q3)*sin(q5)+sin(q4)*cos(q3)*cos(q5))-cos(q1)*(cos(q2)*cos(q4)*cos(q5)-sin(q2)*(sin(q5)*cos(q3)-sin(q3)*sin(q4)*cos(q5))))
