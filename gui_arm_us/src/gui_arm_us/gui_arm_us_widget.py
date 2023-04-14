@@ -11,18 +11,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import (
-    QShortcut,
-    QSlider,
-    QLCDNumber,
-    QLabel,
-    QPushButton,
-    QFrame,
     QDoubleSpinBox,
     QSpinBox,
     QCheckBox,
 )
+
 from threading import Lock
-import rosservice
 
 from sensor_msgs.msg import JointState
 

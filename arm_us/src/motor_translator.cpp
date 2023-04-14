@@ -1,7 +1,7 @@
 /**
  * @file motor_translator.cpp
  * @author Mikael St-Arnaud et Philippe Michaud (stam1001, micp1402)
- * @brief This nodes act as an interface between the dynamixel motor_controller and arm_us's control nodes.
+ * @brief This node acts as an interface between the dynamixel motor_controller and arm_us's control nodes.
  * It take raw_position value from the motors and converts them into real angles. It also applies real word
  * joint limits to sent commands (from arm_us) and add a motor speed limiter in cartesian control mode.
  * @version 0.1 
@@ -102,10 +102,10 @@ void commandCallback(const sensor_msgs::JointStateConstPtr &msg)
         cmd.velocity[i] = 0.0;
     }
 
-    for (auto i = 0; i < 2; i++)
-    {
-        cmd.velocity[i] = msg->velocity[i];
-    }
+    // for (auto i = 0; i < 2; i++)
+    // {
+    //     cmd.velocity[i] = msg->velocity[i];
+    // }
 
     // Checking other motor limits
     for (auto i = 0; i < NB_JOINT; i++)

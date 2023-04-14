@@ -18,9 +18,9 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_subdirectory(librairies/ArmUs)
-add_subdirectory(librairies/ArmUs_Info)
-add_subdirectory(librairies/ArmUs_Controller)
+add_subdirectory(libraries/ArmUs)
+add_subdirectory(libraries/ArmUs_Info)
+add_subdirectory(libraries/ArmUs_Controller)
 
 add_executable(arm_us_node src/master_node.cpp)
 add_dependencies(arm_us_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

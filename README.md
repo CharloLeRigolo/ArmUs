@@ -33,7 +33,7 @@ firefox ~/catkin_ws/src/arm_us/arm_us/doc/html/index.html
 
 # Setup
 ## Setting up your environement (software)
-1.  Start by installing [ubuntu 20.04 desktop Focal Fossa](https://releases.ubuntu.com/focal/) on your machine (VM or dualboot), dualboot is highly recomended.
+1.  Start by installing [ubuntu 20.04 desktop Focal Fossa](https://releases.ubuntu.com/focal/) on your machine (VM or dualboot), dualboot is highly recommended.
 2.  Install ROS-Noetic by following [this tutorial](http://wiki.ros.org/noetic/Installation/Ubuntu)
 3.  Edit your bashrc
     - Open your .bashrc (if you're using bash) 
