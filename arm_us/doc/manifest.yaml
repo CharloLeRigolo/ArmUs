@@ -1,0 +1,23 @@
+actions: []
+authors: ''
+brief: ''
+bugtracker: ''
+depends:
+- rospy
+- message_generation
+- message_runtime
+- catkin
+- roscpp
+- arm_us_msg
+- std_msgs
+description: The arm_us package
+license: TODO
+maintainers: mikael <mikael@todo.todo>
+msgs:
+- GraphInfo
+- GuiInfo
+- GuiFeedback
+package_type: package
+repo_url: ''
+srvs: []
+url: ''

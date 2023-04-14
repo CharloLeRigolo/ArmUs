@@ -1,0 +1,1 @@
+bool[5] joint_limits

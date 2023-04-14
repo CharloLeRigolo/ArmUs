@@ -1,0 +1,2 @@
+int8 current_joint
+int8 current_mode

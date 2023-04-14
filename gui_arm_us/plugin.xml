@@ -2,11 +2,11 @@
 <!-- type=ros package, filename, className -->
   <class name="GuiArmUsPlugin" type="gui_arm_us.gui_arm_us_plugin.GuiArmUsPlugin" base_class_type="rqt_gui_py::Plugin">
     <description>
-      UdeS ArmUs Gui
+      UdeS ArmUs Gui S4 GRO
     </description>
     <qtgui>
       <group>
-        <label>Robotique UdeS</label>
+        <label>ArmUs</label>
       </group>
       <label>Gui Arm Us</label>
     </qtgui>
