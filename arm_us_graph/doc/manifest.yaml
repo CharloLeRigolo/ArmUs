@@ -4,10 +4,10 @@ brief: ''
 bugtracker: ''
 depends:
 - arm_us_msg
-- roscpp
 - rospy
 - visualization_msgs
 - catkin
+- roscpp
 description: The arm_us_graph package implement a RVIZ node for a live view of the
   Arm Us robot
 license: MIT

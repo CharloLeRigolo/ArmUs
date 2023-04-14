@@ -3,13 +3,13 @@ authors: Philippe <micp1402@usherbrooke.ca>, Mikael <stam1001@usherbrooke.ca>
 brief: ''
 bugtracker: ''
 depends:
-- roscpp
+- message_generation
 - catkin
-- std_msgs
-- rospy
 - arm_us_msg
 - message_runtime
-- message_generation
+- rospy
+- std_msgs
+- roscpp
 description: The arm_us package utilize all other arm_us packages to control and interface
   a 5 joints robotic arm
 license: MIT

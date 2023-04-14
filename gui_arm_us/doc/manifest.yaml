@@ -3,10 +3,10 @@ authors: Philippe <micp1402@usherbrooke.ca>, Mikael <stam1001@usherbrooke.ca>
 brief: ''
 bugtracker: ''
 depends:
-- roscpp
 - std_msgs
 - catkin
 - rospy
+- roscpp
 description: The gui_arm_us package is a qt based rqt plugin. The user can see ArmUs
   real time info and calibrate the robot
 license: MIT
