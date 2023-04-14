@@ -1,0 +1,18 @@
+<launch>
+
+	<!-- Simulation mode off by default -->
+	<arg name="simulation" default="0"/>
+
+	<!-- Starts master node in simulation or real mode and loads the controller configuration -->
+	<node name="master_node" pkg="arm_us" type="arm_us_node" output="screen">
+		<param name="control_mode" value="$(arg simulation)"/>
+		<rosparam file="$(find arm_us)/config/controller_config.yaml"/>
+	</node>
+
+	<!-- Starts service node to calculate the inverse kinematics of the arm -->
+	<node name="inv_kin_calc_service" pkg="arm_us" type="inv_kin_calc_service.py" output="screen"/>
+
+	<!-- Starts the communication with the controller -->
+	<node name="joy" pkg="joy" type="joy_node"/>
+  	
+</launch>

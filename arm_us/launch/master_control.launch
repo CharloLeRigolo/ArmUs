@@ -1,9 +1,0 @@
-<launch>
-
-    <node name="joy" pkg="joy" type="joy_node">
-        <!-- <param name="dev" type="string" value="dev/input/..."> -->
-    </node>
-
-    <node name="master_node" pkg="arm_us" type="master_node"/>
-
-</launch>
