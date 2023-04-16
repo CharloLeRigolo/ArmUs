@@ -160,11 +160,11 @@ There are 4 packages in ArmUs:
 		- inv_kin_calc_service
 
 ## Config files
-- controller_config.yaml
+- [controller_config.yaml](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us/config/controller_config.yaml)
 	- Keybindings for joy
-- joint_limit.yaml
+- [joint_limit.yaml](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us/config/joint_limit.yaml)
 	- Used for angle calibration and joint limit angles
-- motor_config.yaml
+- [motor_config.yaml](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us/config/motor_config.yaml)
 	- Dynamixel configuration; torque limit, speed limit, motor id, etc
 
 ## Msg, srv and action files
