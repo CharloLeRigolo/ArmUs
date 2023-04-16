@@ -168,23 +168,23 @@ There are 4 packages in ArmUs:
 	- Dynamixel configuration; torque limit, speed limit, motor id, etc
 
 ## Msg, srv and action files
-Information for msg, srv and action files can be found directly in the [arm_us_msg](https://github.com/CharloLeRigolo/arm_us/tree/main/arm_us_msg) package 
+Information for msg, srv and action files can be found directly in the [arm_us_msg](https://github.com/CharloLeRigolo/arm_us/tree/main/arm_us_msg) package
 
 - Messages
-  - GraphInfo.msg
+  - [GraphInfo.msg](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us_msg/msg/GraphInfo.msg)
     - Consists of an array of float64s of length 5 named angle that represents the angles of the joints in degrees
     - It is used to send the joint angles in degrees from the motor translator to the master node, where it is then sent back to the inverse kinematic service node to control the arm in cartesian mode, and to the graph node to visualize the position of the arm in real time in Rviz.
 
-  - GuiInfo.msg
+  - [GuiInfo.msg](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us_msg/msg/GuiInfo.msg)
     - Consists of an int8 named current_joint that represents the current joint controlled, and another int8 named current_mode, which represents the current movement mode.
     - It is used to send the current joint controlled and the current movement mode to the Gui node so that the user can see in real time the information.
 
-  - JointLimits.msg
+  - [JointLimits.msg](https://github.com/CharloLeRigolo/arm_us/blob/main/arm_us_msg/msg/JointLimits.msg)
     - Consists of an array of booleans of length 5 named joint_limits that indicates if any of the joints reached their limits.
     - It is used by the motor translator to send information to the Gui to indicate if any joint limits are reached.
 
 - Services
-  - InverseKinematicCalc.srv
+  - [InverseKinematicCalc.srv](https://github.com/CharloLeRigolo/arm_us/tree/main/arm_us_msg/srv)
     - Request : 
       - angles : An array of float64s of length 3 named angles that represents the current angles of the first 3 joints used in the inverse kinematic equations.
       - commands : An array of float64s of length 4 named commands that represents the velocities of the end effector of the arm in the X, Y and Z axis.
