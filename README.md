@@ -46,3 +46,7 @@ roslaunch arm_us motor_controller.launch
 This will start the motor controller which communicates thru the OpenCR in bridge mode to the Dynamixel motors.
 
 You should now be able to control the motors with the ps4 controller
+
+## Sleeve
+The accelerometer used is the [BNO055](bosch-sensortec.com/products/smart-sensors/bno055/). They are a lot better than any other accelero we could find.
+![](https://github.com/CharloLeRigolo/arm_us/blob/sleeve/arm_us_sleeve/Screenshot%20from%202023-04-17%2017-54-37.png)
