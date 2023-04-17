@@ -116,7 +116,7 @@ Once ArmUs is calibrated, launch the 2nd launchfile
 ```
 roslaunch arm_us 2_control.launch
 ```
-This will enable the torque on the motors and enable the control with the controller, you should now be able to control the motors with your controller in joint or cartesian as you wish
+This will enable the torque on the motors and enable the control with the controller, you should now be able to control the motors with your controller in joint or cartesian as you wish (see [keybinding]https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/Keybindings%20Cartesian%20(En).PNG)
 
 ![Joint control](https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/Keybindings%20Cartesian%20(En).PNG)
 
