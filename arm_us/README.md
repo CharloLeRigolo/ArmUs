@@ -17,6 +17,8 @@ It is necessary to calibrate the arm for accurate cartesian movements
 rosparam dump **your_path**/**your_calibration_name**.yaml
 ```
 
+![Calibration](https://github.com/CharloLeRigolo/arm_us/blob/main/Photos/Arm%20Us%20Calibration.png)
+
 Notes :
 
 It is not currently possible to see the position in real time of the arm while only the first launchfile is running. The code could be modified by sending the joint angles to the 3d graph node directly from the motor translator node, instead of passing by the master node.
