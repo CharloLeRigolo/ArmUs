@@ -110,7 +110,7 @@ Open a terminal and launch the first launchfile:
 roslaunch arm_us 1_interface.launch
 ```
 This will start the HMI and the communication with the motors.
-Calibrate the robot by following this [guide](notdone.sorry).
+Calibrate the robot by following this [guide](https://github.com/CharloLeRigolo/arm_us/tree/main/arm_us/README.md).
 
 Once ArmUs is calibrated, launch the 2nd launchfile
 ```
