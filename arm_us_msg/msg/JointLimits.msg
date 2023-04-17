@@ -1,1 +1,1 @@
-bool[5] joint_limits
+bool[] joint_limits
