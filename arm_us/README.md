@@ -19,6 +19,6 @@ rosparam dump **your_path**/**your_calibration_name**.yaml
 
 Notes :
 
-    - It is not currently possible to see the position in real time of the arm while only the first launchfile is running. The code could be modified by sending the joint angles to the 3d graph node directly from the motor translator node, instead of passing by the master node.
+It is not currently possible to see the position in real time of the arm while only the first launchfile is running. The code could be modified by sending the joint angles to the 3d graph node directly from the motor translator node, instead of passing by the master node.
 
-    - Another workaround is to disable the joint limits in the motor translator node, and also start the 2_control.launch launchfile. It is then possible to see the position the program thinks the arm is in, while also moving the arm freely with the controller. If the joint limits are not disable, and some joint limits are off, then it might be impossible to move the arm to the desired positions to do the proper calibration.
+Another workaround is to disable the joint limits in the motor translator node, and also start the 2_control.launch launchfile. It is then possible to see the position the program thinks the arm is in, while also moving the arm freely with the controller. If the joint limits are not disable, and some joint limits are off, then it might be impossible to move the arm to the desired positions to do the proper calibration.
