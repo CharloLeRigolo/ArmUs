@@ -17,7 +17,7 @@
 # ArmUs
 ArmUs is a 5 axis robot made to reproduce movement and goemetry of a real human arm. It's made by a team of 6 sherbrooke university undergraduates. The goal is to eventually add a robotic hand at the end and be able to control the whole arm-hand assembly by moving your arm. 
 
-![ARM US](PHOTO D'ARMUS)
+![ARM US](photos/ARMUS.png)
 
 At this stage, the arm can be controled either in joint or in cartisian mode and can be visualized and calibrated in real time, it also supports software protection, torque limiters to reduce risks and a simulation mode for test purposes.
 
